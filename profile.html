@@ -219,29 +219,6 @@
         <div class="email" id="userEmail"></div>
       </div>
 
-<div id="accountDetails" style="display: none;">
-  <h2 class="section-title">معلومات الحساب</h2>
-
-  <div class="field">
-    <label>الاسم الظاهر</label>
-    <div class="read-value" id="fullNameView">جارٍ التحميل...</div>
-  </div>
-
-  <div class="field">
-    <label>اسم المستخدم</label>
-    <div class="read-value handle" id="usernameView">@...</div>
-  </div>
-
-  <div class="field">
-    <label>النبذة الشخصية</label>
-    <div class="read-value bio" id="bioView">جارٍ تحميل النبذة...</div>
-  </div>
-
-  <div class="field">
-    <label>تاريخ الانضمام</label>
-    <div class="read-value" id="joinedView">—</div>
-  </div>
-</div>
 
 <a class="button primary" href="settings.html">
   الإعدادات وتعديل الملف الشخصي
@@ -296,21 +273,6 @@
       const fullName =
         profile.full_name || profile.username || "مستخدم NEYRA";
 
-      $("displayName").textContent = fullName;
-      $("usernamePreview").textContent = "@" + (profile.username || "user");
-      $("bioPreview").textContent = profile.bio || "لسه مفيش نبذة شخصية.";
-
-      $("fullNameView").textContent = fullName;
-      $("usernameView").textContent = "@" + (profile.username || "user");
-      $("bioView").textContent = profile.bio || "لسه مفيش نبذة شخصية.";
-
-      $("joinedView").textContent = profile.created_at
-        ? new Date(profile.created_at).toLocaleDateString("ar-EG", {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-          })
-        : "غير متاح";
 
       const avatar = $("avatarPreview");
       avatar.replaceChildren();
