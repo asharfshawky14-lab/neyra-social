@@ -1292,10 +1292,17 @@
 
   <div class="toast" id="toast" role="status"></div>
 
+  <script>
+    setTimeout(() => {
+      const intro = document.getElementById("neyra-intro");
+      if (intro) intro.classList.add("hidden");
+      document.documentElement.style.overflow = "";
+    }, 3000);
+  </script>
+
   <script type="module">
     import { createClient } from
       "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
     const supabase = createClient(
       "https://aboenvwqlzmbjyqisarb.supabase.co",
       "sb_publishable_-U554BTwIf6tP-DA9uRgCg_5w5_XtU3"
