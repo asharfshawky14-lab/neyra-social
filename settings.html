@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090914">
+<title>الإعدادات | NEYRA</title>
+<style>
+:root{color-scheme:dark;--bg:#090914;--panel:#151429;--line:#393052;--purple:#c4b5fd;--cyan:#67e8f9;--muted:#aaa5c1}
+*{box-sizing:border-box}
+body{margin:0;padding:22px 14px 40px;min-height:100vh;font-family:system-ui,Arial,sans-serif;color:#f7f5ff;background:radial-gradient(ellipse at top,#292052,#101020 55%,var(--bg))}
+.wrap{max-width:720px;margin:auto}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:26px}
+.logo{font-size:25px;font-weight:900;letter-spacing:4px;color:var(--purple)}
+a{color:var(--cyan);text-decoration:none}
+h1{font-size:27px;margin:0 0 8px}
+.intro{color:var(--muted);line-height:1.8;margin-bottom:22px}
+.panel{padding:20px;margin:15px 0;border:1px solid var(--line);border-radius:20px;background:#131326;box-shadow:0 14px 40px #0004}
+.panel h2{font-size:17px;margin:0 0 7px}
+.desc,.hint{font-size:12px;color:var(--muted);line-height:1.8}
+.desc{margin:0 0 18px}
+label{display:block;margin:15px 0 7px;font-size:13px;color:#e6e0ff}
+input:not([type=file]):not([type=checkbox]),textarea{width:100%;padding:13px;border:1px solid #423958;border-radius:12px;background:#090914;color:white;font:inherit;outline:none}
+input:focus,textarea:focus{border-color:var(--cyan)}
+input[readonly]{color:#b9b4ca;background:#171526}
+textarea{min-height:105px;resize:vertical}
+.avatar-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.avatar{width:82px;height:82px;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:#27203e;border:2px solid #a78bfa;color:var(--cyan);font-size:30px;flex-shrink:0}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.avatar-info{flex:1;min-width:170px}
+input[type=file]{width:100%;margin-top:10px;font:inherit;font-size:12px;color:var(--muted)}
+.switch{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0}
+.switch strong,.switch small{display:block}
+.switch small{font-size:12px;color:var(--muted);line-height:1.8;margin-top:5px}
+input[type=checkbox]{width:22px;height:22px;accent-color:#a78bfa;flex-shrink:0}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.meta div{padding:12px;background:#090914;border:1px solid #ffffff12;border-radius:12px;overflow-wrap:anywhere}
+.meta span{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+.meta strong{font-size:13px}
+button,.btn{display:block;width:100%;padding:14px;margin-top:12px;border:0;border-radius:12px;text-align:center;font:inherit;font-weight:750;cursor:pointer}
+.primary{color:#100c20;background:linear-gradient(100deg,#c4b5fd,#67e8f9)}
+.secondary{color:white;background:#242237;border:1px solid #49425e}
+button:disabled{opacity:.6}
+.notice{display:none;margin:12px 0;padding:12px;border-radius:12px;line-height:1.8;overflow-wrap:anywhere}
+.notice.show{display:block}
+.error{color:#ffb4c0;background:#ff365f12;border:1px solid #ff365f40}
+.success{color:#9cf5d4;background:#36d99a12;border:1px solid #36d99a40}
+@media(max-width:480px){.panel{padding:16px}.meta{grid-template-columns:1fr}h1{font-size:24px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+  <div class="logo">NEYRA</div>
+  <a href="profile.html">← حسابي</a>
+</header>
+
+<h1>إعدادات الحساب</h1>
+<p class="intro">كل إعدادات ملفك الشخصي في مكان واحد. عدّل بياناتك واحفظ التغييرات لما تخلص.</p>
+<div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+<form id="settingsForm">
+<section class="panel">
+  <h2>📸 الصورة الشخصية</h2>
+  <p class="desc">اختار صورة من موبايلك، وهتظهر معاينتها قبل الحفظ.</p>
+  <div class="avatar-row">
+    <div class="avatar" id="avatarPreview">N</div>
+    <div class="avatar-info">
+      <strong id="previewName">ملفك الشخصي</strong>
+      <div class="hint">JPG أو PNG أو WebP، بحد أقصى 5 ميجابايت.</div>
+      <input id="avatarFile" type="file" accept="image/jpeg,image/png,image/webp">
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>👤 المعلومات الشخصية</h2>
+  <p class="desc">حدّث الاسم والنبذة التي تظهر على بروفايلك.</p>
+  <label for="fullName">الاسم الظاهر</label>
+  <input id="fullName" maxlength="60" required placeholder="اكتب الاسم اللي تحب يظهر">
+  <label for="username">اسم المستخدم</label>
+  <input id="username" readonly aria-describedby="usernameHint">
+  <p class="hint" id="usernameHint">اسم المستخدم ثابت بعد التسجيل، ولا يمكن تغييره من الإعدادات.</p>
+  <label for="bio">النبذة الشخصية</label>
+  <textarea id="bio" maxlength="300" placeholder="اكتب نبذة قصيرة عن نفسك"></textarea>
+  <p class="hint"><span id="bioCount">0</span>/300 حرف</p>
+</section>
+
+<section class="panel">
+  <h2>🔒 الخصوصية</h2>
+  <p class="desc">تحكم في ظهور ملفك الشخصي حسب سياسات الموقع.</p>
+  <div class="switch">
+    <div><strong>ملف شخصي خاص</strong><small>عند التفعيل، تمنع سياسة قاعدة البيانات عرض ملفك للأعضاء الآخرين. قد لا يؤثر ذلك على البيانات التي تعرضها أجزاء أخرى من الموقع.</small></div>
+    <input id="isPrivate" type="checkbox" aria-label="ملف شخصي خاص">
+  </div>
+</section>
+
+<section class="panel">
+  <h2>✉️ بيانات الحساب</h2>
+  <p class="desc">بيانات للعرض فقط، لا يمكن تعديلها من هذه الصفحة.</p>
+  <div class="meta">
+    <div><span>البريد الإلكتروني</span><strong id="emailView">جارٍ التحميل...</strong></div>
+    <div><span>تاريخ الانضمام</span><strong id="joinedView">—</strong></div>
+  </div>
+</section>
+
+<button id="saveBtn" class="primary" type="submit">حفظ كل التعديلات</button>
+</form>
+
+<a class="btn secondary" href="profile.html">عرض البروفايل</a>
+<button id="logoutBtn" class="secondary" type="button">تسجيل الخروج</button>
+</main>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL = "https://aboenvwqlzmbjyqisarb.supabase.co";
+const SUPABASE_KEY = "sb_publishable_-U554BTwIf6tP-DA9uRgCg_5w5_XtU3";
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const $ = id => document.getElementById(id);
+
+let user = null;
+let profile = null;
+let selectedFile = null;
+
+function notify(message, type = "error") {
+  const box = $("notice");
+  box.textContent = message;
+  box.className = "notice show " + type;
+  box.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+function fallbackAvatar(name) {
+  const box = $("avatarPreview");
+  box.replaceChildren();
+  box.textContent = (name?.trim()?.[0] || "N").toUpperCase();
+}
+
+function showAvatar(url, name) {
+  if (!url) return fallbackAvatar(name);
+  const box = $("avatarPreview");
+  box.replaceChildren();
+  const img = document.createElement("img");
+  img.alt = "الصورة الشخصية";
+  img.src = url;
+  img.onerror = () => fallbackAvatar(name);
+  box.appendChild(img);
+}
+
+async function init() {
+  const {data: sessionData, error: sessionError} = await supabase.auth.getSession();
+  if (sessionError || !sessionData.session) {
+    location.replace(new URL("login.html", location.href).href);
+    return;
+  }
+
+  user = sessionData.session.user;
+  $("emailView").textContent = user.email || "غير متاح";
+
+  const {data, error} = await supabase.from("profiles")
+    .select("id,username,full_name,bio,avatar_url,is_private,created_at")
+    .eq("id", user.id).maybeSingle();
+
+  if (error) {
+    console.error(error);
+    notify("تعذر تحميل بياناتك من Supabase. حاول تحديث الصفحة.");
+    return;
+  }
+
+  const metadata = user.user_metadata || {};
+  profile = data || {
+    id:user.id,
+    username:metadata.username || "",
+    full_name:metadata.full_name || metadata.name || "",
+    bio:"",
+    avatar_url:metadata.avatar_url || metadata.picture || "",
+    is_private:false,
+    created_at:user.created_at
+  };
+
+  $("fullName").value = profile.full_name || "";
+  $("username").value = profile.username || "";
+  $("bio").value = profile.bio || "";
+  $("isPrivate").checked = Boolean(profile.is_private);
+  $("bioCount").textContent = $("bio").value.length;
+  $("joinedView").textContent = profile.created_at
+    ? new Date(profile.created_at).toLocaleDateString("ar-EG",{year:"numeric",month:"long",day:"numeric"})
+    : "غير متاح";
+  $("previewName").textContent = profile.full_name || "ملفك الشخصي";
+  showAvatar(profile.avatar_url, profile.full_name);
+}
+
+$("fullName").addEventListener("input", () => {
+  $("previewName").textContent = $("fullName").value.trim() || "ملفك الشخصي";
+  if (!selectedFile && !profile?.avatar_url) fallbackAvatar($("fullName").value);
+});
+
+$("bio").addEventListener("input", () => {
+  $("bioCount").textContent = $("bio").value.length;
+});
+
+$("avatarFile").addEventListener("change", () => {
+  const file = $("avatarFile").files?.[0] || null;
+  selectedFile = file;
+
+  if (!file) {
+    showAvatar(profile?.avatar_url, $("fullName").value);
+    return;
+  }
+
+  if (!["image/jpeg","image/png","image/webp"].includes(file.type) ||
+      file.size > 5 * 1024 * 1024) {
+    selectedFile = null;
+    $("avatarFile").value = "";
+    notify("اختار صورة JPG أو PNG أو WebP وحجمها لا يتجاوز 5 ميجابايت.");
+    return;
+  }
+
+  const temporaryUrl = URL.createObjectURL(file);
+  showAvatar(temporaryUrl, $("fullName").value);
+});
+
+$("settingsForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  if (!user || !profile) {
+    notify("بيانات الحساب لم تكتمل بعد. حدّث الصفحة وحاول مرة أخرى.");
+    return;
+  }
+
+  const fullName = $("fullName").value.trim();
+  const bio = $("bio").value.trim();
+
+  if (!fullName) {
+    notify("اكتب الاسم الظاهر الأول.");
+    return;
+  }
+
+  const button = $("saveBtn");
+  button.disabled = true;
+  button.textContent = "جارٍ الحفظ...";
+
+  try {
+    let avatarUrl = profile.avatar_url || null;
+
+    if (selectedFile) {
+      const ext = selectedFile.type === "image/png" ? "png" :
+        selectedFile.type === "image/webp" ? "webp" : "jpg";
+      const path = user.id + "/" + Date.now() + "." + ext;
+
+      const {error: uploadError} = await supabase.storage
+        .from("avatars")
+        .upload(path, selectedFile, {
+          upsert:true,
+          contentType:selectedFile.type
+        });
+
+      if (uploadError) {
+        console.error(uploadError);
+        throw new Error("رفع الصورة فشل. تأكد من وجود Storage bucket باسم avatars ومن سياسات الرفع.");
+      }
+
+      avatarUrl = supabase.storage.from("avatars").getPublicUrl(path).data.publicUrl;
+    }
+
+    const {data:saved, error:saveError} = await supabase.from("profiles")
+      .update({
+        full_name:fullName,
+        bio,
+        avatar_url:avatarUrl,
+        is_private:$("isPrivate").checked,
+        updated_at:new Date().toISOString()
+      })
+      .eq("id",user.id)
+      .select("id,username,full_name,bio,avatar_url,is_private,created_at")
+      .maybeSingle();
+
+    if (saveError) {
+      console.error(saveError);
+      throw new Error("تعذر حفظ البيانات. تأكد من وجود صفك في profiles ومن سياسة UPDATE الخاصة بحسابك.");
+    }
+
+    if (!saved) {
+      throw new Error("لم يتم تحديث أي صف. لم يتم تغيير اسم المستخدم.");
+    }
+
+    profile = saved;
+    selectedFile = null;
+    $("avatarFile").value = "";
+    showAvatar(profile.avatar_url, profile.full_name);
+    $("previewName").textContent = profile.full_name;
+    notify("تم حفظ التعديلات بنجاح.", "success");
+  } catch (error) {
+    notify(error.message || "حدث خطأ أثناء الحفظ.");
+  } finally {
+    button.disabled = false;
+    button.textContent = "حفظ كل التعديلات";
+  }
+});
+
+$("logoutBtn").addEventListener("click", async () => {
+  const button = $("logoutBtn");
+  button.disabled = true;
+  button.textContent = "جارٍ تسجيل الخروج...";
+  const {error} = await supabase.auth.signOut();
+
+  if (error) {
+    notify("تعذر تسجيل الخروج. حاول مرة أخرى.");
+    button.disabled = false;
+    button.textContent = "تسجيل الخروج";
+    return;
+  }
+
+  location.replace(new URL("login.html", location.href).href);
+});
+
+init();
+</script>
+</body>
+  </html>
+    
