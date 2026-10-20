@@ -1688,6 +1688,9 @@ window.NEYRAAuth = {
       });
 
 postForm.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        const text = postText.value.trim();
 
         const text = postText.value.trim();
         const category = postCategory.value;
