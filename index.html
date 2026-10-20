@@ -2063,60 +2063,89 @@ postsContainer.addEventListener("click", async event => {
           user_id: user.id
         });
 
-      if (error) throw error;
-    }
 
-    const { count, error: countError } = await supabase
-      .from("likes")
-      .select("*", { count: "exact", head: true })
-      .eq("post_id", postId);
+      postsContainer.addEventListener("click", async event => {
+        const button = event.target.closest("button");
 
-    if (countError) throw countError;
+        if (!button || !button.matches(".like-btn, .comment-btn, .save-btn")) {
+          return;
+        }
 
-    const countElement = button.querySelector("span");
-    if (countElement) countElement.textContent = count ?? 0;
+        const post = button.closest(".post");
+        if (!post) return;
 
-    button.classList.toggle("liked", !existingLike);
-    button.setAttribute("aria-pressed", String(!existingLike));
+        const postId = post.dataset.postId;
 
-    showToast(
-      existingLike ? "تم إلغاء الإعجاب." : "تم تسجيل إعجابك ❤️"
-    );
-  } catch (error) {
-    console.error("NEYRA post action error:", error);
-    showToast("حصل خطأ. حاول تاني.");
-  } finally {
-    button.disabled = false;
-  }
-});
+        if (!postId) {
+          showToast("المنشور مش مربوط بقاعدة البيانات.");
+          return;
+        }
 
-      if (error) throw error;
+        if (button.classList.contains("comment-btn")) {
+          showToast("التعليقات هنفعّلها في الخطوة الجاية.");
+          return;
+        }
 
-      button.classList.add("saved");
-      showToast("تم حفظ المنشور بنجاح ♧");
-    }
-  } catch (error) {
-    console.error("NEYRA save error:", error);
-    showToast("الحفظ ما تمش. حاول تاني.");
-  } finally {
-    button.disabled = false;
-  }
+        const { data: sessionData, error: sessionError } =
+          await supabase.auth.getSession();
 
-  return;
-}
+        const user = sessionData?.session?.user;
+
+        if (sessionError || !user) {
+          showToast("سجّل دخولك الأول.");
+          return;
         }
 
         button.disabled = true;
 
         try {
-          const { data: existingLike, error: checkError } = await supabase
-            .from("likes")
-            .select("post_id")
-            .eq("post_id", postId)
-            .eq("user_id", user.id)
-            .maybeSingle();
+          if (button.classList.contains("save-btn")) {
+            const { data: existingSave, error: checkError } = await supabase
+              .from("post_saves")
+              .select("post_id")
+              .eq("post_id", postId)
+              .eq("user_id", user.id)
+              .maybeSingle();
 
-          if (checkError) throw checkError;
+            if (checkError) throw checkError;
+
+            if (existingSave) {
+              const { error } = await supabase
+                .from("post_saves")
+                .delete()
+                .eq("post_id", postId)
+                .eq("user_id", user.id);
+
+              if (error) throw error;
+
+              button.classList.remove("saved");
+              showToast("تم إلغاء حفظ المنشور.");
+            } else {
+              const { error } = await supabase
+                .from("post_saves")
+                .insert({
+                  post_id: postId,
+                  user_id: user.id
+                });
+
+              if (error) throw error;
+
+              button.classList.add("saved");
+              showToast("تم حفظ المنشور بنجاح ♧");
+            }
+
+            return;
+          }
+
+          const { data: existingLike, error: checkLikeError } =
+            await supabase
+              .from("likes")
+              .select("post_id")
+              .eq("post_id", postId)
+              .eq("user_id", user.id)
+              .maybeSingle();
+
+          if (checkLikeError) throw checkLikeError;
 
           if (existingLike) {
             const { error } = await supabase
@@ -2150,14 +2179,19 @@ postsContainer.addEventListener("click", async event => {
           button.classList.toggle("liked", !existingLike);
           button.setAttribute("aria-pressed", String(!existingLike));
 
-          showToast(existingLike ? "تم إلغاء الإعجاب." : "تم تسجيل إعجابك ❤️");
+          showToast(
+            existingLike ? "تم إلغاء الإعجاب." : "تم تسجيل إعجابك ❤️"
+          );
         } catch (error) {
-          console.error("NEYRA like error:", error);
-          showToast("حصل خطأ في الإعجاب. حاول تاني.");
+          console.error("NEYRA post action error:", error);
+          showToast("حصل خطأ. حاول تاني.");
         } finally {
           button.disabled = false;
         }
       });
+
+
+
 
 
       function goTo(section) {
