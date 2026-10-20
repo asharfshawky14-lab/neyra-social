@@ -350,6 +350,7 @@ const SUPABASE_ANON_KEY = "sb_publishable_-U554BTwIf6tP-DA9uRgCg_5w5_XtU3";
     }
 
     let supabase;
+    let supabaseSetupError = "";
 
     try {
       if (
@@ -359,9 +360,12 @@ const SUPABASE_ANON_KEY = "sb_publishable_-U554BTwIf6tP-DA9uRgCg_5w5_XtU3";
         !SUPABASE_ANON_KEY.includes("YOUR_")
       ) {
         supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      } else {
+        supabaseSetupError = "رابط المشروع أو المفتاح غير صحيح.";
       }
     } catch (error) {
       console.error("Supabase setup error:", error);
+      supabaseSetupError = error.message || String(error);
     }
 
     form.addEventListener("submit", async (event) => {
