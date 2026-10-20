@@ -1803,11 +1803,33 @@
         showToast("الإشعارات هتكون متاحة بعد ربط الحسابات.");
       });
 
-document.getElementById("profileBtn").addEventListener("click", () => {
+      const drawer = document.getElementById("neyraDrawer");
+      const drawerOverlay = document.getElementById("neyraDrawerOverlay");
+      const drawerButton = document.getElementById("profileBtn");
+      const drawerClose = document.getElementById("neyraDrawerClose");
+
+      function openDrawer() {
         document.body.classList.add("neyra-drawer-open");
-        document.getElementById("neyraDrawer").setAttribute("aria-hidden", "false");
-        document.getElementById("profileBtn").setAttribute("aria-expanded", "true");
+        drawer.setAttribute("aria-hidden", "false");
+        drawerButton.setAttribute("aria-expanded", "true");
+      }
+
+      function closeDrawer() {
+        document.body.classList.remove("neyra-drawer-open");
+        drawer.setAttribute("aria-hidden", "true");
+        drawerButton.setAttribute("aria-expanded", "false");
+      }
+
+      drawerButton.addEventListener("click", openDrawer);
+      drawerClose.addEventListener("click", closeDrawer);
+      drawerOverlay.addEventListener("click", closeDrawer);
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closeDrawer();
+        }
       });
+
     })();
   </script>
 
