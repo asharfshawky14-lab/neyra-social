@@ -1967,7 +1967,21 @@ username.textContent = profile?.full_name ||
 
       postsContainer.addEventListener("click", async event => {
         const button = event.target.closest("button");
-        if (!button || !button.classList.contains("like-btn")) return;
+if (
+  !button ||
+  !button.matches(".like-btn, .comment-btn, .save-btn")
+) return;
+
+if (button.classList.contains("comment-btn")) {
+  showToast("التعليقات هنفعّلها في الخطوة الجاية.");
+  return;
+}
+
+if (button.classList.contains("save-btn")) {
+  const isSaved = button.classList.toggle("saved");
+  showToast(isSaved ? "تم حفظ المنشور مؤقتًا." : "تم إلغاء الحفظ.");
+  return;
+}
 
         const post = button.closest(".post");
         if (!post) return;
