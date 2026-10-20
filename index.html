@@ -1526,10 +1526,9 @@
         }
 
         if (section === "profile") {
-          showToast("إنشاء الحساب والملف الشخصي هنعمله في المرحلة القادمة.");
+          window.location.href = "login.html";
+          return;
         }
-      }
-
       document.querySelectorAll("[data-nav]").forEach(button => {
         button.addEventListener("click", () => {
           const section = button.dataset.nav;
@@ -1563,7 +1562,7 @@
       });
 
       document.getElementById("profileBtn").addEventListener("click", () => {
-        showToast("الملف الشخصي الحقيقي هنعمله في المرحلة القادمة.");
+        window.location.href = "login.html";
       });
     })();
   </script>
