@@ -457,7 +457,7 @@ const SUPABASE_ANON_KEY = "sb_publishable_-U554BTwIf6tP-DA9uRgCg_5w5_XtU3";
         const { error } = await supabase.auth.signInWithOAuth({
           provider: "google",
           options: {
-            redirectTo: window.location.origin + "/index.html"
+redirectTo: new URL("index.html", window.location.href).href
           }
         });
 
