@@ -1644,9 +1644,16 @@ window.NEYRAAuth = {
         modal.classList.remove("open");
       }
 
-      document.getElementById("createBtn").addEventListener("click", openModal);
-      document.getElementById("composerTrigger").addEventListener("click", openModal);
-      document.getElementById("closeModal").addEventListener("click", closeModal);
+const createBtn = document.getElementById("createBtn");
+const composerTrigger = document.getElementById("composerTrigger");
+
+if (createBtn) {
+  createBtn.addEventListener("click", openModal);
+}
+
+if (composerTrigger) {
+  composerTrigger.addEventListener("click", openModal);
+}
 
       modal.addEventListener("click", event => {
         if (event.target === modal) closeModal();
