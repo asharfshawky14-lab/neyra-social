@@ -1317,6 +1317,19 @@
       let saved = 0;
       let toastTimer;
 
+      async function openAccountPage() {
+        const { data, error } = await supabase.auth.getSession();
+
+        if (error) {
+          showToast("تعذر التحقق من الحساب، حاول مرة أخرى.");
+          return;
+        }
+
+        window.location.href = data.session
+          ? "profile.html"
+          : "login.html";
+      }
+
       const categoryNames = {
         secrets: "الأسرار",
         discover: "الاكتشاف",
