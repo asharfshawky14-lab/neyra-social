@@ -1888,27 +1888,27 @@ window.NEYRAAuth = {
       }
 
 document.getElementById("drawerAccount").addEventListener("click", () => {
-  openAccountPage();
+  window.NEYRAAuth.openAccountPage();
 });
 
 document.getElementById("drawerLogin").addEventListener("click", async () => {
-  const { data, error } = await supabase.auth.getSession();
+  const { data, error } = await window.NEYRAAuth.getSession();
 
   if (error) {
-    showToast("تعذر التحقق من الحساب، حاول مرة أخرى.");
+    window.NEYRAAuth.showToast("تعذر التحقق من الحساب، حاول مرة أخرى.");
     return;
   }
 
   if (data.session) {
-    const { error: signOutError } = await supabase.auth.signOut();
+    const { error: signOutError } = await window.NEYRAAuth.signOut();
 
     if (signOutError) {
-      showToast("تعذر تسجيل الخروج، حاول مرة أخرى.");
+      window.NEYRAAuth.showToast("تعذر تسجيل الخروج، حاول مرة أخرى.");
       return;
     }
 
-    updateAuthUI(null);
-    showToast("تم تسجيل الخروج بنجاح.");
+    window.NEYRAAuth.updateAuthUI(null);
+    window.NEYRAAuth.showToast("تم تسجيل الخروج بنجاح.");
     return;
   }
 
