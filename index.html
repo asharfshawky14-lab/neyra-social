@@ -1541,8 +1541,15 @@
       const intro = document.getElementById("neyra-intro");
       const modal = document.getElementById("postModal");
       const postForm = document.getElementById("postForm");
-      const postText = document.getElementById("postText");
-      const postCategory = document.getElementById("postCategory");
+const postText = document.getElementById("postText");
+const postCategory = document.getElementById("postCategory");
+const postType = document.getElementById("postType");
+const imageField = document.getElementById("imageField");
+const postImageUrl = document.getElementById("postImageUrl");
+
+postType.addEventListener("change", () => {
+  imageField.hidden = postType.value !== "image";
+});
       const postsContainer = document.getElementById("posts");
       const searchInput = document.getElementById("searchInput");
       const emptyState = document.getElementById("emptyState");
