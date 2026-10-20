@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090914">
+  <title>حسابي | NEYRA</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      color: #f7f5ff;
+      background: radial-gradient(ellipse at top, #292052, #101020 55%, #080810);
+    }
+    .card {
+      width: 100%;
+      max-width: 440px;
+      padding: 30px 24px;
+      border: 1px solid #393052;
+      border-radius: 22px;
+      background: #101020;
+      box-shadow: 0 20px 70px #0008;
+      text-align: center;
+    }
+    .logo { color: #bba4ff; font-size: 32px; font-weight: 900; letter-spacing: 3px; }
+    h1 { font-size: 23px; margin: 24px 0 8px; }
+    .muted { color: #aaa5c1; line-height: 1.8; }
+    .email {
+      margin: 20px 0;
+      padding: 15px;
+      background: #19182c;
+      border: 1px solid #39334f;
+      border-radius: 12px;
+      overflow-wrap: anywhere;
+      direction: ltr;
+    }
+    button, .link {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      margin-top: 14px;
+      border-radius: 11px;
+      font-size: 15px;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .home {
+      color: #100c20;
+      background: linear-gradient(100deg, #c4b5fd, #67e8f9);
+    }
+    .logout {
+      color: white;
+      background: #242237;
+      border: 1px solid #49425e;
+    }
+    .message { color: #fda4af; margin-top: 15px; line-height: 1.7; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="logo">NEYRA</div>
+    <h1>حسابي الشخصي</h1>
+    <p class="muted">أهلاً بيك في مجتمع NEYRA</p>
+
+    <div class="email" id="userEmail">جارٍ تحميل بيانات الحساب...</div>
+
+    <a class="link home" href="index.html">العودة إلى الصفحة الرئيسية</a>
+    <button class="logout" id="logoutBtn" type="button">تسجيل الخروج</button>
+    <div class="message" id="message" role="status"></div>
+  </main>
+
+  <script type="module">
+    import { createClient } from
+      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const SUPABASE_URL = "https://aboenvwqlzmbjyqisarb.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_-U554BTwIf6tP-DA9uRgCg_5w5_XtU3";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const homeUrl = new URL("index.html", window.location.href).href;
+    const loginUrl = new URL("login.html", window.location.href).href;
+    const emailBox = document.getElementById("userEmail");
+    const message = document.getElementById("message");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    async function loadProfile() {
+      const { data, error } = await supabase.auth.getSession();
+
+      if (error || !data.session) {
+        window.location.replace(loginUrl);
+        return;
+      }
+
+      emailBox.textContent = data.session.user.email || "البريد الإلكتروني غير متاح";
+    }
+
+    logoutBtn.addEventListener("click", async () => {
+      logoutBtn.disabled = true;
+      logoutBtn.textContent = "جارٍ تسجيل الخروج...";
+
+      const { error } = await supabase.auth.signOut();
+
+      if (error) {
+        message.textContent = "تعذر تسجيل الخروج: " + error.message;
+        logoutBtn.disabled = false;
+        logoutBtn.textContent = "تسجيل الخروج";
+        return;
+      }
+
+      window.location.replace(homeUrl);
+    });
+
+    loadProfile();
+  </script>
+</body>
+</html>
