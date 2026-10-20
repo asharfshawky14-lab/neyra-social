@@ -399,6 +399,7 @@ const SUPABASE_ANON_KEY = "sb_publishable_-U554BTwIf6tP-DA9uRgCg_5w5_XtU3";
           email,
           password,
           options: {
+            emailRedirectTo: new URL("index.html", window.location.href).href,
             data: {
               username,
               full_name: fullName || username
