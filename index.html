@@ -1692,15 +1692,43 @@ window.NEYRAAuth = {
 
         const text = postText.value.trim();
         const category = postCategory.value;
+        const type = postType.value;
+        const imageUrl = postImageUrl.value.trim();
 
         if (!text) {
           showToast("اكتب محتوى المنشور الأول.");
           return;
         }
 
+        if (type === "image" && imageUrl) {
+          try {
+            const url = new URL(imageUrl);
+            if (url.protocol !== "https:" && url.protocol !== "http:") {
+              showToast("رابط الصورة غير صالح.");
+              return;
+            }
+          } catch {
+            showToast("اكتب رابط صورة صحيح يبدأ بـ https://");
+            return;
+          }
+        }
+
+        if (type === "image" && !imageUrl) {
+          showToast("أضف رابط الصورة الأول.");
+          return;
+        }
+
+        const typeNames = {
+          text: "💬 منشور نصي",
+          question: "❓ سؤال للمجتمع",
+          challenge: "⚡ تحدي",
+          image: "🖼️ منشور بصورة"
+        };
+
         const article = document.createElement("article");
         article.className = "panel post";
         article.dataset.category = category;
+        article.dataset.type = type;
 
         const head = document.createElement("div");
         head.className = "post-head";
@@ -1717,7 +1745,7 @@ window.NEYRAAuth = {
 
         const meta = document.createElement("span");
         meta.className = "post-meta";
-        meta.textContent = "الآن · منشور تجريبي";
+        meta.textContent = "الآن · " + typeNames[type];
 
         user.append(username, meta);
 
@@ -1731,6 +1759,29 @@ window.NEYRAAuth = {
         body.className = "post-body";
         body.textContent = text;
 
+        if (type === "question") {
+          body.textContent = "❓ سؤال للمجتمع: " + text;
+        } else if (type === "challenge") {
+          body.textContent = "⚡ التحدي: " + text;
+        }
+
+        if (type === "image") {
+          const image = document.createElement("img");
+          image.src = imageUrl;
+          image.alt = "صورة المنشور";
+          image.loading = "lazy";
+          image.style.cssText =
+            "display:block;width:100%;max-height:420px;object-fit:contain;" +
+            "border-radius:14px;margin:12px 0;background:#0c0c15;";
+          image.onerror = () => {
+            image.remove();
+            showToast("تعذر تحميل الصورة من الرابط.");
+          };
+          article.append(head, body, image);
+        } else {
+          article.append(head, body);
+        }
+
         const actions = document.createElement("div");
         actions.className = "post-actions";
         actions.innerHTML =
@@ -1738,10 +1789,13 @@ window.NEYRAAuth = {
           '<button class="post-action comment-btn">◌ تعليق</button>' +
           '<button class="post-action save-btn">♧ حفظ</button>';
 
-        article.append(head, body, actions);
+        article.append(actions);
         postsContainer.prepend(article);
 
         postText.value = "";
+        postType.value = "text";
+        postImageUrl.value = "";
+        imageField.hidden = true;
         closeModal();
 
         activeFilter = "all";
@@ -1754,6 +1808,7 @@ window.NEYRAAuth = {
         showToast("اتضاف المنشور للمعاينة بنجاح.");
         article.scrollIntoView({ behavior: "smooth", block: "center" });
       });
+
 
       postsContainer.addEventListener("click", event => {
         const button = event.target.closest("button");
