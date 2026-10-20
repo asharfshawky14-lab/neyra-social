@@ -1897,16 +1897,18 @@ username.textContent = profile?.full_name ||
           document.getElementById("feed").scrollIntoView({ behavior: "smooth" });
           return;
         }
+postForm.addEventListener("submit", async event => {
+  event.preventDefault();
 
-        if (section === "challenges") {
-          activeFilter = "challenges";
-          document.querySelectorAll(".tab").forEach(tab => {
-            tab.classList.toggle("active", tab.dataset.filter === "challenges");
-          });
-          applyFilters();
-          document.getElementById("feed").scrollIntoView({ behavior: "smooth" });
-          return;
-        }
+  const text = postText.value.trim();
+  const category = postCategory.value;
+  const type = postType.value;
+  const imageUrl = postImageUrl.value.trim();
+
+  if (!text) {
+    showToast("اكتب محتوى المنشور الأول.");
+    return;
+  }
 
         if (section === "saved") {
           showToast("المحفوظات هنا تجريبية، وليست مرتبطة بحساب.");
