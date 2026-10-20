@@ -1538,13 +1538,49 @@
       let saved = 0;
       let toastTimer;
 
-      async function openAccountPage() {
-        const { data, error } = await supabase.auth.getSession();
+function updateAuthUI(session) {
+  const loginText = document.getElementById("drawerLoginText");
+  const accountSubtitle = document.querySelector("#drawerAccount small");
 
-        if (error) {
-          showToast("تعذر التحقق من الحساب، حاول مرة أخرى.");
-          return;
-        }
+  if (loginText) {
+    loginText.textContent = session
+      ? "تسجيل الخروج"
+      : "تسجيل الدخول";
+  }
+
+  if (accountSubtitle) {
+    accountSubtitle.textContent = session
+      ? (session.user.email || "ملفك الشخصي ومعلوماتك")
+      : "سجّل الدخول لفتح ملفك الشخصي";
+  }
+}
+
+supabase.auth.onAuthStateChange((_event, session) => {
+  updateAuthUI(session);
+});
+
+async function refreshAuthUI() {
+  const { data, error } = await supabase.auth.getSession();
+
+  if (!error) {
+    updateAuthUI(data.session);
+  }
+}
+
+refreshAuthUI();
+
+async function openAccountPage() {
+  const { data, error } = await supabase.auth.getSession();
+
+  if (error) {
+    showToast("تعذر التحقق من الحساب، حاول مرة أخرى.");
+    return;
+  }
+
+  window.location.href = data.session
+    ? "profile.html"
+    : "login.html";
+}
 
         window.location.href = data.session
           ? "profile.html"
