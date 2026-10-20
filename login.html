@@ -186,10 +186,7 @@
       }
     });
 
-    const { data } = await supabase.auth.getSession();
-    if (data.session) {
-      window.location.replace(homeUrl);
-    }
+    // إيقاف التحويل التلقائي مؤقتًا أثناء اختبار صفحة الدخول
   </script>
 </body>
 </html>
