@@ -369,9 +369,10 @@ const SUPABASE_ANON_KEY = "sb_publishable_-U554BTwIf6tP-DA9uRgCg_5w5_XtU3";
 
       if (!supabase) {
         showMessage(
-          "لسه محتاجين نحط رابط مشروع Supabase والمفتاح العام قبل التسجيل.",
+          "فشل الاتصال بـ Supabase. راجع إعدادات الاتصال وافتح Console لمعرفة السبب.",
           "error"
         );
+        console.error("Supabase client is not initialized.");
         return;
       }
 
