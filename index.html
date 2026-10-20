@@ -1725,6 +1725,36 @@ postForm.addEventListener("submit", async event => {
           return;
         }
 
+        // حفظ المنشور في قاعدة البيانات قبل عرضه
+        const { data: sessionResult, error: sessionError } =
+          await supabase.auth.getSession();
+
+        if (sessionError || !sessionResult.session?.user) {
+          showToast("سجّل دخولك الأول علشان تنشر منشور.");
+          return;
+        }
+
+        const currentUserId = sessionResult.session.user.id;
+
+        const { data: savedPost, error: saveError } = await supabase
+          .from("posts")
+          .insert({
+            user_id: currentUserId,
+            content: text,
+            world: category,
+            visibility: "public",
+            post_type: type,
+            image_url: type === "image" ? imageUrl : null
+          })
+          .select("id")
+          .single();
+
+        if (saveError || !savedPost) {
+          console.error("NEYRA post save error:", saveError);
+          showToast("المنشور متحفظش. راجع اتصال قاعدة البيانات والصلاحيات.");
+          return;
+        }
+
         const typeNames = {
           text: "💬 منشور نصي",
           question: "❓ سؤال للمجتمع",
