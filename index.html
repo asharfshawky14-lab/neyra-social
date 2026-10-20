@@ -1885,10 +1885,33 @@ async function openAccountPage() {
         }
       }
 
-      document.getElementById("drawerAccount").addEventListener("click", () => {
-        window.location.href = "profile.html";
-      });
+document.getElementById("drawerAccount").addEventListener("click", () => {
+  openAccountPage();
+});
 
+document.getElementById("drawerLogin").addEventListener("click", async () => {
+  const { data, error } = await supabase.auth.getSession();
+
+  if (error) {
+    showToast("تعذر التحقق من الحساب، حاول مرة أخرى.");
+    return;
+  }
+
+  if (data.session) {
+    const { error: signOutError } = await supabase.auth.signOut();
+
+    if (signOutError) {
+      showToast("تعذر تسجيل الخروج، حاول مرة أخرى.");
+      return;
+    }
+
+    updateAuthUI(null);
+    showToast("تم تسجيل الخروج بنجاح.");
+    return;
+  }
+
+  window.location.href = "login.html";
+});
       document.getElementById("drawerLogin").addEventListener("click", () => {
         window.location.href = "login.html";
       });
