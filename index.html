@@ -1850,11 +1850,11 @@ postForm.addEventListener("submit", async event => {
           image: "🖼️ منشور بصورة"
         };
 
-        const article = document.createElement("article");
-        article.className = "panel post";
-        article.dataset.category = category;
-        article.dataset.type = type;
-
+const article = document.createElement("article");
+article.className = "panel post";
+article.dataset.postId = savedPost.id;
+article.dataset.category = category;
+article.dataset.type = type;
         const head = document.createElement("div");
         head.className = "post-head";
   
