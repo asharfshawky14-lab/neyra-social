@@ -1927,10 +1927,10 @@ document.getElementById("drawerLogin").addEventListener("click", async () => {
         drawerMessage("قسم الإشعارات لسه محتاج ربط إشعارات الحساب.");
       });
 
-      document.getElementById("drawerSettings").addEventListener("click", () => {
-        closeDrawer();
-        drawerMessage("قسم الإعدادات هنعمله في الخطوة الجاية.");
-      });
+document.getElementById("drawerSettings").addEventListener("click", () => {
+  closeDrawer();
+  window.location.href = "settings.html";
+});
 
       document.getElementById("drawerHelp").addEventListener("click", () => {
         closeDrawer();
