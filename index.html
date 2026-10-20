@@ -2258,6 +2258,92 @@ postsContainer.addEventListener("click", async event => {
           if (checkLikeError) throw checkLikeError;
 
           if (existingLike) {
+
+      postsContainer.addEventListener("click", async event => {
+        const button = event.target.closest("button");
+
+        if (!button || !button.matches(".like-btn, .comment-btn, .save-btn")) {
+          return;
+        }
+
+        const post = button.closest(".post");
+        if (!post) return;
+
+        const postId = post.dataset.postId;
+
+        if (!postId) {
+          showToast("المنشور مش مربوط بقاعدة البيانات.");
+          return;
+        }
+
+        if (button.classList.contains("comment-btn")) {
+          showToast("التعليقات هنفعّلها في الخطوة الجاية.");
+          return;
+        }
+
+        const { data: sessionData, error: sessionError } =
+          await supabase.auth.getSession();
+
+        const user = sessionData?.session?.user;
+
+        if (sessionError || !user) {
+          showToast("سجّل دخولك الأول.");
+          return;
+        }
+
+        button.disabled = true;
+
+        try {
+          if (button.classList.contains("save-btn")) {
+            const { data: existingSave, error: checkError } =
+              await supabase
+                .from("post_saves")
+                .select("post_id")
+                .eq("post_id", postId)
+                .eq("user_id", user.id)
+                .maybeSingle();
+
+            if (checkError) throw checkError;
+
+            if (existingSave) {
+              const { error } = await supabase
+                .from("post_saves")
+                .delete()
+                .eq("post_id", postId)
+                .eq("user_id", user.id);
+
+              if (error) throw error;
+
+              button.classList.remove("saved");
+              showToast("تم إلغاء حفظ المنشور.");
+            } else {
+              const { error } = await supabase
+                .from("post_saves")
+                .insert({
+                  post_id: postId,
+                  user_id: user.id
+                });
+
+              if (error) throw error;
+
+              button.classList.add("saved");
+              showToast("تم حفظ المنشور بنجاح ♧");
+            }
+
+            return;
+          }
+
+          const { data: existingLike, error: checkLikeError } =
+            await supabase
+              .from("likes")
+              .select("post_id")
+              .eq("post_id", postId)
+              .eq("user_id", user.id)
+              .maybeSingle();
+
+          if (checkLikeError) throw checkLikeError;
+
+          if (existingLike) {
             const { error } = await supabase
               .from("likes")
               .delete()
@@ -2303,7 +2389,6 @@ postsContainer.addEventListener("click", async event => {
           button.disabled = false;
         }
       });
-
 
 
 
