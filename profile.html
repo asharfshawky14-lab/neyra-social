@@ -6,12 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#090914">
   <title>حسابي | NEYRA</title>
-
   <style>
     :root {
       color-scheme: dark;
       --bg: #080810;
-      --panel: #121222;
       --line: #393052;
       --purple: #bba4ff;
       --cyan: #67e8f9;
@@ -26,8 +24,7 @@
       padding: 24px 16px;
       font-family: system-ui, Arial, sans-serif;
       color: #f7f5ff;
-      background:
-        radial-gradient(ellipse at top, #292052, #101020 55%, var(--bg));
+      background: radial-gradient(ellipse at top, #292052, #101020 55%, var(--bg));
     }
 
     .wrap {
@@ -115,10 +112,8 @@
       overflow-wrap: anywhere;
     }
 
-    form { margin-top: 22px; }
-
     .field {
-      margin-bottom: 15px;
+      margin: 18px 0;
       text-align: right;
     }
 
@@ -129,50 +124,22 @@
       color: #e4dfff;
     }
 
-    input, textarea {
-      width: 100%;
-      padding: 13px 14px;
-      border: 1px solid #ffffff20;
+    .read-value {
+      min-height: 46px;
+      padding: 12px 14px;
+      border: 1px solid #ffffff16;
       border-radius: 12px;
-      outline: none;
       background: #090914;
-      color: white;
-      font: inherit;
+      color: #f7f5ff;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
     }
 
-    input:focus, textarea:focus {
-      border-color: var(--purple);
-      box-shadow: 0 0 0 3px #a578ff18;
-    }
-
-    textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    .privacy {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px;
-      background: #19182c;
-      border: 1px solid #39334f;
-      border-radius: 12px;
-      line-height: 1.7;
-    }
-
-    .privacy input {
-      width: 19px;
-      height: 19px;
-      accent-color: #a78bfa;
-      flex-shrink: 0;
-    }
-
-    .hint {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.7;
-      margin: 8px 0 0;
+    .section-title {
+      text-align: right;
+      margin: 24px 0 12px;
+      font-size: 17px;
     }
 
     button, .button {
@@ -182,6 +149,7 @@
       margin-top: 13px;
       border: 0;
       border-radius: 12px;
+      font-family: inherit;
       font-size: 15px;
       font-weight: 750;
       text-align: center;
@@ -228,12 +196,6 @@
       border: 1px solid #36d99a40;
     }
 
-    .section-title {
-      text-align: right;
-      margin: 24px 0 12px;
-      font-size: 17px;
-    }
-
     @media (max-width: 460px) {
       .card { padding: 19px; }
       .top { padding: 0 3px; }
@@ -257,71 +219,31 @@
         <div class="email" id="userEmail"></div>
       </div>
 
-      <h2 class="section-title">تعديل الملف الشخصي</h2>
+      <h2 class="section-title">معلومات الحساب</h2>
 
-      <form id="profileForm">
-        <div class="field">
-          <label for="fullName">الاسم الظاهر</label>
-          <input
-            id="fullName"
-            maxlength="60"
-            placeholder="الاسم اللي الناس هتشوفه"
-            required
-          >
-        </div>
+      <div class="field">
+        <label>الاسم الظاهر</label>
+        <div class="read-value" id="fullNameView">جارٍ التحميل...</div>
+      </div>
 
-        <div class="field">
-          <label for="username">اسم المستخدم</label>
-          <input
-            id="username"
-            minlength="3"
-            maxlength="24"
-            pattern="[A-Za-z0-9_]+"
-            placeholder="مثال: ashraf_14"
-            required
-          >
-          <p class="hint">
-            حروف إنجليزية وأرقام وشرطة سفلية فقط.
-          </p>
-        </div>
+      <div class="field">
+        <label>اسم المستخدم</label>
+        <div class="read-value handle" id="usernameView">@...</div>
+      </div>
 
-        <div class="field">
-          <label for="bio">النبذة الشخصية</label>
-          <textarea
-            id="bio"
-            maxlength="300"
-            placeholder="اكتب نبذة قصيرة عنك..."
-          ></textarea>
-        </div>
+      <div class="field">
+        <label>النبذة الشخصية</label>
+        <div class="read-value bio" id="bioView">جارٍ تحميل النبذة...</div>
+      </div>
 
-        <div class="field">
-          <label for="avatarUrl">رابط صورة الحساب</label>
-          <input
-            id="avatarUrl"
-            type="url"
-            placeholder="https://example.com/avatar.jpg"
-          >
-          <p class="hint">
-            ضع رابط صورة مباشر يبدأ بـ https://.
-            رفع الصور من الجهاز هنضيفه بعد تجهيز التخزين.
-          </p>
-        </div>
+      <div class="field">
+        <label>تاريخ الانضمام</label>
+        <div class="read-value" id="joinedView">—</div>
+      </div>
 
-        <label class="privacy" for="isPrivate">
-          <input id="isPrivate" type="checkbox">
-          <span>
-            <strong>حساب خاص</strong><br>
-            <span class="hint">
-              ده بيحفظ اختيار الخصوصية في قاعدة البيانات.
-              تطبيقه على كل محتوى الحساب يحتاج سياسات قراءة متوافقة.
-            </span>
-          </span>
-        </label>
-
-        <button class="primary" id="saveBtn" type="submit">
-          حفظ التغييرات
-        </button>
-      </form>
+      <a class="button primary" href="settings.html">
+        الإعدادات وتعديل الملف الشخصي
+      </a>
 
       <a class="button secondary" href="index.html">
         العودة إلى الصفحة الرئيسية
@@ -331,12 +253,7 @@
         تسجيل الخروج
       </button>
 
-      <div
-        class="message"
-        id="message"
-        role="status"
-        aria-live="polite"
-      ></div>
+      <div class="message" id="message" role="status" aria-live="polite"></div>
     </section>
   </main>
 
@@ -350,28 +267,14 @@
     const SUPABASE_KEY =
       "sb_publishable_-U554BTwIf6tP-DA9uRgCg_5w5_XtU3";
 
-    const supabase = createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
-
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
     const $ = (id) => document.getElementById(id);
 
-    const form = $("profileForm");
-    const saveBtn = $("saveBtn");
-    const logoutBtn = $("logoutBtn");
-    const message = $("message");
-
-    const loginUrl =
-      new URL("login.html", window.location.href).href;
-
-    const homeUrl =
-      new URL("index.html", window.location.href).href;
-
-    let currentUser = null;
-    let profileExists = false;
+    const loginUrl = new URL("login.html", window.location.href).href;
+    const homeUrl = new URL("index.html", window.location.href).href;
 
     function showMessage(text, type) {
+      const message = $("message");
       message.textContent = text;
       message.className = "message show " + type;
     }
@@ -381,36 +284,31 @@
 
       try {
         const url = new URL(value);
-
-        if (url.protocol === "https:") {
-          return url.href;
-        }
-      } catch {}
-
-      return "";
+        return url.protocol === "https:" ? url.href : "";
+      } catch {
+        return "";
+      }
     }
 
     function renderProfile(profile) {
       const fullName =
-        profile.full_name ||
-        profile.username ||
-        "مستخدم NEYRA";
+        profile.full_name || profile.username || "مستخدم NEYRA";
 
       $("displayName").textContent = fullName;
+      $("usernamePreview").textContent = "@" + (profile.username || "user");
+      $("bioPreview").textContent = profile.bio || "لسه مفيش نبذة شخصية.";
 
-      $("usernamePreview").textContent =
-        "@" + (profile.username || "user");
+      $("fullNameView").textContent = fullName;
+      $("usernameView").textContent = "@" + (profile.username || "user");
+      $("bioView").textContent = profile.bio || "لسه مفيش نبذة شخصية.";
 
-      $("bioPreview").textContent =
-        profile.bio || "لسه مفيش نبذة شخصية.";
-
-      $("fullName").value = profile.full_name || "";
-      $("username").value = profile.username || "";
-      $("bio").value = profile.bio || "";
-      $("avatarUrl").value = profile.avatar_url || "";
-
-      $("isPrivate").checked =
-        Boolean(profile.is_private);
+      $("joinedView").textContent = profile.created_at
+        ? new Date(profile.created_at).toLocaleDateString("ar-EG", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+          })
+        : "غير متاح";
 
       const avatar = $("avatarPreview");
       avatar.replaceChildren();
@@ -425,232 +323,75 @@
 
         img.onerror = () => {
           avatar.replaceChildren();
-          avatar.textContent =
-            (fullName.trim()[0] || "N").toUpperCase();
+          avatar.textContent = (fullName.trim()[0] || "N").toUpperCase();
         };
 
         avatar.appendChild(img);
       } else {
-        avatar.textContent =
-          (fullName.trim()[0] || "N").toUpperCase();
+        avatar.textContent = (fullName.trim()[0] || "N").toUpperCase();
       }
     }
 
     async function loadProfile() {
-      const {
-        data: sessionData,
-        error: sessionError
-      } = await supabase.auth.getSession();
+      const { data: sessionData, error: sessionError } =
+        await supabase.auth.getSession();
 
       if (sessionError || !sessionData.session) {
         window.location.replace(loginUrl);
         return;
       }
 
-      currentUser = sessionData.session.user;
+      const user = sessionData.session.user;
 
       $("userEmail").textContent =
-        currentUser.email || "البريد الإلكتروني غير متاح";
+        user.email || "البريد الإلكتروني غير متاح";
 
       const { data, error } = await supabase
         .from("profiles")
-        .select(
-          "id, username, full_name, bio, interests, is_private, avatar_url, created_at, updated_at"
-        )
-        .eq("id", currentUser.id)
+        .select("id, username, full_name, bio, avatar_url, created_at")
+        .eq("id", user.id)
         .maybeSingle();
 
       if (error) {
-        showMessage(
-          "تعذر تحميل بيانات الملف الشخصي: " + error.message,
-          "error"
-        );
+        showMessage("تعذر تحميل بيانات الحساب. حاول تحديث الصفحة.", "error");
+        console.error(error);
         return;
       }
-
-      profileExists = Boolean(data);
 
       if (data) {
         renderProfile(data);
         return;
       }
 
-      const metadata = currentUser.user_metadata || {};
-
-      const suggestedUsername = String(
-        metadata.username ||
-        (currentUser.email || "neyra_user").split("@")[0]
-      )
-        .replace(/[^A-Za-z0-9_]/g, "_")
-        .slice(0, 24) || "neyra_user";
+      const metadata = user.user_metadata || {};
+      const username = metadata.username ||
+        (user.email || "neyra_user").split("@")[0];
 
       renderProfile({
-        username: suggestedUsername,
-        full_name: metadata.full_name || suggestedUsername,
+        username,
+        full_name: metadata.full_name || metadata.name || username,
         bio: "",
-        avatar_url: metadata.avatar_url || "",
-        is_private: false
+        avatar_url: metadata.avatar_url || metadata.picture || "",
+        created_at: user.created_at
       });
 
       showMessage(
-        "ملفك الشخصي مش موجود في الجدول لسه. عدّل بياناتك واضغط حفظ لإنشائه.",
-        "success"
+        "بيانات الملف الشخصي لسه ما ظهرتش في قاعدة البيانات. جرّب تحديث الصفحة، ولو استمرت المشكلة افتح الإعدادات.",
+        "error"
       );
     }
 
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      if (!currentUser) {
-        showMessage(
-          "بيانات الحساب لسه ما اتحملتش. حدّث الصفحة وحاول تاني.",
-          "error"
-        );
-        return;
-      }
-
-      const username = $("username").value.trim();
-      const fullName = $("fullName").value.trim();
-      const bio = $("bio").value.trim();
-      const avatarRaw = $("avatarUrl").value.trim();
-      const avatarUrl = safeAvatarUrl(avatarRaw);
-
-      if (!/^[A-Za-z0-9_]{3,24}$/.test(username)) {
-        showMessage(
-          "اسم المستخدم لازم يكون من 3 إلى 24 حرفًا إنجليزيًا أو رقمًا أو _.",
-          "error"
-        );
-        return;
-      }
-
-      if (!fullName) {
-        showMessage("اكتب الاسم الظاهر الأول.", "error");
-        return;
-      }
-
-      if (avatarRaw && !avatarUrl) {
-        showMessage(
-          "رابط الصورة لازم يبدأ بـ https://.",
-          "error"
-        );
-        return;
-      }
-
-      saveBtn.disabled = true;
-      saveBtn.textContent = "جارٍ الحفظ...";
-
-      const payload = {
-        id: currentUser.id,
-        username,
-        full_name: fullName,
-        bio,
-        avatar_url: avatarUrl || null,
-        is_private: $("isPrivate").checked,
-        updated_at: new Date().toISOString()
-      };
-
-      try {
-        let result;
-
-        if (profileExists) {
-          result = await supabase
-            .from("profiles")
-            .update(payload)
-            .eq("id", currentUser.id)
-            .select()
-            .maybeSingle();
-        } else {
-          result = await supabase
-            .from("profiles")
-            .insert(payload)
-            .select()
-            .maybeSingle();
-        }
-
-        if (result.error) {
-          throw result.error;
-        }
-
-        if (!result.data) {
-          throw new Error(
-            "لم يتم تأكيد حفظ الملف. راجع سياسات RLS في Supabase."
-          );
-        }
-
-        profileExists = true;
-        renderProfile(result.data);
-
-        showMessage(
-          "اتحفظت التغييرات بنجاح ✅",
-          "success"
-        );
-      } catch (error) {
-        console.error(error);
-
-        const raw =
-          error?.message || "حصل خطأ غير معروف.";
-
-        if (/duplicate|unique/i.test(raw)) {
-          showMessage(
-            "اسم المستخدم ده مستخدم بالفعل. اختار اسمًا تانيًا.",
-            "error"
-          );
-        } else {
-          showMessage("تعذر الحفظ: " + raw, "error");
-        }
-      } finally {
-        saveBtn.disabled = false;
-        saveBtn.textContent = "حفظ التغييرات";
-      }
-    });
-
-    $("avatarUrl").addEventListener("input", () => {
-      const value =
-        safeAvatarUrl($("avatarUrl").value.trim());
-
-      const avatar = $("avatarPreview");
-      avatar.replaceChildren();
-
-      if (!value) {
-        avatar.textContent =
-          ($("fullName").value.trim()[0] || "N").toUpperCase();
-        return;
-      }
-
-      const img = document.createElement("img");
-      img.src = value;
-      img.alt = "معاينة صورة الحساب";
-      img.referrerPolicy = "no-referrer";
-
-      img.onerror = () => {
-        avatar.replaceChildren();
-        avatar.textContent = "تعذر عرض الصورة";
-      };
-
-      avatar.appendChild(img);
-    });
-
-    $("fullName").addEventListener("input", () => {
-      if (!$("avatarUrl").value.trim()) {
-        $("avatarPreview").textContent =
-          ($("fullName").value.trim()[0] || "N").toUpperCase();
-      }
-    });
-
-    logoutBtn.addEventListener("click", async () => {
-      logoutBtn.disabled = true;
-      logoutBtn.textContent = "جارٍ تسجيل الخروج...";
+    $("logoutBtn").addEventListener("click", async () => {
+      const button = $("logoutBtn");
+      button.disabled = true;
+      button.textContent = "جارٍ تسجيل الخروج...";
 
       const { error } = await supabase.auth.signOut();
 
       if (error) {
-        showMessage(
-          "تعذر تسجيل الخروج: " + error.message,
-          "error"
-        );
-
-        logoutBtn.disabled = false;
-        logoutBtn.textContent = "تسجيل الخروج";
+        showMessage("تعذر تسجيل الخروج. حاول مرة أخرى.", "error");
+        button.disabled = false;
+        button.textContent = "تسجيل الخروج";
         return;
       }
 
