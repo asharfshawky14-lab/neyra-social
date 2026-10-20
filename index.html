@@ -1,0 +1,460 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080810">
+  <meta name="description" content="NEYRA — Your world. Your identity.">
+  <title>NEYRA — ادخل عالمك</title>
+
+  <style>
+    :root {
+      --bg: #080810;
+      --purple: #a578ff;
+      --cyan: #72e7f4;
+      --white: #f8f5ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--white);
+      background: var(--bg);
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* شاشة الافتتاح */
+    #neyra-intro {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at center,
+          rgba(110, 53, 190, .24), transparent 48%),
+        #080810;
+      transition: opacity .65s ease, visibility .65s ease;
+    }
+
+    #neyra-intro.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .stars {
+      position: absolute;
+      inset: -30%;
+      background-image:
+        radial-gradient(2px 2px at 20% 30%, #fff, transparent),
+        radial-gradient(1px 1px at 70% 20%, #72e7f4, transparent),
+        radial-gradient(2px 2px at 80% 75%, #a578ff, transparent),
+        radial-gradient(1px 1px at 35% 80%, #fff, transparent),
+        radial-gradient(1px 1px at 55% 55%, #a578ff, transparent);
+      background-size: 170px 170px;
+      opacity: .7;
+      animation: starsMove 22s linear infinite;
+    }
+
+    .portal {
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      border: 1px solid rgba(165, 120, 255, .38);
+      border-radius: 50%;
+      box-shadow:
+        0 0 35px rgba(133, 75, 255, .18),
+        inset 0 0 35px rgba(114, 231, 244, .10);
+      animation: portalPulse 3s ease-in-out infinite;
+    }
+
+    .portal::before,
+    .portal::after {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 1px solid rgba(114, 231, 244, .30);
+      border-radius: 50%;
+      transform: rotateX(65deg);
+    }
+
+    .portal::after {
+      transform: rotateY(65deg);
+      border-color: rgba(165, 120, 255, .4);
+    }
+
+    .logo {
+      position: relative;
+      z-index: 1;
+      width: 104px;
+      height: 104px;
+      margin-bottom: 25px;
+      opacity: 0;
+      transform: scale(.4) rotate(-20deg);
+      animation: logoEnter 1s .15s cubic-bezier(.2,.8,.2,1) forwards;
+    }
+
+    .logo svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      filter: drop-shadow(0 0 16px rgba(165,120,255,.7));
+    }
+
+    .brand-name {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      padding-left: 8px;
+      direction: ltr;
+      font-size: clamp(34px, 9vw, 48px);
+      font-weight: 800;
+      letter-spacing: 8px;
+      opacity: 0;
+      transform: translateY(15px);
+      animation: nameEnter .8s .65s ease forwards;
+      text-shadow: 0 0 28px rgba(165,120,255,.4);
+    }
+
+    .tagline {
+      position: relative;
+      z-index: 1;
+      margin-top: 15px;
+      color: var(--cyan);
+      direction: ltr;
+      font-size: 10px;
+      letter-spacing: 3px;
+      opacity: 0;
+      animation: nameEnter .7s 1s ease forwards;
+    }
+
+    .loading-track {
+      position: absolute;
+      bottom: 12%;
+      width: 115px;
+      height: 2px;
+      overflow: hidden;
+      border-radius: 20px;
+      background: rgba(255,255,255,.13);
+    }
+
+    .loading-bar {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #8b5cf6, #72e7f4);
+      box-shadow: 0 0 12px #a578ff;
+      animation: loading 2.7s linear forwards;
+    }
+
+    /* بداية الصفحة الرئيسية */
+    .site-header {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 20px 7%;
+      border-bottom: 1px solid rgba(165,120,255,.15);
+      background: rgba(8,8,16,.8);
+    }
+
+    .site-brand {
+      color: var(--white);
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 4px;
+      direction: ltr;
+    }
+
+    .site-brand span {
+      color: var(--purple);
+    }
+
+    .header-label {
+      color: #b9b3cb;
+      font-size: 13px;
+    }
+
+    .hero {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 75vh;
+      padding: 55px 20px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 10%;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: rgba(122, 65, 220, .13);
+      filter: blur(80px);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      position: relative;
+      padding: 9px 16px;
+      border: 1px solid rgba(165,120,255,.35);
+      border-radius: 30px;
+      color: var(--cyan);
+      font-size: 12px;
+      background: rgba(165,120,255,.07);
+    }
+
+    .hero h1 {
+      position: relative;
+      max-width: 700px;
+      margin: 25px 0 15px;
+      font-size: clamp(32px, 7vw, 58px);
+      line-height: 1.35;
+    }
+
+    .hero h1 span {
+      color: var(--purple);
+      text-shadow: 0 0 28px rgba(165,120,255,.25);
+    }
+
+    .hero p {
+      position: relative;
+      max-width: 520px;
+      color: #aaa6bb;
+      font-size: 16px;
+      line-height: 2;
+    }
+
+    .worlds {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 15px;
+      width: min(100%, 900px);
+      margin-top: 30px;
+    }
+
+    .world-card {
+      padding: 24px 12px;
+      border: 1px solid rgba(165,120,255,.22);
+      border-radius: 18px;
+      background: linear-gradient(
+        145deg,
+        rgba(165,120,255,.10),
+        rgba(114,231,244,.025)
+      );
+      transition: transform .25s, border-color .25s;
+    }
+
+    .world-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(114,231,244,.6);
+    }
+
+    .world-icon {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 27px;
+    }
+
+    .world-card h2 {
+      margin: 0 0 8px;
+      font-size: 17px;
+    }
+
+    .world-card p {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .coming-soon {
+      margin-top: 32px;
+      color: #777187;
+      font-size: 12px;
+    }
+
+    footer {
+      padding: 22px;
+      border-top: 1px solid rgba(165,120,255,.12);
+      color: #777187;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @keyframes starsMove {
+      to { transform: rotate(360deg) translateY(10px); }
+    }
+
+    @keyframes portalPulse {
+      0%, 100% { transform: scale(.88) rotate(0deg); opacity: .55; }
+      50% { transform: scale(1.08) rotate(90deg); opacity: 1; }
+    }
+
+    @keyframes logoEnter {
+      to { opacity: 1; transform: scale(1) rotate(0); }
+    }
+
+    @keyframes nameEnter {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes loading {
+      to { width: 100%; }
+    }
+
+    @media (max-width: 600px) {
+      .site-header {
+        padding: 18px 5%;
+      }
+
+      .worlds {
+        grid-template-columns: 1fr;
+        max-width: 360px;
+      }
+
+      .world-card {
+        padding: 20px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 70px;
+        padding-bottom: 60px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NEYRA Animated Intro -->
+  <div id="neyra-intro" role="status" aria-label="NEYRA">
+    <div class="stars"></div>
+    <div class="portal"></div>
+
+    <div class="logo">
+      <svg viewBox="0 0 100 100" fill="none"
+           xmlns="http://www.w3.org/2000/svg"
+           aria-hidden="true">
+        <defs>
+          <linearGradient id="neyraGradient"
+            x1="12" y1="10" x2="88" y2="90">
+            <stop stop-color="#72E7F4"/>
+            <stop offset=".5" stop-color="#A578FF"/>
+            <stop offset="1" stop-color="#7543D5"/>
+          </linearGradient>
+        </defs>
+
+        <path d="M50 5 L88 27 L88 65 L50 94 L12 65 L12 27 Z"
+          stroke="url(#neyraGradient)" stroke-width="2.5"/>
+
+        <path d="M29 69 V31 L71 69 V31"
+          stroke="url(#neyraGradient)" stroke-width="5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+
+        <circle cx="50" cy="50" r="43"
+          stroke="#A578FF" stroke-opacity=".22"/>
+      </svg>
+    </div>
+
+    <h1 class="brand-name">NEYRA</h1>
+    <div class="tagline">YOUR WORLD. YOUR IDENTITY.</div>
+
+    <div class="loading-track">
+      <div class="loading-bar"></div>
+    </div>
+  </div>
+
+  <!-- Main Page: Initial Preview -->
+  <header class="site-header">
+    <div class="site-brand">NE<span>Y</span>RA</div>
+    <div class="header-label">عالمك يبدأ هنا ✦</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-badge">✦ عالم اجتماعي بشكل مختلف</div>
+
+      <h1>
+        مش مجرد منصة...<br>
+        <span>ده عالمك الخاص</span>
+      </h1>
+
+      <p>
+        اكتشف أشخاصًا يشاركوك اهتماماتك، عبّر عن أفكارك،
+        وشارك في تحديات جديدة. عالم رقمي نصممه معًا.
+      </p>
+
+      <div class="worlds">
+        <article class="world-card">
+          <span class="world-icon">🌌</span>
+          <h2>عالم الأسرار</h2>
+          <p>مساحة للتعبير ومشاركة الأفكار والتجارب.</p>
+        </article>
+
+        <article class="world-card">
+          <span class="world-icon">🔮</span>
+          <h2>عالم الاكتشاف</h2>
+          <p>اكتشف أشخاصًا واهتمامات ومجتمعات جديدة.</p>
+        </article>
+
+        <article class="world-card">
+          <span class="world-icon">⚡</span>
+          <h2>عالم التحديات</h2>
+          <p>تحديات يومية وأهداف ممتعة تتقدم فيها مع الوقت.</p>
+        </article>
+      </div>
+
+      <div class="coming-soon">
+        NEYRA — المشروع في مرحلة البناء الأولى
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    NEYRA © 2026 — Your world. Your identity.
+  </footer>
+
+  <script>
+    (function () {
+      const intro = document.getElementById("neyra-intro");
+
+      function enterSite() {
+        if (!intro) return;
+        intro.classList.add("hidden");
+        document.documentElement.style.overflow = "";
+      }
+
+      document.documentElement.style.overflow = "hidden";
+
+      window.setTimeout(enterSite, 3000);
+    })();
+  </script>
+
+</body>
+</html>
