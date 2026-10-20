@@ -1581,7 +1581,13 @@ async function openAccountPage() {
     ? "profile.html"
     : "login.html";
 }
-
+window.NEYRAAuth = {
+  openAccountPage,
+  getSession: () => supabase.auth.getSession(),
+  signOut: () => supabase.auth.signOut(),
+  updateAuthUI,
+  showToast
+};
 
       const categoryNames = {
         secrets: "الأسرار",
