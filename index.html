@@ -1837,6 +1837,46 @@
       document.addEventListener("keydown", event => {
         if (event.key === "Escape") closeDrawer();
       });
+
+      function drawerMessage(message) {
+        const toast = document.getElementById("toast");
+        if (toast) {
+          toast.textContent = message;
+          toast.classList.add("show");
+          setTimeout(() => toast.classList.remove("show"), 2500);
+        } else {
+          alert(message);
+        }
+      }
+
+      document.getElementById("drawerAccount").addEventListener("click", () => {
+        window.location.href = "profile.html";
+      });
+
+      document.getElementById("drawerLogin").addEventListener("click", () => {
+        window.location.href = "login.html";
+      });
+
+      document.getElementById("drawerSaved").addEventListener("click", () => {
+        closeDrawer();
+        drawerMessage("قسم المحفوظات لسه محتاج ربط المنشورات المحفوظة.");
+      });
+
+      document.getElementById("drawerNotifications").addEventListener("click", () => {
+        closeDrawer();
+        drawerMessage("قسم الإشعارات لسه محتاج ربط إشعارات الحساب.");
+      });
+
+      document.getElementById("drawerSettings").addEventListener("click", () => {
+        closeDrawer();
+        drawerMessage("قسم الإعدادات هنعمله في الخطوة الجاية.");
+      });
+
+      document.getElementById("drawerHelp").addEventListener("click", () => {
+        closeDrawer();
+        drawerMessage("قسم المساعدة والإبلاغ هنعمله في الخطوة الجاية.");
+      });
+
     })();
   </script>
 
