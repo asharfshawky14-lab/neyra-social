@@ -1589,10 +1589,23 @@
         showToast("الإشعارات هتكون متاحة بعد ربط الحسابات.");
       });
 
-      document.getElementById("profileBtn").addEventListener("click", () => {
+document.getElementById("profileBtn").addEventListener("click", () => {
         openAccountPage();
       });
     })();
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const accountButton = document.getElementById("profileBtn");
+
+      if (accountButton) {
+        accountButton.addEventListener("click", (event) => {
+          event.stopImmediatePropagation();
+          window.location.href = "login.html";
+        }, true);
+      }
+    });
   </script>
 
 </body>
