@@ -1803,36 +1803,42 @@
         showToast("الإشعارات هتكون متاحة بعد ربط الحسابات.");
       });
 
+    })();
+  </script>
+
+  <script>
+    (() => {
       const drawer = document.getElementById("neyraDrawer");
-      const drawerOverlay = document.getElementById("neyraDrawerOverlay");
-      const drawerButton = document.getElementById("profileBtn");
-      const drawerClose = document.getElementById("neyraDrawerClose");
+      const overlay = document.getElementById("neyraDrawerOverlay");
+      const button = document.getElementById("profileBtn");
+      const close = document.getElementById("neyraDrawerClose");
+
+      if (!drawer || !overlay || !button || !close) {
+        console.error("NEYRA drawer elements are missing");
+        return;
+      }
 
       function openDrawer() {
         document.body.classList.add("neyra-drawer-open");
         drawer.setAttribute("aria-hidden", "false");
-        drawerButton.setAttribute("aria-expanded", "true");
+        button.setAttribute("aria-expanded", "true");
       }
 
       function closeDrawer() {
         document.body.classList.remove("neyra-drawer-open");
         drawer.setAttribute("aria-hidden", "true");
-        drawerButton.setAttribute("aria-expanded", "false");
+        button.setAttribute("aria-expanded", "false");
       }
 
-      drawerButton.addEventListener("click", openDrawer);
-      drawerClose.addEventListener("click", closeDrawer);
-      drawerOverlay.addEventListener("click", closeDrawer);
+      button.addEventListener("click", openDrawer);
+      close.addEventListener("click", closeDrawer);
+      overlay.addEventListener("click", closeDrawer);
 
-      document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-          closeDrawer();
-        }
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape") closeDrawer();
       });
-
     })();
   </script>
-
 
 </body>
 </html>
