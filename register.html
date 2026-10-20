@@ -5,17 +5,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#080810">
+  <meta name="color-scheme" content="dark">
   <title>إنشاء حساب | NEYRA</title>
 
   <style>
     :root {
       --bg: #080810;
-      --panel: rgba(20, 20, 38, .88);
+      --panel: rgba(20, 20, 38, .92);
       --purple: #a578ff;
       --cyan: #72e7f4;
       --text: #f6f3ff;
       --muted: #a6a3bc;
       --border: rgba(165, 120, 255, .24);
+      --danger: #ff9eae;
+      --success: #9cf5d4;
     }
 
     * { box-sizing: border-box; }
@@ -70,6 +73,7 @@
       background: linear-gradient(90deg, var(--cyan), var(--purple));
       color: transparent;
       background-clip: text;
+      -webkit-background-clip: text;
     }
 
     .subtitle {
@@ -109,7 +113,7 @@
       color: white;
       font: inherit;
       font-size: 14px;
-      transition: .2s;
+      transition: border-color .2s, box-shadow .2s;
     }
 
     input:focus {
@@ -119,10 +123,39 @@
 
     input::placeholder { color: #77748d; }
 
+    input:disabled { opacity: .65; }
+
     .hint {
       margin: 7px 2px 0;
       color: var(--muted);
       font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .status {
+      min-height: 16px;
+      margin: 6px 2px 0;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .status.error { color: var(--danger); }
+    .status.success { color: var(--success); }
+
+    .password-meter {
+      height: 5px;
+      margin-top: 9px;
+      overflow: hidden;
+      border-radius: 99px;
+      background: #ffffff12;
+    }
+
+    .password-meter span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: var(--danger);
+      transition: width .2s, background .2s;
     }
 
     button {
@@ -138,7 +171,12 @@
     }
 
     button:active { transform: scale(.98); }
-    button:disabled { opacity: .55; cursor: wait; }
+
+    button:disabled {
+      opacity: .55;
+      cursor: wait;
+      transform: none;
+    }
 
     .primary {
       color: #100b20;
@@ -188,7 +226,7 @@
 
     .message.success {
       display: block;
-      color: #9cf5d4;
+      color: var(--success);
       background: #36d99a12;
       border: 1px solid #36d99a40;
     }
@@ -219,6 +257,12 @@
       .card { padding: 25px 18px; }
       .brand { font-size: 25px; }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition-duration: .01ms !important;
+      }
+    }
   </style>
 </head>
 
@@ -232,7 +276,7 @@
 
     <h2>أنشئ شخصيتك ✨</h2>
     <p class="intro">
-      ابدأ رحلتك، اختار اسمك المستعار، وادخل عالم نيرا.
+      اختار اسمك المستعار، وأنشئ حسابك وابدأ رحلتك في نيرا.
     </p>
 
     <form id="registerForm">
@@ -247,9 +291,16 @@
           pattern="[A-Za-z0-9_]+"
           placeholder="مثال: Neyra_User"
           autocomplete="username"
+          autocapitalize="none"
+          spellcheck="false"
+          aria-describedby="usernameHint usernameStatus"
           required
         >
-        <p class="hint">استخدم حروف إنجليزية وأرقامًا أو _ فقط.</p>
+        <p class="hint" id="usernameHint">
+          من 3 إلى 24 حرفًا. استخدم الحروف الإنجليزية والأرقام و _ فقط.
+          الاسم المستعار غير قابل للتغيير من هذه الصفحة.
+        </p>
+        <p class="status" id="usernameStatus" aria-live="polite"></p>
       </div>
 
       <div class="field">
@@ -258,10 +309,12 @@
           id="fullName"
           name="fullName"
           type="text"
+          minlength="1"
           maxlength="60"
           placeholder="الاسم اللي تحب الناس تشوفه"
           autocomplete="nickname"
         >
+        <p class="hint">تقدر تغيّر الاسم الظاهر لاحقًا من الإعدادات.</p>
       </div>
 
       <div class="field">
@@ -270,8 +323,11 @@
           id="email"
           name="email"
           type="email"
+          maxlength="254"
           placeholder="you@example.com"
           autocomplete="email"
+          inputmode="email"
+          autocapitalize="none"
           required
         >
       </div>
@@ -283,10 +339,21 @@
           name="password"
           type="password"
           minlength="8"
+          maxlength="128"
           placeholder="8 أحرف على الأقل"
           autocomplete="new-password"
+          aria-describedby="passwordHint passwordStrength"
           required
         >
+        <div class="password-meter" aria-hidden="true">
+          <span id="passwordMeter"></span>
+        </div>
+        <p class="hint" id="passwordStrength" aria-live="polite">
+          قوة كلمة المرور: لم تُكتب بعد.
+        </p>
+        <p class="hint" id="passwordHint">
+          استخدم كلمة مرور طويلة يصعب تخمينها.
+        </p>
       </div>
 
       <div class="field">
@@ -296,10 +363,13 @@
           name="confirmPassword"
           type="password"
           minlength="8"
+          maxlength="128"
           placeholder="اكتب كلمة المرور مرة أخرى"
           autocomplete="new-password"
+          aria-describedby="confirmStatus"
           required
         >
+        <p class="status" id="confirmStatus" aria-live="polite"></p>
       </div>
 
       <button class="primary" id="registerButton" type="submit">
@@ -327,79 +397,310 @@
     import { createClient } from
       "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-    // ضع بيانات مشروع NEYRA هنا قبل اختبار التسجيل.
-    const SUPABASE_URL = "https://aboenvwqlzmbjyqisarb.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_-U554BTwIf6tP-DA9uRgCg_5w5_XtU3";
+    const SUPABASE_URL =
+      "https://aboenvwqlzmbjyqisarb.supabase.co";
+
+    const SUPABASE_ANON_KEY =
+      "sb_publishable_-U554BTwIf6tP-DA9uRgCg_5w5_XtU3";
 
     const form = document.getElementById("registerForm");
+    const usernameInput = document.getElementById("username");
+    const fullNameInput = document.getElementById("fullName");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const confirmInput = document.getElementById("confirmPassword");
+
     const registerButton = document.getElementById("registerButton");
     const googleButton = document.getElementById("googleButton");
     const message = document.getElementById("message");
+
+    const usernameStatus = document.getElementById("usernameStatus");
+    const confirmStatus = document.getElementById("confirmStatus");
+    const passwordStrength = document.getElementById("passwordStrength");
+    const passwordMeter = document.getElementById("passwordMeter");
+
+    let supabase;
+    let submitting = false;
+    let checkingUsername = false;
+    let usernameCheckTimer = null;
+    let usernameCheckNumber = 0;
+    let usernameAvailable = null;
+    let lastCheckedUsername = "";
+
+    try {
+      supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } catch (error) {
+      console.error("Supabase initialization failed:", error);
+      showMessage("تعذر تجهيز الاتصال. حدّث الصفحة وحاول مرة أخرى.", "error");
+    }
 
     function showMessage(text, type) {
       message.textContent = text;
       message.className = "message " + type;
     }
 
+    function clearMessage() {
+      message.textContent = "";
+      message.className = "message";
+    }
+
     function setLoading(loading) {
+      submitting = loading;
       registerButton.disabled = loading;
       googleButton.disabled = loading;
+
       registerButton.textContent = loading
         ? "جاري التنفيذ..."
         : "إنشاء حساب جديد";
     }
 
-    let supabase;
-    let supabaseSetupError = "";
-
-    try {
-      if (
-        SUPABASE_URL.startsWith("https://") &&
-        !SUPABASE_URL.includes("YOUR_") &&
-        SUPABASE_ANON_KEY &&
-        !SUPABASE_ANON_KEY.includes("YOUR_")
-      ) {
-        supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      } else {
-        supabaseSetupError = "رابط المشروع أو المفتاح غير صحيح.";
-      }
-    } catch (error) {
-      console.error("Supabase setup error:", error);
-      supabaseSetupError = error.message || String(error);
+    function setUsernameStatus(text, type = "") {
+      usernameStatus.textContent = text;
+      usernameStatus.className = "status" + (type ? " " + type : "");
     }
 
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
+    function normalizeUsername(value) {
+      return value.trim().toLowerCase();
+    }
 
-      if (!supabase) {
-        showMessage(
-          "فشل الاتصال بـ Supabase. راجع إعدادات الاتصال وافتح Console لمعرفة السبب.",
-          "error"
-        );
-        console.error("Supabase client is not initialized.");
+    function validUsername(value) {
+      return /^[a-zA-Z0-9_]{3,24}$/.test(value);
+    }
+
+    function updatePasswordStrength() {
+      const value = passwordInput.value;
+      let score = 0;
+
+      if (!value) {
+        passwordStrength.textContent = "قوة كلمة المرور: لم تُكتب بعد.";
+        passwordMeter.style.width = "0";
         return;
       }
 
-      const username = document.getElementById("username").value.trim();
-      const fullName = document.getElementById("fullName").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-      const confirmPassword =
-        document.getElementById("confirmPassword").value;
+      if (value.length >= 8) score++;
+      if (value.length >= 12) score++;
+      if (/[a-z]/.test(value) && /[A-Z]/.test(value)) score++;
+      if (/\d/.test(value)) score++;
+      if (/[^A-Za-z0-9]/.test(value)) score++;
+
+      const levels = [
+        { text: "ضعيفة جدًا", width: "15%", color: "#ff647c" },
+        { text: "ضعيفة", width: "30%", color: "#ff8a65" },
+        { text: "متوسطة", width: "50%", color: "#ffd166" },
+        { text: "جيدة", width: "75%", color: "#72e7f4" },
+        { text: "قوية", width: "100%", color: "#9cf5d4" }
+      ];
+
+      const level = levels[Math.max(0, Math.min(4, score - 1))];
+
+      passwordStrength.textContent =
+        "قوة كلمة المرور: " + level.text;
+
+      passwordMeter.style.width = level.width;
+      passwordMeter.style.background = level.color;
+    }
+
+    function updatePasswordMatch() {
+      const password = passwordInput.value;
+      const confirm = confirmInput.value;
+
+      if (!confirm) {
+        confirmStatus.textContent = "";
+        confirmStatus.className = "status";
+        return false;
+      }
+
+      if (password !== confirm) {
+        confirmStatus.textContent = "كلمتا المرور غير متطابقتين.";
+        confirmStatus.className = "status error";
+        return false;
+      }
+
+      confirmStatus.textContent = "كلمتا المرور متطابقتان.";
+      confirmStatus.className = "status success";
+      return true;
+    }
+
+    async function checkUsernameAvailability(value) {
+      if (!supabase) return false;
+
+      const username = normalizeUsername(value);
+      const requestNumber = ++usernameCheckNumber;
+
+      usernameAvailable = null;
+      lastCheckedUsername = "";
+
+      if (!validUsername(username)) {
+        checkingUsername = false;
+        setUsernameStatus(
+          "اكتب اسمًا من 3 إلى 24 حرفًا إنجليزيًا أو رقمًا أو _.",
+          "error"
+        );
+        return false;
+      }
+
+      checkingUsername = true;
+      setUsernameStatus("جاري التحقق من الاسم...");
+
+      try {
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("id")
+          .ilike("username", username)
+          .limit(1);
+
+        if (error) {
+          console.error("Username check failed:", error);
+
+          if (requestNumber === usernameCheckNumber) {
+            checkingUsername = false;
+            setUsernameStatus(
+              "تعذر التحقق الآن. جرّب مرة أخرى.",
+              "error"
+            );
+          }
+          return false;
+        }
+
+        if (requestNumber !== usernameCheckNumber) {
+          return false;
+        }
+
+        checkingUsername = false;
+        lastCheckedUsername = username;
+        usernameAvailable = data.length === 0;
+
+        if (usernameAvailable) {
+          setUsernameStatus("الاسم متاح مبدئيًا.", "success");
+          return true;
+        }
+
+        setUsernameStatus(
+          "اسم المستخدم ده مستخدم بالفعل. اختار اسمًا آخر.",
+          "error"
+        );
+        return false;
+      } catch (error) {
+        console.error("Username availability error:", error);
+
+        if (requestNumber === usernameCheckNumber) {
+          checkingUsername = false;
+          setUsernameStatus(
+            "تعذر التحقق من الاسم. افحص اتصالك وحاول مرة أخرى.",
+            "error"
+          );
+        }
+
+        return false;
+      }
+    }
+
+    usernameInput.addEventListener("input", () => {
+      clearTimeout(usernameCheckTimer);
+      usernameAvailable = null;
+      lastCheckedUsername = "";
+      usernameCheckNumber++;
+
+      const value = usernameInput.value.trim();
+
+      if (!value) {
+        setUsernameStatus("");
+        return;
+      }
+
+      if (!validUsername(value)) {
+        setUsernameStatus(
+          "استخدم 3–24 حرفًا إنجليزيًا أو رقمًا أو _ فقط.",
+          "error"
+        );
+        return;
+      }
+
+      setUsernameStatus("جاري تجهيز التحقق...");
+
+      usernameCheckTimer = setTimeout(() => {
+        checkUsernameAvailability(value);
+      }, 450);
+    });
+
+    passwordInput.addEventListener("input", () => {
+      updatePasswordStrength();
+      if (confirmInput.value) updatePasswordMatch();
+    });
+
+    confirmInput.addEventListener("input", updatePasswordMatch);
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearMessage();
+
+      if (submitting) return;
+
+      if (!supabase) {
+        showMessage("الاتصال بالخدمة غير جاهز. حدّث الصفحة وحاول مرة أخرى.", "error");
+        return;
+      }
+
+      const username = normalizeUsername(usernameInput.value);
+      const fullName = fullNameInput.value.trim();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      const confirmPassword = confirmInput.value;
+
+      if (!validUsername(username)) {
+        setUsernameStatus(
+          "اسم المستخدم يجب أن يكون من 3 إلى 24 حرفًا إنجليزيًا أو رقمًا أو _.",
+          "error"
+        );
+        usernameInput.focus();
+        return;
+      }
+
+      if (fullName.length > 60) {
+        showMessage("الاسم الظاهر يجب ألا يتجاوز 60 حرفًا.", "error");
+        fullNameInput.focus();
+        return;
+      }
+
+      if (password.length < 8 || password.length > 128) {
+        showMessage("كلمة المرور يجب أن تكون بين 8 و128 حرفًا.", "error");
+        passwordInput.focus();
+        return;
+      }
 
       if (password !== confirmPassword) {
-        showMessage("كلمتا المرور غير متطابقتين.", "error");
+        updatePasswordMatch();
+        confirmInput.focus();
+        showMessage("تأكد من تطابق كلمتي المرور.", "error");
         return;
       }
 
       setLoading(true);
 
       try {
+        // Recheck immediately before signup; database uniqueness
+        // remains necessary to handle simultaneous registration attempts.
+        const available = await checkUsernameAvailability(username);
+
+        if (!available) {
+          showMessage(
+            "لم نتمكن من اعتماد الاسم. تأكد أنه متاح ثم حاول مرة أخرى.",
+            "error"
+          );
+          usernameInput.focus();
+          return;
+        }
+
+        const redirectUrl = new URL(
+          "index.html",
+          window.location.href
+        ).href;
+
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            emailRedirectTo: new URL("index.html", window.location.href).href,
+            emailRedirectTo: redirectUrl,
             data: {
               username,
               full_name: fullName || username
@@ -407,35 +708,73 @@ const SUPABASE_ANON_KEY = "sb_publishable_-U554BTwIf6tP-DA9uRgCg_5w5_XtU3";
           }
         });
 
-        if (error) throw error;
+        if (error) {
+          const text = String(error.message || "").toLowerCase();
 
-        // If email confirmation is disabled, a session may be returned.
-        // The profile is saved after successful account creation.
-        if (data.user && data.session) {
-          const { error: profileError } = await supabase
-            .from("profiles")
-            .upsert({
-              id: data.user.id,
-              username,
-              full_name: fullName || username
-            });
+          if (
+            text.includes("duplicate key") ||
+            text.includes("profiles_username_key") ||
+            text.includes("unique constraint")
+          ) {
+            setUsernameStatus(
+              "الاسم حُجز للتو بواسطة حساب آخر. اختار اسمًا مختلفًا.",
+              "error"
+            );
+            showMessage(
+              "اسم المستخدم لم يعد متاحًا. اختار اسمًا آخر ثم حاول التسجيل.",
+              "error"
+            );
+            return;
+          }
 
-          if (profileError) throw profileError;
+          if (text.includes("already registered")) {
+            showMessage(
+              "البريد الإلكتروني مسجّل بالفعل. جرّب تسجيل الدخول بدل إنشاء حساب جديد.",
+              "error"
+            );
+            return;
+          }
 
-          showMessage("تم إنشاء الحساب! جاري نقلك إلى الصفحة الرئيسية.", "success");
-          window.location.href = "index.html";
+          throw error;
+        }
+
+        if (!data.user) {
+          showMessage(
+            "لم يصل تأكيد إنشاء الحساب. حاول مرة أخرى.",
+            "error"
+          );
+          return;
+        }
+
+        // The existing auth.users trigger creates the profile.
+        // Do not upsert here: it could overwrite profile fields.
+        if (data.session) {
+          showMessage(
+            "تم إنشاء الحساب بنجاح. جاري نقلك إلى الصفحة الرئيسية...",
+            "success"
+          );
+
+          window.location.replace(redirectUrl);
           return;
         }
 
         showMessage(
-          "تم إرسال طلب إنشاء الحساب. راجع بريدك الإلكتروني لتأكيد الحساب، وبعدها سجّل الدخول.",
+          "تم إرسال طلب إنشاء الحساب. افتح بريدك الإلكتروني واضغط رابط التأكيد، وبعدها سجّل الدخول.",
           "success"
         );
+
         form.reset();
+        usernameAvailable = null;
+        lastCheckedUsername = "";
+        setUsernameStatus("");
+        confirmStatus.textContent = "";
+        passwordStrength.textContent = "قوة كلمة المرور: لم تُكتب بعد.";
+        passwordMeter.style.width = "0";
       } catch (error) {
-        console.error(error);
+        console.error("Signup failed:", error);
+
         showMessage(
-          error.message || "حصل خطأ أثناء إنشاء الحساب. حاول مرة أخرى.",
+          "تعذر إنشاء الحساب حاليًا. راجع البيانات واتصال الإنترنت ثم حاول مرة أخرى.",
           "error"
         );
       } finally {
@@ -444,32 +783,40 @@ const SUPABASE_ANON_KEY = "sb_publishable_-U554BTwIf6tP-DA9uRgCg_5w5_XtU3";
     });
 
     googleButton.addEventListener("click", async () => {
+      clearMessage();
+
+      if (submitting) return;
+
       if (!supabase) {
-        showMessage(
-          "لسه محتاجين نحط رابط المشروع والمفتاح العام الأول.",
-          "error"
-        );
+        showMessage("الاتصال بالخدمة غير جاهز. حدّث الصفحة وحاول مرة أخرى.", "error");
         return;
       }
 
+      setLoading(true);
+
       try {
-        googleButton.disabled = true;
+        const redirectUrl = new URL(
+          "index.html",
+          window.location.href
+        ).href;
 
         const { error } = await supabase.auth.signInWithOAuth({
           provider: "google",
           options: {
-redirectTo: new URL("index.html", window.location.href).href
+            redirectTo: redirectUrl
           }
         });
 
         if (error) throw error;
       } catch (error) {
-        console.error(error);
+        console.error("Google OAuth failed:", error);
+
         showMessage(
-          error.message || "تعذّر تسجيل الدخول باستخدام Google.",
+          "تعذر بدء تسجيل الدخول باستخدام Google. حاول مرة أخرى.",
           "error"
         );
-        googleButton.disabled = false;
+
+        setLoading(false);
       }
     });
   </script>
