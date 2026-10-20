@@ -1687,8 +1687,7 @@ window.NEYRAAuth = {
         });
       });
 
-      postForm.addEventListener("submit", event => {
-        event.preventDefault();
+postForm.addEventListener("submit", async event => {
 
         const text = postText.value.trim();
         const category = postCategory.value;
@@ -1732,17 +1731,46 @@ window.NEYRAAuth = {
 
         const head = document.createElement("div");
         head.className = "post-head";
+  
+const { data: sessionData } = await supabase.auth.getSession();
+const currentUser = sessionData.session?.user;
+let profile = null;
 
-        const avatar = document.createElement("div");
-        avatar.className = "avatar";
-        avatar.textContent = "✦";
+if (currentUser) {
+  const { data } = await supabase
+    .from("profiles")
+    .select("username, full_name, avatar_url")
+    .eq("id", currentUser.id)
+    .maybeSingle();
 
-        const user = document.createElement("div");
-        user.className = "post-user";
+  profile = data;
+}
 
-        const username = document.createElement("strong");
-        username.textContent = "زائر NEYRA";
+const avatar = document.createElement("div");
+avatar.className = "avatar";
 
+if (profile?.avatar_url) {
+  const avatarImage = document.createElement("img");
+  avatarImage.src = profile.avatar_url;
+  avatarImage.alt = "صورة الحساب";
+  avatarImage.style.cssText =
+    "width:100%;height:100%;object-fit:cover;border-radius:50%;";
+  avatarImage.onerror = () => {
+    avatarImage.remove();
+    avatar.textContent = "✦";
+  };
+  avatar.appendChild(avatarImage);
+} else {
+  avatar.textContent = "✦";
+}
+
+const user = document.createElement("div");
+user.className = "post-user";
+
+const username = document.createElement("strong");
+username.textContent = profile?.full_name ||
+  profile?.username ||
+  "زائر NEYRA";
         const meta = document.createElement("span");
         meta.className = "post-meta";
         meta.textContent = "الآن · " + typeNames[type];
