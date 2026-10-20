@@ -2102,6 +2102,45 @@ postsContainer.addEventListener("click", async event => {
           if (button.classList.contains("save-btn")) {
             const { data: existingSave, error: checkError } = await supabase
               .from("post_saves")
+
+      postsContainer.addEventListener("click", async event => {
+        const button = event.target.closest("button");
+
+        if (!button || !button.matches(".like-btn, .comment-btn, .save-btn")) {
+          return;
+        }
+
+        const post = button.closest(".post");
+        if (!post) return;
+
+        const postId = post.dataset.postId;
+
+        if (!postId) {
+          showToast("المنشور مش مربوط بقاعدة البيانات.");
+          return;
+        }
+
+        if (button.classList.contains("comment-btn")) {
+          showToast("التعليقات هنفعّلها في الخطوة الجاية.");
+          return;
+        }
+
+        const { data: sessionData, error: sessionError } =
+          await supabase.auth.getSession();
+
+        const user = sessionData?.session?.user;
+
+        if (sessionError || !user) {
+          showToast("سجّل دخولك الأول.");
+          return;
+        }
+
+        button.disabled = true;
+
+        try {
+          if (button.classList.contains("save-btn")) {
+            const { data: existingSave, error: checkError } = await supabase
+              .from("post_saves")
               .select("post_id")
               .eq("post_id", postId)
               .eq("user_id", user.id)
@@ -2162,6 +2201,35 @@ postsContainer.addEventListener("click", async event => {
                 post_id: postId,
                 user_id: user.id
               });
+
+            if (error) throw error;
+          }
+
+          const { count, error: countError } = await supabase
+            .from("likes")
+            .select("*", { count: "exact", head: true })
+            .eq("post_id", postId);
+
+          if (countError) throw countError;
+
+          const countElement = button.querySelector("span");
+          if (countElement) countElement.textContent = count ?? 0;
+
+          button.classList.toggle("liked", !existingLike);
+          button.setAttribute("aria-pressed", String(!existingLike));
+
+          showToast(
+            existingLike ? "تم إلغاء الإعجاب." : "تم تسجيل إعجابك ❤️"
+          );
+        } catch (error) {
+          console.error("NEYRA post action error:", error);
+          showToast("حصل خطأ. حاول تاني.");
+        } finally {
+          button.disabled = false;
+        }
+      });
+
+
 
             if (error) throw error;
           }
