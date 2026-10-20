@@ -1485,12 +1485,27 @@
             <option value="challenges">عالم التحديات</option>
           </select>
         </div>
+<div class="field">
+  <label for="postType">نوع المشاركة</label>
+  <select id="postType">
+    <option value="text">💬 منشور نصي</option>
+    <option value="question">❓ سؤال للمجتمع</option>
+    <option value="challenge">⚡ تحدي</option>
+    <option value="image">🖼️ منشور بصورة</option>
+  </select>
+</div>
 
-        <div class="field">
-          <label for="postText">محتوى المنشور</label>
-          <textarea id="postText" maxlength="1000"
-            placeholder="اكتب فكرتك هنا..." required></textarea>
-        </div>
+<div class="field">
+  <label for="postText">محتوى المنشور</label>
+  <textarea id="postText" maxlength="1000"
+    placeholder="اكتب فكرتك أو سؤالك هنا..." required></textarea>
+</div>
+
+<div class="field" id="imageField" hidden>
+  <label for="postImageUrl">رابط الصورة</label>
+  <input id="postImageUrl" type="url"
+    placeholder="https://example.com/image.jpg">
+</div>
 
         <p class="modal-note">
           النسخة الحالية تجريبية: المنشور سيظهر في الصفحة المفتوحة فقط،
