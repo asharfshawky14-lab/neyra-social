@@ -1965,62 +1965,45 @@ username.textContent = profile?.full_name ||
 
 
 
-
-
-        if (error) throw error;
-
-        button.classList.add("saved");
-        showToast("تم حفظ المنشور بنجاح ♧");
-      }
-
-      return;
-    }
-
-    const { data: existingLike, error: checkLikeError } = await supabase
-      .from("likes")
-      .select("post_id")
-      .eq("post_id", postId)
-      .eq("user_id", user.id)
-      .maybeSingle();
-
-    if (checkLikeError) throw checkLikeError;
-
-    if (existingLike) {
-      const { error } = await supabase
-        .from("likes")
-        .delete()
-        .eq("post_id", postId)
-        .eq("user_id", user.id);
-
-      if (error) throw error;
-    } else {
-      const { error } = await supabase
-        .from("likes")
-        .insert({
-          post_id: postId,
-          user_id: user.id
-        });
-
-
+      // معالج موحد لأزرار المنشورات في NEYRA
       postsContainer.addEventListener("click", async event => {
-        const button = event.target.closest("button");
+        const button = event.target.closest(
+          ".like-btn, .comment-btn, .save-btn, .share-btn"
+        );
 
-        if (!button || !button.matches(".like-btn, .comment-btn, .save-btn")) {
-          return;
-        }
+        if (!button || !postsContainer.contains(button)) return;
 
         const post = button.closest(".post");
         if (!post) return;
 
         const postId = post.dataset.postId;
 
-        if (!postId) {
-          showToast("المنشور مش مربوط بقاعدة البيانات.");
+        if (button.classList.contains("share-btn")) {
+          const shareUrl = window.location.href.split("#")[0];
+
+          try {
+            if (navigator.share) {
+              await navigator.share({
+                title: "منشور من NEYRA",
+                text: post.querySelector(".post-body")?.textContent || "شوف المنشور ده على NEYRA",
+                url: shareUrl
+              });
+            } else if (navigator.clipboard?.writeText) {
+              await navigator.clipboard.writeText(shareUrl);
+              showToast("تم نسخ رابط الصفحة للمشاركة.");
+            } else {
+              showToast("المشاركة غير مدعومة في المتصفح ده.");
+            }
+          } catch (error) {
+            if (error.name !== "AbortError") {
+              showToast("تعذرت المشاركة، حاول تاني.");
+            }
+          }
           return;
         }
 
-        if (button.classList.contains("comment-btn")) {
-          showToast("التعليقات هنفعّلها في الخطوة الجاية.");
+        if (!postId) {
+          showToast("المنشور مش مربوط بقاعدة البيانات.");
           return;
         }
 
@@ -2034,96 +2017,54 @@ username.textContent = profile?.full_name ||
           return;
         }
 
+        if (button.classList.contains("comment-btn")) {
+          const commentText = window.prompt("اكتب تعليقك:");
+
+          if (commentText === null) return;
+
+          const content = commentText.trim();
+          if (!content) {
+            showToast("اكتب تعليق قبل الإرسال.");
+            return;
+          }
+
+          button.disabled = true;
+
+          try {
+            const { error } = await supabase
+              .from("comments")
+              .insert({
+                post_id: postId,
+                user_id: user.id,
+                content: content
+              });
+
+            if (error) throw error;
+
+            showToast("تم نشر تعليقك بنجاح.");
+          } catch (error) {
+            console.error("NEYRA comment error:", error);
+            showToast("تعذر نشر التعليق. تأكد من جدول comments وصلاحياته.");
+          } finally {
+            button.disabled = false;
+          }
+          return;
+        }
+
         button.disabled = true;
 
         try {
           if (button.classList.contains("save-btn")) {
-            const { data: existingSave, error: checkError } = await supabase
+            const { data: saved, error: checkError } = await supabase
               .from("post_saves")
-
-      postsContainer.addEventListener("click", async event => {
-        const button = event.target.closest("button");
-
-        if (!button || !button.matches(".like-btn, .comment-btn, .save-btn")) {
-          return;
-        }
-
-        const post = button.closest(".post");
-        if (!post) return;
-
-        const postId = post.dataset.postId;
-
-        if (!postId) {
-          showToast("المنشور مش مربوط بقاعدة البيانات.");
-          return;
-        }
-
-        if (button.classList.contains("comment-btn")) {
-          showToast("التعليقات هنفعّلها في الخطوة الجاية.");
-          return;
-        }
-
-        const { data: sessionData, error: sessionError } =
-          await supabase.auth.getSession();
-
-        const user = sessionData?.session?.user;
-
-        if (sessionError || !user) {
-          showToast("سجّل دخولك الأول.");
-          return;
-        }
-
-        button.disabled = true;
-
-        try {
-
-      postsContainer.addEventListener("click", async event => {
-        const button = event.target.closest("button");
-
-        if (!button || !button.matches(".like-btn, .comment-btn, .save-btn")) {
-          return;
-        }
-
-        const post = button.closest(".post");
-        if (!post) return;
-
-        const postId = post.dataset.postId;
-
-        if (!postId) {
-          showToast("المنشور مش مربوط بقاعدة البيانات.");
-          return;
-        }
-
-        if (button.classList.contains("comment-btn")) {
-          showToast("التعليقات هنفعّلها في الخطوة الجاية.");
-          return;
-        }
-
-        const { data: sessionData, error: sessionError } =
-          await supabase.auth.getSession();
-
-        const user = sessionData?.session?.user;
-
-        if (sessionError || !user) {
-          showToast("سجّل دخولك الأول.");
-          return;
-        }
-
-        button.disabled = true;
-
-        try {
-          if (button.classList.contains("save-btn")) {
-            const { data: existingSave, error: checkError } =
-              await supabase
-                .from("post_saves")
-                .select("post_id")
-                .eq("post_id", postId)
-                .eq("user_id", user.id)
-                .maybeSingle();
+              .select("post_id")
+              .eq("post_id", postId)
+              .eq("user_id", user.id)
+              .maybeSingle();
 
             if (checkError) throw checkError;
 
-            if (existingSave) {
+            if (saved) {
               const { error } = await supabase
                 .from("post_saves")
                 .delete()
@@ -2147,21 +2088,19 @@ username.textContent = profile?.full_name ||
               button.classList.add("saved");
               showToast("تم حفظ المنشور بنجاح ♧");
             }
-
             return;
           }
 
-          const { data: existingLike, error: checkLikeError } =
-            await supabase
-              .from("likes")
-              .select("post_id")
-              .eq("post_id", postId)
-              .eq("user_id", user.id)
-              .maybeSingle();
+          const { data: liked, error: checkLikeError } = await supabase
+            .from("likes")
+            .select("post_id")
+            .eq("post_id", postId)
+            .eq("user_id", user.id)
+            .maybeSingle();
 
           if (checkLikeError) throw checkLikeError;
 
-          if (existingLike) {
+          if (liked) {
             const { error } = await supabase
               .from("likes")
               .delete()
@@ -2188,21 +2127,15 @@ username.textContent = profile?.full_name ||
           if (countError) throw countError;
 
           const countElement = button.querySelector("span");
-          if (countElement) {
-            countElement.textContent = count ?? 0;
-          }
+          if (countElement) countElement.textContent = count ?? 0;
 
-          button.classList.toggle("liked", !existingLike);
-          button.setAttribute("aria-pressed", String(!existingLike));
+          button.classList.toggle("liked", !liked);
+          button.setAttribute("aria-pressed", String(!liked));
 
-          showToast(
-            existingLike
-              ? "تم إلغاء الإعجاب."
-              : "تم تسجيل إعجابك ❤️"
-          );
+          showToast(liked ? "تم إلغاء الإعجاب." : "تم تسجيل إعجابك ❤️");
         } catch (error) {
           console.error("NEYRA post action error:", error);
-          showToast("حصل خطأ. حاول تاني.");
+          showToast("حصل خطأ. راجع إعدادات قاعدة البيانات وحاول تاني.");
         } finally {
           button.disabled = false;
         }
