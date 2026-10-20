@@ -269,32 +269,39 @@
       }
     }
 
-    function renderProfile(profile) {
-      const fullName =
-        profile.full_name || profile.username || "مستخدم NEYRA";
+function renderProfile(profile) {
+  const fullName =
+    profile.full_name || profile.username || "مستخدم NEYRA";
 
+  $("displayName").textContent = fullName;
+  $("usernamePreview").textContent =
+    "@" + (profile.username || "user");
+  $("bioPreview").textContent =
+    profile.bio || "أهلاً بيك في مجتمع NEYRA";
 
-      const avatar = $("avatarPreview");
+  const avatar = $("avatarPreview");
+  avatar.replaceChildren();
+
+  const imageUrl = safeAvatarUrl(profile.avatar_url);
+
+  if (imageUrl) {
+    const img = document.createElement("img");
+    img.src = imageUrl;
+    img.alt = "صورة البروفايل";
+    img.referrerPolicy = "no-referrer";
+
+    img.onerror = () => {
       avatar.replaceChildren();
+      avatar.textContent = (fullName.trim()[0] || "N").toUpperCase();
+    };
 
-      const imageUrl = safeAvatarUrl(profile.avatar_url);
+    avatar.appendChild(img);
+  } else {
+    avatar.textContent =
+      (fullName.trim()[0] || "N").toUpperCase();
+  }
+}
 
-      if (imageUrl) {
-        const img = document.createElement("img");
-        img.src = imageUrl;
-        img.alt = "صورة الحساب";
-        img.referrerPolicy = "no-referrer";
-
-        img.onerror = () => {
-          avatar.replaceChildren();
-          avatar.textContent = (fullName.trim()[0] || "N").toUpperCase();
-        };
-
-        avatar.appendChild(img);
-      } else {
-        avatar.textContent = (fullName.trim()[0] || "N").toUpperCase();
-      }
-    }
 
     async function loadProfile() {
       const { data: sessionData, error: sessionError } =
