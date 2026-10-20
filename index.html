@@ -1804,7 +1804,9 @@
       });
 
 document.getElementById("profileBtn").addEventListener("click", () => {
-        openAccountPage();
+        document.body.classList.add("neyra-drawer-open");
+        document.getElementById("neyraDrawer").setAttribute("aria-hidden", "false");
+        document.getElementById("profileBtn").setAttribute("aria-expanded", "true");
       });
     })();
   </script>
