@@ -5,35 +5,52 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#080810">
-  <meta name="description" content="NEYRA — Your world. Your identity.">
-  <title>NEYRA — ادخل عالمك</title>
+  <meta name="description" content="NEYRA — عالمك، هويتك، مجتمعك.">
+  <title>NEYRA — عالمك الخاص</title>
 
   <style>
     :root {
       --bg: #080810;
+      --panel: #11111d;
+      --panel2: #171627;
       --purple: #a578ff;
+      --purple2: #7845df;
       --cyan: #72e7f4;
-      --white: #f8f5ff;
+      --text: #f8f5ff;
+      --muted: #9692aa;
+      --border: rgba(165,120,255,.17);
+      --gold: #e7c77b;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       min-height: 100vh;
-      color: var(--white);
-      background: var(--bg);
-      font-family: Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 50% 0%, #17102b 0%, transparent 38%),
+        var(--bg);
+      font-family: Arial, Tahoma, sans-serif;
       overflow-x: hidden;
     }
 
-    /* شاشة الافتتاح */
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+    button:focus-visible, a:focus-visible,
+    input:focus-visible, textarea:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 3px;
+    }
+
+    /* شاشة الشعار الأصلية */
     #neyra-intro {
       position: fixed;
       inset: 0;
-      z-index: 9999;
+      z-index: 99999;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -41,7 +58,7 @@
       overflow: hidden;
       background:
         radial-gradient(ellipse at center,
-          rgba(110, 53, 190, .24), transparent 48%),
+          rgba(110,53,190,.24), transparent 48%),
         #080810;
       transition: opacity .65s ease, visibility .65s ease;
     }
@@ -70,27 +87,25 @@
       position: absolute;
       width: 210px;
       height: 210px;
-      border: 1px solid rgba(165, 120, 255, .38);
+      border: 1px solid rgba(165,120,255,.38);
       border-radius: 50%;
-      box-shadow:
-        0 0 35px rgba(133, 75, 255, .18),
-        inset 0 0 35px rgba(114, 231, 244, .10);
+      box-shadow: 0 0 35px rgba(133,75,255,.18),
+        inset 0 0 35px rgba(114,231,244,.1);
       animation: portalPulse 3s ease-in-out infinite;
     }
 
-    .portal::before,
-    .portal::after {
+    .portal::before, .portal::after {
       content: "";
       position: absolute;
       inset: 14px;
-      border: 1px solid rgba(114, 231, 244, .30);
+      border: 1px solid rgba(114,231,244,.3);
       border-radius: 50%;
       transform: rotateX(65deg);
     }
 
     .portal::after {
       transform: rotateY(65deg);
-      border-color: rgba(165, 120, 255, .4);
+      border-color: rgba(165,120,255,.4);
     }
 
     .logo {
@@ -117,7 +132,7 @@
       margin: 0;
       padding-left: 8px;
       direction: ltr;
-      font-size: clamp(34px, 9vw, 48px);
+      font-size: clamp(34px,9vw,48px);
       font-weight: 800;
       letter-spacing: 8px;
       opacity: 0;
@@ -151,159 +166,696 @@
     .loading-bar {
       width: 0;
       height: 100%;
-      background: linear-gradient(90deg, #8b5cf6, #72e7f4);
+      background: linear-gradient(90deg,#8b5cf6,#72e7f4);
       box-shadow: 0 0 12px #a578ff;
       animation: loading 2.7s linear forwards;
     }
 
-    /* بداية الصفحة الرئيسية */
-    .site-header {
-      position: relative;
-      z-index: 2;
+    /* الهيكل الرئيسي */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 15px;
-      padding: 20px 7%;
-      border-bottom: 1px solid rgba(165,120,255,.15);
-      background: rgba(8,8,16,.8);
+      gap: 14px;
+      padding: 13px max(4%, calc((100% - 1240px)/2));
+      border-bottom: 1px solid var(--border);
+      background: rgba(8,8,16,.9);
+      backdrop-filter: blur(18px);
     }
 
-    .site-brand {
-      color: var(--white);
-      font-size: 24px;
-      font-weight: 800;
-      letter-spacing: 4px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       direction: ltr;
+      font-size: 23px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      white-space: nowrap;
     }
 
-    .site-brand span {
+    .brand-mark {
+      display: grid;
+      width: 35px;
+      height: 35px;
+      place-items: center;
+      border: 1px solid rgba(165,120,255,.5);
+      border-radius: 11px;
+      color: var(--cyan);
+      background: linear-gradient(135deg,#29194a,#111522);
+      box-shadow: 0 0 20px rgba(165,120,255,.12);
+      font-size: 18px;
+    }
+
+    .brand em {
       color: var(--purple);
+      font-style: normal;
     }
 
-    .header-label {
-      color: #b9b3cb;
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: min(340px,38%);
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: #11111c;
+    }
+
+    .search input {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: none;
+      color: var(--text);
+      background: transparent;
+    }
+
+    .search input::placeholder { color: #77738b; }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .icon-btn {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      color: var(--text);
+      background: var(--panel);
+      font-size: 18px;
+    }
+
+    .avatar {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      flex: 0 0 auto;
+      place-items: center;
+      border: 1px solid rgba(165,120,255,.5);
+      border-radius: 50%;
+      color: #fff;
+      background: linear-gradient(135deg,#7044bd,#253f62);
+      font-size: 18px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 225px minmax(0,1fr) 250px;
+      gap: 22px;
+      width: min(1240px,94%);
+      margin: 25px auto 60px;
+      align-items: start;
+    }
+
+    .side {
+      position: sticky;
+      top: 83px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: linear-gradient(145deg,rgba(23,22,39,.95),rgba(13,13,23,.95));
+    }
+
+    .nav-panel { padding: 12px; }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 13px 12px;
+      border: 0;
+      border-radius: 12px;
+      color: #c2bed1;
+      background: transparent;
+      text-align: right;
+      font-size: 14px;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: white;
+      background: linear-gradient(90deg,rgba(165,120,255,.17),rgba(114,231,244,.04));
+    }
+
+    .nav-link.active {
+      box-shadow: inset -2px 0 var(--purple);
+    }
+
+    .nav-icon {
+      display: inline-grid;
+      width: 24px;
+      place-items: center;
+      font-size: 18px;
+    }
+
+    .side-title {
+      margin: 0 0 13px;
+      color: #dcd5ed;
+      font-size: 14px;
+    }
+
+    .side-box { padding: 17px; }
+
+    .mini-world {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      color: #c9c4d8;
       font-size: 13px;
     }
 
-    .hero {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 75vh;
-      padding: 55px 20px;
-      text-align: center;
-      overflow: hidden;
+    .mini-world + .mini-world {
+      border-top: 1px solid rgba(255,255,255,.05);
     }
 
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: 10%;
-      width: 260px;
-      height: 260px;
+    .dot {
+      width: 9px;
+      height: 9px;
+      flex: 0 0 auto;
       border-radius: 50%;
-      background: rgba(122, 65, 220, .13);
-      filter: blur(80px);
+      background: var(--cyan);
+      box-shadow: 0 0 10px currentColor;
+    }
+
+    .main { min-width: 0; }
+
+    .welcome {
+      position: relative;
+      overflow: hidden;
+      padding: 27px 25px;
+      border: 1px solid rgba(165,120,255,.25);
+      border-radius: 22px;
+      background:
+        radial-gradient(ellipse at 90% 10%,rgba(128,76,220,.22),transparent 48%),
+        linear-gradient(125deg,#171127,#10101b 65%);
+    }
+
+    .welcome::after {
+      content: "N";
+      position: absolute;
+      left: 15px;
+      top: -48px;
+      color: rgba(165,120,255,.055);
+      font-size: 210px;
+      font-weight: 900;
       pointer-events: none;
     }
 
-    .hero-badge {
+    .eyebrow {
       position: relative;
-      padding: 9px 16px;
-      border: 1px solid rgba(165,120,255,.35);
-      border-radius: 30px;
       color: var(--cyan);
       font-size: 12px;
-      background: rgba(165,120,255,.07);
+      letter-spacing: 1px;
     }
 
-    .hero h1 {
+    .welcome h1 {
       position: relative;
-      max-width: 700px;
-      margin: 25px 0 15px;
-      font-size: clamp(32px, 7vw, 58px);
-      line-height: 1.35;
+      z-index: 1;
+      margin: 13px 0 10px;
+      font-size: clamp(24px,3vw,35px);
+      line-height: 1.5;
     }
 
-    .hero h1 span {
+    .welcome h1 span {
       color: var(--purple);
-      text-shadow: 0 0 28px rgba(165,120,255,.25);
+      text-shadow: 0 0 25px rgba(165,120,255,.2);
     }
 
-    .hero p {
+    .welcome p {
       position: relative;
-      max-width: 520px;
-      color: #aaa6bb;
-      font-size: 16px;
-      line-height: 2;
+      z-index: 1;
+      max-width: 490px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.9;
     }
 
-    .worlds {
-      position: relative;
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 28px 0 15px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: 19px;
+    }
+
+    .section-heading p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .text-btn {
+      padding: 7px 0;
+      border: 0;
+      color: var(--cyan);
+      background: transparent;
+      font-size: 12px;
+    }
+
+    /* بوابات العوالم */
+    .world-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 15px;
-      width: min(100%, 900px);
-      margin-top: 30px;
+      grid-template-columns: repeat(3,minmax(0,1fr));
+      gap: 12px;
     }
 
     .world-card {
-      padding: 24px 12px;
-      border: 1px solid rgba(165,120,255,.22);
+      position: relative;
+      min-width: 0;
+      min-height: 210px;
+      padding: 16px 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
       border-radius: 18px;
-      background: linear-gradient(
-        145deg,
-        rgba(165,120,255,.10),
-        rgba(114,231,244,.025)
-      );
-      transition: transform .25s, border-color .25s;
+      background: #12111f;
+      text-align: center;
+      transition: transform .25s,border-color .25s,box-shadow .25s;
+    }
+
+    .world-card::before {
+      content: "";
+      position: absolute;
+      top: -35px;
+      right: 50%;
+      width: 120px;
+      height: 120px;
+      transform: translateX(50%);
+      border-radius: 50%;
+      background: var(--glow);
+      filter: blur(45px);
+      opacity: .25;
     }
 
     .world-card:hover {
       transform: translateY(-5px);
-      border-color: rgba(114,231,244,.6);
+      border-color: var(--world-color);
+      box-shadow: 0 12px 32px rgba(0,0,0,.2);
     }
 
-    .world-icon {
-      display: block;
-      margin-bottom: 12px;
-      font-size: 27px;
+    .world-card.secret {
+      --world-color: #c39aff;
+      --glow: #8b5cf6;
     }
 
-    .world-card h2 {
+    .world-card.discover {
+      --world-color: #72e7f4;
+      --glow: #00bbd0;
+    }
+
+    .world-card.challenge {
+      --world-color: #e7c77b;
+      --glow: #c68c30;
+    }
+
+    .portal-art {
+      position: relative;
+      display: grid;
+      width: 74px;
+      height: 74px;
+      margin: 0 auto 12px;
+      place-items: center;
+      border: 1px solid color-mix(in srgb,var(--world-color) 60%,transparent);
+      border-radius: 50%;
+      background: radial-gradient(circle,var(--glow),#11101c 72%);
+      box-shadow: 0 0 23px color-mix(in srgb,var(--glow) 20%,transparent),
+        inset 0 0 20px rgba(255,255,255,.04);
+      font-size: 29px;
+    }
+
+    .portal-art::before {
+      content: "";
+      position: absolute;
+      inset: -6px;
+      border: 1px solid color-mix(in srgb,var(--world-color) 30%,transparent);
+      border-radius: 50%;
+      animation: orbitRing 12s linear infinite;
+    }
+
+    .world-card h3 {
+      position: relative;
       margin: 0 0 8px;
-      font-size: 17px;
+      font-size: 15px;
     }
 
     .world-card p {
+      position: relative;
+      min-height: 35px;
       margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .world-enter {
+      position: relative;
+      display: inline-block;
+      margin-top: 12px;
+      color: var(--world-color);
+      font-size: 11px;
+    }
+
+    /* المنشورات */
+    .composer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 26px;
+      padding: 15px;
+    }
+
+    .composer-trigger {
+      flex: 1;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      color: #9994ad;
+      background: #0d0d17;
+      text-align: right;
+    }
+
+    .primary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 11px 16px;
+      border: 0;
+      border-radius: 12px;
+      color: white;
+      background: linear-gradient(110deg,#7544d4,#9c67f8);
+      box-shadow: 0 5px 20px rgba(117,68,212,.18);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .primary-btn:hover { filter: brightness(1.12); }
+
+    .feed-tabs {
+      display: flex;
+      gap: 7px;
+      margin: 18px 0 14px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .feed-tabs::-webkit-scrollbar { display: none; }
+
+    .tab {
+      flex: 0 0 auto;
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      border-radius: 25px;
+      color: #aaa5bc;
+      background: #11111b;
+      font-size: 12px;
+    }
+
+    .tab.active {
+      border-color: rgba(165,120,255,.55);
+      color: white;
+      background: rgba(165,120,255,.15);
+    }
+
+    .post {
+      margin-bottom: 13px;
+      padding: 18px;
+    }
+
+    .post-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .post-user { flex: 1; min-width: 0; }
+
+    .post-user strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .post-meta {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .post-world {
+      padding: 6px 8px;
+      border-radius: 8px;
+      color: var(--purple);
+      background: rgba(165,120,255,.09);
+      font-size: 10px;
+      white-space: nowrap;
+    }
+
+    .post-body {
+      margin: 16px 0;
+      color: #e0dceb;
+      font-size: 14px;
+      line-height: 2;
+      overflow-wrap: anywhere;
+    }
+
+    .post-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+
+    .post-action {
+      padding: 8px 10px;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      color: #a8a2ba;
+      background: transparent;
+      font-size: 12px;
+    }
+
+    .post-action:hover {
+      border-color: var(--border);
+      background: rgba(165,120,255,.07);
+    }
+
+    .post-action.liked {
+      color: #ff82b2;
+      background: rgba(255,80,150,.08);
+    }
+
+    .empty-state {
+      display: none;
+      padding: 30px 15px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    /* العمود الجانبي */
+    .profile-card {
+      padding: 19px;
+      text-align: center;
+    }
+
+    .profile-card .avatar {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 10px;
+      font-size: 25px;
+    }
+
+    .profile-card h3 {
+      margin: 0 0 6px;
+      font-size: 15px;
+    }
+
+    .profile-card p {
+      margin: 0;
+      color: var(--muted);
       font-size: 12px;
       line-height: 1.8;
     }
 
-    .coming-soon {
-      margin-top: 32px;
+    .profile-stats {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 8px;
+      margin-top: 17px;
+    }
+
+    .stat {
+      padding: 10px 5px;
+      border-radius: 11px;
+      background: rgba(255,255,255,.035);
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--cyan);
+      font-size: 17px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .notice {
+      padding: 15px;
+      color: #bbb5cd;
+      font-size: 12px;
+      line-height: 1.9;
+    }
+
+    .notice strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--gold);
+    }
+
+    .footer {
+      padding: 22px 12px 90px;
       color: #777187;
+      text-align: center;
+      font-size: 11px;
+    }
+
+    /* نافذة إنشاء منشور */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal.open { display: flex; }
+
+    .modal-card {
+      width: min(100%,480px);
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 22px;
+      border: 1px solid rgba(165,120,255,.3);
+      border-radius: 20px;
+      background: #12111e;
+      box-shadow: 0 20px 70px rgba(0,0,0,.4);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .modal-head h2 { margin: 0; font-size: 18px; }
+
+    .close-btn {
+      width: 35px;
+      height: 35px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: white;
+      background: var(--panel2);
+    }
+
+    .field { margin-bottom: 15px; }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      color: #c9c3d8;
       font-size: 12px;
     }
 
-    footer {
-      padding: 22px;
-      border-top: 1px solid rgba(165,120,255,.12);
-      color: #777187;
-      text-align: center;
-      font-size: 12px;
+    .field select, .field textarea, .field input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      color: white;
+      background: #0c0c15;
     }
+
+    .field textarea {
+      min-height: 125px;
+      resize: vertical;
+      line-height: 1.8;
+    }
+
+    .field select option { background: #11111d; }
+
+    .modal-note {
+      margin: 0 0 15px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .toast {
+      position: fixed;
+      z-index: 2000;
+      right: 50%;
+      bottom: 25px;
+      transform: translate(50%,20px);
+      max-width: 90%;
+      padding: 12px 18px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      opacity: 0;
+      color: white;
+      background: #201932;
+      pointer-events: none;
+      transition: .25s;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(50%,0);
+    }
+
+    /* تنقل الموبايل */
+    .mobile-nav { display: none; }
 
     @keyframes starsMove {
       to { transform: rotate(360deg) translateY(10px); }
     }
 
     @keyframes portalPulse {
-      0%, 100% { transform: scale(.88) rotate(0deg); opacity: .55; }
+      0%,100% { transform: scale(.88) rotate(0); opacity: .55; }
       50% { transform: scale(1.08) rotate(90deg); opacity: 1; }
     }
 
@@ -315,68 +867,145 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes loading {
-      to { width: 100%; }
+    @keyframes loading { to { width: 100%; } }
+
+    @keyframes orbitRing {
+      to { transform: rotate(360deg); }
     }
 
-    @media (max-width: 600px) {
-      .site-header {
-        padding: 18px 5%;
+    @media (max-width: 1050px) {
+      .layout {
+        grid-template-columns: 190px minmax(0,1fr);
+        gap: 15px;
       }
 
-      .worlds {
-        grid-template-columns: 1fr;
-        max-width: 360px;
+      .right-side { display: none; }
+    }
+
+    @media (max-width: 700px) {
+      .topbar {
+        padding: 11px 4%;
+        gap: 9px;
       }
+
+      .brand { font-size: 19px; gap: 7px; }
+      .brand-mark { width: 32px; height: 32px; }
+      .search { width: auto; flex: 1; padding: 9px; }
+      .search input { font-size: 12px; }
+      .top-actions { gap: 6px; }
+      .icon-btn { width: 35px; height: 35px; }
+
+      .layout {
+        display: block;
+        width: 92%;
+        margin: 16px auto 30px;
+      }
+
+      .left-side { display: none; }
+      .main { width: 100%; }
+
+      .welcome { padding: 22px 18px; }
+      .welcome h1 { font-size: 26px; }
+      .welcome p { font-size: 13px; }
+
+      .world-grid { gap: 8px; }
 
       .world-card {
-        padding: 20px;
+        min-height: 174px;
+        padding: 13px 7px;
+        border-radius: 15px;
       }
 
-      .hero {
-        min-height: auto;
-        padding-top: 70px;
-        padding-bottom: 60px;
+      .portal-art { width: 57px; height: 57px; font-size: 24px; }
+      .world-card h3 { font-size: 12px; }
+      .world-card p { font-size: 10px; }
+      .world-enter { font-size: 10px; }
+
+      .section-heading { margin-top: 24px; }
+      .section-heading h2 { font-size: 17px; }
+      .composer { gap: 8px; padding: 12px; }
+      .composer .avatar { width: 33px; height: 33px; }
+      .composer-trigger { padding: 11px 9px; font-size: 11px; }
+      .composer .primary-btn { padding: 11px; font-size: 11px; }
+
+      .post { padding: 14px; }
+      .post-body { font-size: 13px; }
+
+      .mobile-nav {
+        position: fixed;
+        z-index: 500;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        justify-content: space-around;
+        padding: 8px 3px calc(8px + env(safe-area-inset-bottom));
+        border-top: 1px solid var(--border);
+        background: rgba(10,10,19,.96);
+        backdrop-filter: blur(20px);
       }
+
+      .mobile-link {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 5px 0;
+        border: 0;
+        color: #88839d;
+        background: transparent;
+        font-size: 10px;
+      }
+
+      .mobile-link span { font-size: 20px; }
+      .mobile-link.active { color: var(--cyan); }
+
+      .footer { padding-bottom: 95px; }
+    }
+
+    @media (max-width: 360px) {
+      .brand { font-size: 16px; letter-spacing: 2px; }
+      .brand-mark { display: none; }
+      .top-actions .icon-btn:first-child { display: none; }
+      .world-card { padding: 10px 5px; }
+      .world-card h3 { font-size: 11px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
+      #neyra-intro *, #neyra-intro *::before,
+      #neyra-intro *::after {
         animation-duration: .01ms !important;
         animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
       }
+
+      html { scroll-behavior: auto; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- NEYRA Animated Intro -->
+  <!-- شاشة الشعار: محفوظة -->
   <div id="neyra-intro" role="status" aria-label="NEYRA">
     <div class="stars"></div>
     <div class="portal"></div>
 
     <div class="logo">
       <svg viewBox="0 0 100 100" fill="none"
-           xmlns="http://www.w3.org/2000/svg"
-           aria-hidden="true">
+           xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
-          <linearGradient id="neyraGradient"
-            x1="12" y1="10" x2="88" y2="90">
+          <linearGradient id="neyraGradient" x1="12" y1="10" x2="88" y2="90">
             <stop stop-color="#72E7F4"/>
             <stop offset=".5" stop-color="#A578FF"/>
             <stop offset="1" stop-color="#7543D5"/>
           </linearGradient>
         </defs>
-
         <path d="M50 5 L88 27 L88 65 L50 94 L12 65 L12 27 Z"
           stroke="url(#neyraGradient)" stroke-width="2.5"/>
-
         <path d="M29 69 V31 L71 69 V31"
           stroke="url(#neyraGradient)" stroke-width="5"
           stroke-linecap="round" stroke-linejoin="round"/>
-
         <circle cx="50" cy="50" r="43"
           stroke="#A578FF" stroke-opacity=".22"/>
       </svg>
@@ -384,65 +1013,316 @@
 
     <h1 class="brand-name">NEYRA</h1>
     <div class="tagline">YOUR WORLD. YOUR IDENTITY.</div>
+    <div class="loading-track"><div class="loading-bar"></div></div>
+  </div>
 
-    <div class="loading-track">
-      <div class="loading-bar"></div>
+  <!-- الشريط العلوي -->
+  <header class="topbar" id="top">
+    <a class="brand" href="#top" aria-label="NEYRA الرئيسية">
+      <span class="brand-mark">N</span>
+      <span>NE<em>Y</em>RA</span>
+    </a>
+
+    <label class="search">
+      <span>⌕</span>
+      <input id="searchInput" type="search"
+        placeholder="ابحث في المنشورات..." aria-label="ابحث في المنشورات">
+    </label>
+
+    <div class="top-actions">
+      <button class="icon-btn" id="noticeBtn" aria-label="الإشعارات">♧</button>
+      <button class="icon-btn" id="profileBtn" aria-label="الملف الشخصي">♙</button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- القائمة الجانبية -->
+    <aside class="side left-side">
+      <nav class="panel nav-panel" aria-label="القائمة الرئيسية">
+        <button class="nav-link active" data-nav="home">
+          <span class="nav-icon">⌂</span> الرئيسية
+        </button>
+        <button class="nav-link" data-nav="worlds">
+          <span class="nav-icon">◎</span> العوالم
+        </button>
+        <button class="nav-link" data-nav="discover">
+          <span class="nav-icon">⌕</span> اكتشف
+        </button>
+        <button class="nav-link" data-nav="challenges">
+          <span class="nav-icon">ϟ</span> التحديات
+        </button>
+        <button class="nav-link" data-nav="saved">
+          <span class="nav-icon">♧</span> المحفوظات
+        </button>
+        <button class="nav-link" data-nav="profile">
+          <span class="nav-icon">♙</span> ملفي الشخصي
+        </button>
+      </nav>
+
+      <section class="panel side-box">
+        <h3 class="side-title">بوابات NEYRA</h3>
+        <div class="mini-world"><span class="dot" style="background:#c39aff"></span> عالم الأسرار</div>
+        <div class="mini-world"><span class="dot"></span> عالم الاكتشاف</div>
+        <div class="mini-world"><span class="dot" style="background:#e7c77b"></span> عالم التحديات</div>
+      </section>
+
+      <section class="panel notice">
+        <strong>✦ مساحة آمنة</strong>
+        شارك باحترام، واحمِ خصوصيتك. لا تنشر بياناتك الشخصية أو معلوماتك الخاصة.
+      </section>
+    </aside>
+
+    <!-- محتوى الصفحة -->
+    <main class="main" id="home">
+
+      <section class="welcome">
+        <div class="eyebrow">✦ مرحبًا بك في NEYRA</div>
+        <h1>عالمك الخاص يبدأ<br><span>من هنا.</span></h1>
+        <p>
+          اكتشف عوالم جديدة، شارك أفكارك، وتعرّف على اهتمامات مختلفة.
+          هنا تبدأ حكايتك، بطريقتك أنت.
+        </p>
+      </section>
+
+      <section id="worlds">
+        <div class="section-heading">
+          <div>
+            <h2>ادخل عالمك</h2>
+            <p>ثلاث بوابات، وتجارب مختلفة.</p>
+          </div>
+          <span style="color:var(--purple);font-size:20px">✧</span>
+        </div>
+
+        <div class="world-grid">
+          <button class="world-card secret" data-world="secrets">
+            <span class="portal-art">🌌</span>
+            <h3>عالم الأسرار</h3>
+            <p>عبّر عن أفكارك وتجاربك بحرية ومسؤولية.</p>
+            <span class="world-enter">اكتشف العالم ←</span>
+          </button>
+
+          <button class="world-card discover" data-world="discover">
+            <span class="portal-art">🔮</span>
+            <h3>عالم الاكتشاف</h3>
+            <p>اكتشف اهتمامات وأفكارًا وأشخاصًا جددًا.</p>
+            <span class="world-enter">اكتشف العالم ←</span>
+          </button>
+
+          <button class="world-card challenge" data-world="challenges">
+            <span class="portal-art">⚡</span>
+            <h3>عالم التحديات</h3>
+            <p>أهداف يومية وتحديات آمنة وممتعة.</p>
+            <span class="world-enter">اكتشف العالم ←</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- إنشاء منشور -->
+      <section class="panel composer" id="create">
+        <div class="avatar">✦</div>
+        <button class="composer-trigger" id="composerTrigger">
+          إيه اللي حابب تشاركه النهارده؟
+        </button>
+        <button class="primary-btn" id="createBtn">＋ انشر</button>
+      </section>
+
+      <!-- الخلاصة -->
+      <section id="feed">
+        <div class="section-heading">
+          <div>
+            <h2>نبض المجتمع</h2>
+            <p>أفكار ومشاركات من عالم NEYRA.</p>
+          </div>
+          <span style="color:var(--cyan);font-size:18px">◉</span>
+        </div>
+
+        <div class="feed-tabs" aria-label="تصفية المنشورات">
+          <button class="tab active" data-filter="all">لك</button>
+          <button class="tab" data-filter="secrets">الأسرار</button>
+          <button class="tab" data-filter="discover">الاكتشاف</button>
+          <button class="tab" data-filter="challenges">التحديات</button>
+        </div>
+
+        <div id="posts">
+          <article class="panel post" data-category="discover">
+            <div class="post-head">
+              <div class="avatar">🌙</div>
+              <div class="post-user">
+                <strong>رحّال الأفكار</strong>
+                <span class="post-meta">منذ قليل · منشور تجريبي</span>
+              </div>
+              <span class="post-world">الاكتشاف</span>
+            </div>
+            <p class="post-body">
+              لو تقدر تتعلم مهارة جديدة في يوم واحد، هتختار إيه وليه؟
+              ساعات سؤال صغير ممكن يفتح باب لأفكار كبيرة. ✨
+            </p>
+            <div class="post-actions">
+              <button class="post-action like-btn">♡ إعجاب <span>12</span></button>
+              <button class="post-action comment-btn">◌ تعليق</button>
+              <button class="post-action save-btn">♧ حفظ</button>
+            </div>
+          </article>
+
+          <article class="panel post" data-category="secrets">
+            <div class="post-head">
+              <div class="avatar">💜</div>
+              <div class="post-user">
+                <strong>مساحة هادئة</strong>
+                <span class="post-meta">منذ قليل · منشور تجريبي</span>
+              </div>
+              <span class="post-world">الأسرار</span>
+            </div>
+            <p class="post-body">
+              مش لازم تكون عارف كل الإجابات دلوقتي. أحيانًا إنك تدي
+              نفسك فرصة تبدأ من جديد، ده في حد ذاته إنجاز. 💜
+            </p>
+            <div class="post-actions">
+              <button class="post-action like-btn">♡ إعجاب <span>8</span></button>
+              <button class="post-action comment-btn">◌ تعليق</button>
+              <button class="post-action save-btn">♧ حفظ</button>
+            </div>
+          </article>
+
+          <article class="panel post" data-category="challenges">
+            <div class="post-head">
+              <div class="avatar">⚡</div>
+              <div class="post-user">
+                <strong>خطوة جديدة</strong>
+                <span class="post-meta">اليوم · منشور تجريبي</span>
+              </div>
+              <span class="post-world">التحديات</span>
+            </div>
+            <p class="post-body">
+              تحدي اليوم: خصص عشر دقائق لحاجة بتحبها، بعيدًا عن
+              ضغط اليوم. مفيش منافسة، المهم تعمل حاجة لنفسك. 🌱
+            </p>
+            <div class="post-actions">
+              <button class="post-action like-btn">♡ إعجاب <span>15</span></button>
+              <button class="post-action comment-btn">◌ تعليق</button>
+              <button class="post-action save-btn">♧ حفظ</button>
+            </div>
+          </article>
+        </div>
+
+        <div class="panel empty-state" id="emptyState">
+          مفيش منشورات مطابقة للبحث ده.<br>جرّب كلمة تانية.
+        </div>
+      </section>
+
+    </main>
+
+    <!-- معلومات جانبية -->
+    <aside class="side right-side">
+      <section class="panel profile-card">
+        <div class="avatar">✦</div>
+        <h3>أهلاً بيك في NEYRA</h3>
+        <p>دي معاينة للمنصة. تقدر تستكشف الواجهة وتجرب التفاعل المحلي.</p>
+        <div class="profile-stats">
+          <div class="stat"><strong id="likesCount">0</strong><span>إعجاباتك</span></div>
+          <div class="stat"><strong id="savedCount">0</strong><span>محفوظاتك</span></div>
+        </div>
+      </section>
+
+      <section class="panel side-box">
+        <h3 class="side-title">اكتشف العوالم</h3>
+        <div class="mini-world"><span class="dot" style="background:#c39aff"></span> أفكار ومشاركات</div>
+        <div class="mini-world"><span class="dot"></span> اهتمامات جديدة</div>
+        <div class="mini-world"><span class="dot" style="background:#e7c77b"></span> تحديات يومية</div>
+      </section>
+
+      <section class="panel notice">
+        <strong>✦ تذكير</strong>
+        المنشورات الظاهرة حاليًا تجريبية. لسه ما فيش حسابات أو قاعدة بيانات متصلة بالموقع.
+      </section>
+    </aside>
+
+  </div>
+
+  <footer class="footer">
+    NEYRA © 2026 · عالمك، هويتك، مجتمعك.
+  </footer>
+
+  <!-- تنقل الموبايل -->
+  <nav class="mobile-nav" aria-label="التنقل">
+    <button class="mobile-link active" data-nav="home"><span>⌂</span>الرئيسية</button>
+    <button class="mobile-link" data-nav="worlds"><span>◎</span>العوالم</button>
+    <button class="mobile-link" data-nav="create"><span>＋</span>انشر</button>
+    <button class="mobile-link" data-nav="discover"><span>⌕</span>اكتشف</button>
+    <button class="mobile-link" data-nav="profile"><span>♙</span>حسابي</button>
+  </nav>
+
+  <!-- نافذة المنشور -->
+  <div class="modal" id="postModal" role="dialog"
+       aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2 id="modalTitle">شارك فكرتك</h2>
+        <button class="close-btn" id="closeModal" aria-label="إغلاق">✕</button>
+      </div>
+
+      <form id="postForm">
+        <div class="field">
+          <label for="postCategory">اختار العالم</label>
+          <select id="postCategory">
+            <option value="discover">عالم الاكتشاف</option>
+            <option value="secrets">عالم الأسرار</option>
+            <option value="challenges">عالم التحديات</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="postText">محتوى المنشور</label>
+          <textarea id="postText" maxlength="1000"
+            placeholder="اكتب فكرتك هنا..." required></textarea>
+        </div>
+
+        <p class="modal-note">
+          النسخة الحالية تجريبية: المنشور سيظهر في الصفحة المفتوحة فقط،
+          ولن يُرسل إلى مستخدمين آخرين.
+        </p>
+
+        <button class="primary-btn" type="submit" style="width:100%">
+          نشر تجريبي
+        </button>
+      </form>
     </div>
   </div>
 
-  <!-- Main Page: Initial Preview -->
-  <header class="site-header">
-    <div class="site-brand">NE<span>Y</span>RA</div>
-    <div class="header-label">عالمك يبدأ هنا ✦</div>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="hero-badge">✦ عالم اجتماعي بشكل مختلف</div>
-
-      <h1>
-        مش مجرد منصة...<br>
-        <span>ده عالمك الخاص</span>
-      </h1>
-
-      <p>
-        اكتشف أشخاصًا يشاركوك اهتماماتك، عبّر عن أفكارك،
-        وشارك في تحديات جديدة. عالم رقمي نصممه معًا.
-      </p>
-
-      <div class="worlds">
-        <article class="world-card">
-          <span class="world-icon">🌌</span>
-          <h2>عالم الأسرار</h2>
-          <p>مساحة للتعبير ومشاركة الأفكار والتجارب.</p>
-        </article>
-
-        <article class="world-card">
-          <span class="world-icon">🔮</span>
-          <h2>عالم الاكتشاف</h2>
-          <p>اكتشف أشخاصًا واهتمامات ومجتمعات جديدة.</p>
-        </article>
-
-        <article class="world-card">
-          <span class="world-icon">⚡</span>
-          <h2>عالم التحديات</h2>
-          <p>تحديات يومية وأهداف ممتعة تتقدم فيها مع الوقت.</p>
-        </article>
-      </div>
-
-      <div class="coming-soon">
-        NEYRA — المشروع في مرحلة البناء الأولى
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    NEYRA © 2026 — Your world. Your identity.
-  </footer>
+  <div class="toast" id="toast" role="status"></div>
 
   <script>
-    (function () {
+    (() => {
       const intro = document.getElementById("neyra-intro");
+      const modal = document.getElementById("postModal");
+      const postForm = document.getElementById("postForm");
+      const postText = document.getElementById("postText");
+      const postCategory = document.getElementById("postCategory");
+      const postsContainer = document.getElementById("posts");
+      const searchInput = document.getElementById("searchInput");
+      const emptyState = document.getElementById("emptyState");
+      const toastBox = document.getElementById("toast");
+
+      let activeFilter = "all";
+      let likes = 0;
+      let saved = 0;
+      let toastTimer;
+
+      const categoryNames = {
+        secrets: "الأسرار",
+        discover: "الاكتشاف",
+        challenges: "التحديات"
+      };
+
+      function showToast(message) {
+        toastBox.textContent = message;
+        toastBox.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toastBox.classList.remove("show");
+        }, 2400);
+      }
 
       function enterSite() {
         if (!intro) return;
@@ -451,8 +1331,240 @@
       }
 
       document.documentElement.style.overflow = "hidden";
+      setTimeout(enterSite, 3000);
 
-      window.setTimeout(enterSite, 3000);
+      function openModal() {
+        modal.classList.add("open");
+        setTimeout(() => postText.focus(), 50);
+      }
+
+      function closeModal() {
+        modal.classList.remove("open");
+      }
+
+      document.getElementById("createBtn").addEventListener("click", openModal);
+      document.getElementById("composerTrigger").addEventListener("click", openModal);
+      document.getElementById("closeModal").addEventListener("click", closeModal);
+
+      modal.addEventListener("click", event => {
+        if (event.target === modal) closeModal();
+      });
+
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape") closeModal();
+      });
+
+      function applyFilters() {
+        const query = searchInput.value.trim().toLowerCase();
+        let visible = 0;
+
+        postsContainer.querySelectorAll(".post").forEach(post => {
+          const category = post.dataset.category;
+          const matchesCategory = activeFilter === "all" ||
+            category === activeFilter;
+          const matchesSearch = !query ||
+            post.innerText.toLowerCase().includes(query);
+          const show = matchesCategory && matchesSearch;
+
+          post.style.display = show ? "" : "none";
+          if (show) visible++;
+        });
+
+        emptyState.style.display = visible ? "none" : "block";
+      }
+
+      searchInput.addEventListener("input", applyFilters);
+
+      document.querySelectorAll(".tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          activeFilter = tab.dataset.filter;
+          document.querySelectorAll(".tab").forEach(item => {
+            item.classList.toggle("active", item === tab);
+          });
+          applyFilters();
+        });
+      });
+
+      postForm.addEventListener("submit", event => {
+        event.preventDefault();
+
+        const text = postText.value.trim();
+        const category = postCategory.value;
+
+        if (!text) {
+          showToast("اكتب محتوى المنشور الأول.");
+          return;
+        }
+
+        const article = document.createElement("article");
+        article.className = "panel post";
+        article.dataset.category = category;
+
+        const head = document.createElement("div");
+        head.className = "post-head";
+
+        const avatar = document.createElement("div");
+        avatar.className = "avatar";
+        avatar.textContent = "✦";
+
+        const user = document.createElement("div");
+        user.className = "post-user";
+
+        const username = document.createElement("strong");
+        username.textContent = "زائر NEYRA";
+
+        const meta = document.createElement("span");
+        meta.className = "post-meta";
+        meta.textContent = "الآن · منشور تجريبي";
+
+        user.append(username, meta);
+
+        const badge = document.createElement("span");
+        badge.className = "post-world";
+        badge.textContent = categoryNames[category];
+
+        head.append(avatar, user, badge);
+
+        const body = document.createElement("p");
+        body.className = "post-body";
+        body.textContent = text;
+
+        const actions = document.createElement("div");
+        actions.className = "post-actions";
+        actions.innerHTML =
+          '<button class="post-action like-btn">♡ إعجاب <span>0</span></button>' +
+          '<button class="post-action comment-btn">◌ تعليق</button>' +
+          '<button class="post-action save-btn">♧ حفظ</button>';
+
+        article.append(head, body, actions);
+        postsContainer.prepend(article);
+
+        postText.value = "";
+        closeModal();
+
+        activeFilter = "all";
+        document.querySelectorAll(".tab").forEach(tab => {
+          tab.classList.toggle("active", tab.dataset.filter === "all");
+        });
+
+        searchInput.value = "";
+        applyFilters();
+        showToast("اتضاف المنشور للمعاينة بنجاح.");
+        article.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+
+      postsContainer.addEventListener("click", event => {
+        const button = event.target.closest("button");
+        if (!button) return;
+
+        const post = button.closest(".post");
+        if (!post) return;
+
+        if (button.classList.contains("like-btn")) {
+          const count = button.querySelector("span");
+          const liked = button.classList.toggle("liked");
+          count.textContent = Math.max(
+            0, Number(count.textContent) + (liked ? 1 : -1)
+          );
+          likes += liked ? 1 : -1;
+          document.getElementById("likesCount").textContent = likes;
+        }
+
+        if (button.classList.contains("save-btn")) {
+          const isSaved = button.dataset.saved === "true";
+          button.dataset.saved = String(!isSaved);
+          button.textContent = !isSaved ? "✓ محفوظ" : "♧ حفظ";
+          saved += isSaved ? -1 : 1;
+          document.getElementById("savedCount").textContent = saved;
+          showToast(isSaved ? "اتشال من المحفوظات التجريبية." : "اتحفظ محليًا في المعاينة.");
+        }
+
+        if (button.classList.contains("comment-btn")) {
+          showToast("التعليقات هتتضاف في مرحلة ربط قاعدة البيانات.");
+        }
+      });
+
+      function goTo(section) {
+        if (section === "home") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
+
+        if (section === "worlds") {
+          document.getElementById("worlds").scrollIntoView({ behavior: "smooth" });
+          return;
+        }
+
+        if (section === "create") {
+          openModal();
+          return;
+        }
+
+        if (section === "discover") {
+          activeFilter = "discover";
+          document.querySelectorAll(".tab").forEach(tab => {
+            tab.classList.toggle("active", tab.dataset.filter === "discover");
+          });
+          applyFilters();
+          document.getElementById("feed").scrollIntoView({ behavior: "smooth" });
+          return;
+        }
+
+        if (section === "challenges") {
+          activeFilter = "challenges";
+          document.querySelectorAll(".tab").forEach(tab => {
+            tab.classList.toggle("active", tab.dataset.filter === "challenges");
+          });
+          applyFilters();
+          document.getElementById("feed").scrollIntoView({ behavior: "smooth" });
+          return;
+        }
+
+        if (section === "saved") {
+          showToast("المحفوظات هنا تجريبية، وليست مرتبطة بحساب.");
+          return;
+        }
+
+        if (section === "profile") {
+          showToast("إنشاء الحساب والملف الشخصي هنعمله في المرحلة القادمة.");
+        }
+      }
+
+      document.querySelectorAll("[data-nav]").forEach(button => {
+        button.addEventListener("click", () => {
+          const section = button.dataset.nav;
+          goTo(section);
+
+          document.querySelectorAll("[data-nav]").forEach(item => {
+            item.classList.toggle("active", item === button);
+          });
+        });
+      });
+
+      document.querySelectorAll("[data-world]").forEach(button => {
+        button.addEventListener("click", () => {
+          const world = button.dataset.world;
+
+          if (world === "secrets" || world === "discover" ||
+              world === "challenges") {
+            activeFilter = world;
+            document.querySelectorAll(".tab").forEach(tab => {
+              tab.classList.toggle("active", tab.dataset.filter === world);
+            });
+            applyFilters();
+            document.getElementById("feed").scrollIntoView({ behavior: "smooth" });
+            showToast("أنت بتشوف دلوقتي منشورات " + categoryNames[world] + " التجريبية.");
+          }
+        });
+      });
+
+      document.getElementById("noticeBtn").addEventListener("click", () => {
+        showToast("الإشعارات هتكون متاحة بعد ربط الحسابات.");
+      });
+
+      document.getElementById("profileBtn").addEventListener("click", () => {
+        showToast("الملف الشخصي الحقيقي هنعمله في المرحلة القادمة.");
+      });
     })();
   </script>
 
