@@ -1964,36 +1964,83 @@ username.textContent = profile?.full_name ||
       });
 
 
-      postsContainer.addEventListener("click", event => {
+
+      postsContainer.addEventListener("click", async event => {
         const button = event.target.closest("button");
-        if (!button) return;
+        if (!button || !button.classList.contains("like-btn")) return;
 
         const post = button.closest(".post");
         if (!post) return;
 
-        if (button.classList.contains("like-btn")) {
-          const count = button.querySelector("span");
-          const liked = button.classList.toggle("liked");
-          count.textContent = Math.max(
-            0, Number(count.textContent) + (liked ? 1 : -1)
-          );
-          likes += liked ? 1 : -1;
-          document.getElementById("likesCount").textContent = likes;
+        const postId = post.dataset.postId;
+        if (!postId) {
+          showToast("المنشور ده محتاج يتربط بقاعدة البيانات الأول.");
+          return;
         }
 
-        if (button.classList.contains("save-btn")) {
-          const isSaved = button.dataset.saved === "true";
-          button.dataset.saved = String(!isSaved);
-          button.textContent = !isSaved ? "✓ محفوظ" : "♧ حفظ";
-          saved += isSaved ? -1 : 1;
-          document.getElementById("savedCount").textContent = saved;
-          showToast(isSaved ? "اتشال من المحفوظات التجريبية." : "اتحفظ محليًا في المعاينة.");
+        const { data: sessionData, error: sessionError } =
+          await supabase.auth.getSession();
+
+        const user = sessionData?.session?.user;
+
+        if (sessionError || !user) {
+          showToast("سجّل دخولك الأول علشان تعمل إعجاب.");
+          return;
         }
 
-        if (button.classList.contains("comment-btn")) {
-          showToast("التعليقات هتتضاف في مرحلة ربط قاعدة البيانات.");
+        button.disabled = true;
+
+        try {
+          const { data: existingLike, error: checkError } = await supabase
+            .from("likes")
+            .select("post_id")
+            .eq("post_id", postId)
+            .eq("user_id", user.id)
+            .maybeSingle();
+
+          if (checkError) throw checkError;
+
+          if (existingLike) {
+            const { error } = await supabase
+              .from("likes")
+              .delete()
+              .eq("post_id", postId)
+              .eq("user_id", user.id);
+
+            if (error) throw error;
+          } else {
+            const { error } = await supabase
+              .from("likes")
+              .insert({
+                post_id: postId,
+                user_id: user.id
+              });
+
+            if (error) throw error;
+          }
+
+          const { count, error: countError } = await supabase
+            .from("likes")
+            .select("*", { count: "exact", head: true })
+            .eq("post_id", postId);
+
+          if (countError) throw countError;
+
+          const countElement = button.querySelector("span");
+          if (countElement) countElement.textContent = count ?? 0;
+
+          button.classList.toggle("liked", !existingLike);
+          button.setAttribute("aria-pressed", String(!existingLike));
+
+          showToast(existingLike ? "تم إلغاء الإعجاب." : "تم تسجيل إعجابك ❤️");
+        } catch (error) {
+          console.error("NEYRA like error:", error);
+          showToast("حصل خطأ في الإعجاب. حاول تاني.");
+        } finally {
+          button.disabled = false;
         }
       });
+
 
       function goTo(section) {
         if (section === "home") {
