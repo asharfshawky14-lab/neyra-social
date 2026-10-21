@@ -555,22 +555,33 @@
       text-align: right;
     }
 
+
     .primary-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 7px;
-      padding: 11px 16px;
-      border: 0;
-      border-radius: 12px;
-      color: white;
-      background: linear-gradient(110deg,#7544d4,#9c67f8);
-      box-shadow: 0 5px 20px rgba(117,68,212,.18);
+      gap: 8px;
+      min-height: 46px;
+      padding: 12px 18px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      color: #fff;
+      background: linear-gradient(115deg, #7544d4, #a578ff);
+      box-shadow: 0 7px 24px rgba(117,68,212,.25);
       font-weight: 700;
-      font-size: 13px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform .2s, filter .2s, box-shadow .2s;
     }
 
-    .primary-btn:hover { filter: brightness(1.12); }
+    .primary-btn:hover {
+      filter: brightness(1.12);
+      box-shadow: 0 9px 28px rgba(117,68,212,.35);
+    }
+
+    .primary-btn:active {
+      transform: scale(.98);
+    }
 
     .feed-tabs {
       display: flex;
