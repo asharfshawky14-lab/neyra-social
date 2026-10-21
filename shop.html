@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080611">
+  <meta name="description" content="متجر NERA الرسمي - عناصر نادرة وإطارات وشارات وتأثيرات أسطورية لمجتمع NEYRA.">
+  <title>NERA STORE | NEYRA</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="shop.css">
+  <script src="shop.js" defer></script>
+</head>
+
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <div class="stars" aria-hidden="true"></div>
+
+  <header class="store-header">
+    <a class="brand" href="index.html" aria-label="العودة إلى NEYRA">
+      <span class="brand-symbol">N</span>
+      <span class="brand-copy">
+        <strong>NERA<span> STORE</span></strong>
+        <small>THE NEXT LEVEL</small>
+      </span>
+    </a>
+
+    <div class="header-actions">
+      <div class="coin-balance" title="رصيد عملات NERA">
+        <span class="coin-icon">◆</span>
+        <span>
+          <small>رصيدك</small>
+          <strong id="coinBalance">— NERA</strong>
+        </span>
+      </div>
+
+      <a class="back-button" href="index.html">
+        <span>↩</span>
+        <span>العودة للمجتمع</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="store-main">
+    <section class="hero">
+      <div class="hero-grid"></div>
+      <div class="hero-content">
+        <div class="live-label">
+          <span class="live-dot"></span>
+          NERA DIGITAL UNIVERSE
+        </div>
+
+        <p class="hero-kicker">مش مجرد متجر...</p>
+        <h1>امتلك <span>الأسطورة</span></h1>
+        <p class="hero-description">
+          طوّر هويتك، اقتنص العناصر النادرة، وخلي حضورك في NEYRA مستحيل يتنسي.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#products" class="primary-button">
+            اكتشف العناصر <span>↙</span>
+          </a>
+          <div class="hero-stat">
+            <strong>12</strong>
+            <span>عنصر مميز</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="hero-core">
+          <div class="core-inner">
+            <span class="core-diamond">◆</span>
+            <strong>NERA</strong>
+            <small>RARE COLLECTION</small>
+          </div>
+        </div>
+        <span class="floating-gem gem-one">✦</span>
+        <span class="floating-gem gem-two">◇</span>
+        <span class="floating-gem gem-three">✧</span>
+      </div>
+
+      <div class="hero-bottom-line">
+        <span>DESIGNED FOR THE DIFFERENT</span>
+        <span>01 / NERA UNIVERSE</span>
+      </div>
+    </section>
+
+    <section class="collection-heading" id="products">
+      <div>
+        <span class="eyebrow">THE COLLECTION</span>
+        <h2>اختار <span>أسطورتك</span></h2>
+        <p>كل تفصيلة بتفرق. اختار العنصر اللي يعبّر عنك.</p>
+      </div>
+      <div class="collection-count">
+        <strong id="productCount">12</strong>
+        <span>عنصر في المجموعة</span>
+      </div>
+    </section>
+
+    <section class="shop-toolbar">
+      <label class="search-box">
+        <span>⌕</span>
+        <input id="productSearch" type="search" placeholder="دور على العنصر اللي في بالك..." autocomplete="off">
+      </label>
+
+      <div class="filter-list" role="group" aria-label="تصنيف المنتجات">
+        <button class="filter-btn active" data-filter="all" type="button">الكل <span>12</span></button>
+        <button class="filter-btn" data-filter="frames" type="button">إطارات</button>
+        <button class="filter-btn" data-filter="badges" type="button">شارات</button>
+        <button class="filter-btn" data-filter="effects" type="button">تأثيرات أسماء</button>
+      </div>
+    </section>
+
+    <section class="featured-strip">
+      <div class="featured-icon">✦</div>
+      <div>
+        <strong>اجمع مجموعتك الخاصة</strong>
+        <p>عناصر مميزة لهويتك داخل مجتمع NEYRA.</p>
+      </div>
+      <span class="featured-tag">YOUR IDENTITY</span>
+    </section>
+
+    <section class="product-grid" id="productGrid" aria-live="polite">
+
+      <article class="product-card" data-category="frames" data-name="إطار النيون الملكي">
+        <div class="product-visual visual-frame purple">
+          <span class="rarity">✦ نادر</span>
+          <div class="avatar-preview frame-purple"><span>A</span></div>
+          <span class="visual-caption">ROYAL NEON</span>
+        </div>
+        <div class="product-info">
+          <div class="product-type">PROFILE FRAME</div>
+          <h3>إطار النيون الملكي</h3>
+          <p>حضور بنفسجي يلفت الأنظار.</p>
+          <div class="product-footer">
+            <span class="price"><b>◆</b> <strong>250</strong> NERA</span>
+            <button class="preview-btn" type="button" data-preview="إطار النيون الملكي">معاينة ↗</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card" data-category="frames" data-name="إطار سايبر سماوي">
+        <div class="product-visual visual-frame cyan">
+          <span class="rarity">✧ مميز</span>
+          <div class="avatar-preview frame-cyan"><span>N</span></div>
+          <span class="visual-caption">CYBER WAVE</span>
+        </div>
+        <div class="product-info">
+          <div class="product-type">PROFILE FRAME</div>
+          <h3>إطار سايبر سماوي</h3>
+          <p>طاقة سماوية بطابع مستقبلي.</p>
+          <div class="product-footer">
+            <span class="price"><b>◆</b> <strong>200</strong> NERA</span>
+            <button class="preview-btn" type="button" data-preview="إطار سايبر سماوي">معاينة ↗</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card" data-category="frames" data-name="إطار المجرة">
+        <div class="product-visual visual-frame galaxy">
+          <span class="rarity">✦ ملحمي</span>
+          <div class="avatar-preview frame-galaxy"><span>✦</span></div>
+          <span class="visual-caption">DEEP GALAXY</span>
+        </div>
+        <div class="product-info">
+          <div class="product-type">PROFILE FRAME</div>
+          <h3>إطار المجرة</h3>
+          <p>لمسة كونية مختلفة لهويتك.</p>
+          <div class="product-footer">
+            <span class="price"><b>◆</b> <strong>350</strong> NERA</span>
+            <button class="preview-btn" type="button" data-preview="إطار المجرة">معاينة ↗</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card" data-category="frames" data-name="إطار الظل الأسود">
+        <div class="product-visual visual-frame shadow">
+          <span class="rarity">✧ نادر</span>
+          <div class="avatar-preview frame-shadow"><span>V</span></div>
+          <span class="visual-caption">DARK MATTER</span>
+        </div>
+        <div class="product-info">
+          <div class="product-type">PROFILE FRAME</div>
+          <h3>إطار الظل الأسود</h3>
+          <p>أناقة داكنة بتفاصيل مضيئة.</p>
+          <div class="product-footer">
+            <span class="price"><b>◆</b> <strong>300</strong> NERA</span>
+            <button class="preview-btn" type="button" data-preview="إطار الظل الأسود">معاينة ↗</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card" data-category="badges" data-name="شارة الأسطورة">
+        <div class="product-visual visual-badge purple">
+          <span class="rarity">✦ أسطوري</span>
+          <div class="badge-emblem emblem-purple">♛</div>
+          <span class="visual-caption">THE LEGEND</span>
+        </div>
+        <div class="product-info">
+          <div class="product-type">ACHIEVEMENT BADGE</div>
+          <h3>شارة الأسطورة</h3>
+          <p>رمز للتميز وسط المجتمع.</p>
+          <div class="product-footer">
+            <span class="price"><b>◆</b> <strong>500</strong> NERA</span>
+            <button class="preview-btn" type="button" data-preview="شارة الأسطورة">معاينة ↗</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card" data-category="badges" data-name="شارة النخبة">
+        <div class="product-visual visual-badge cyan">
+          <span class="rarity">✧ مميز</span>
+          <div class="badge-emblem emblem-cyan">✪</div>
+          <span class="visual-caption">ELITE MEMBER</span>
+        </div>
+        <div class="product-info">
+          <div class="product-type">ACHIEVEMENT BADGE</div>
+          <h3>شارة النخبة</h3>
+          <p>للي بيصنعوا فرق حقيقي.</p>
+          <div class="product-footer">
+            <span class="price"><b>◆</b> <strong>300</strong> NERA</span>
+            <button class="preview-btn" type="button" data-preview="شارة النخبة">معاينة ↗</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card" data-category="badges" data-name="شارة البرق">
+        <div class="product-visual visual-badge electric">
+          <span class="rarity">✦ نادر</span>
+          <div class="badge-emblem emblem-electric">ϟ</div>
+          <span class="visual-caption">LIGHTNING</span>
+        </div>
+        <div class="product-info">
+          <div class="product-type">ACHIEVEMENT BADGE</div>
+          <h3>شارة البرق</h3>
+          <p>سرعة وطاقة وشخصية قوية.</p>
+          <div class="product-footer">
+            <span class="price"><b>◆</b> <strong>220</strong> NERA</span>
+            <button class="preview-btn" type="button" data-preview="شارة البرق">معاينة ↗</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card" data-category="badges" data-name="شارة النجم">
+        <div class="product-visual visual-badge gold">
+          <span class="rarity">✧ مميز</span>
+          <div class="badge-emblem emblem-gold">★</div>
+          <span class="visual-caption">RISING STAR</span>
+        </div>
+        <div class="product-info">
+          <div class="product-type">ACHIEVEMENT BADGE</div>
+          <h3>شارة النجم</h3>
+          <p>خلي تميزك يتشاف من بعيد.</p>
+          <div class="product-footer">
+            <span class="price"><b>◆</b> <strong>180</strong> NERA</span>
+            <button class="preview-btn" type="button" data-preview="شارة النجم">معاينة ↗</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card" data-category="effects" data-name="تأثير الاسم السام">
+        <div class="product-visual visual-effect toxic">
+          <span class="rarity">✦ نادر</span>
+          <div class="name-preview toxic-text">YOUR NAME</div>
+          <span class="visual-caption">TOXIC GLOW</span>
+        </div>
+        <div class="product-info">
+          <div class="product-type">NAME EFFECT</div>
+          <h3>تأثير الاسم السام</h3>
+          <p>توهج أخضر بطابع سايبر.</p>
+          <div class="product-footer">
+            <span class="price"><b>◆</b> <strong>250</strong> NERA</span>
+            <button class="preview-btn" type="button" data-preview="تأثير الاسم السام">معاينة ↗</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card" data-category="effects" data-name="تأثير الاسم النيون">
+        <div class="product-visual visual-effect neon">
+          <span class="rarity">✧ مميز</span>
+          <div class="name-preview neon-text">YOUR NAME</div>
+          <span class="visual-caption">NEON PULSE</span>
+        </div>
+        <div class="product-info">
+          <div class="product-type">NAME EFFECT</div>
+          <h3>تأثير الاسم النيون</h3>
+          <p>نبضات بنفسجية وسماوية.</p>
+          <div class="product-footer">
+            <span class="price"><b>◆</b> <strong>320</strong> NERA</span>
+            <button class="preview-btn" type="button" data-preview="تأثير الاسم النيون">معاينة ↗</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card" data-category="effects" data-name="تأثير الاسم الناري">
+        <div class="product-visual visual-effect fire">
+          <span class="rarity">✦ ملحمي</span>
+          <div class="name-preview fire-text">YOUR NAME</div>
+          <span class="visual-caption">FIRE STORM</span>
+        </div>
+        <div class="product-info">
+          <div class="product-type">NAME EFFECT</div>
+          <h3>تأثير الاسم الناري</h3>
+          <p>وهج مشتعل يعبّر عن القوة.</p>
+          <div class="product-footer">
+            <span class="price"><b>◆</b> <strong>400</strong> NERA</span>
+            <button class="preview-btn" type="button" data-preview="تأثير الاسم الناري">معاينة ↗</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card" data-category="effects" data-name="تأثير الاسم الشبح">
+        <div class="product-visual visual-effect ghost">
+          <span class="rarity">✧ نادر</span>
+          <div class="name-preview ghost-text">YOUR NAME</div>
+          <span class="visual-caption">PHANTOM MODE</span>
+        </div>
+        <div class="product-info">
+          <div class="product-type">NAME EFFECT</div>
+          <h3>تأثير الاسم الشبح</h3>
+          <p>طابع غامض ولمعة متحركة.</p>
+          <div class="product-footer">
+            <span class="price"><b>◆</b> <strong>280</strong> NERA</span>
+            <button class="preview-btn" type="button" data-preview="تأثير الاسم الشبح">معاينة ↗</button>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <div class="empty-state" id="emptyState" hidden>
+      <span>⌕</span>
+      <h3>ملقيناش العنصر ده</h3>
+      <p>جرّب كلمة تانية أو اختار تصنيف مختلف.</p>
+    </div>
+
+    <section class="bottom-banner">
+      <div class="banner-symbol">N</div>
+      <div>
+        <span class="eyebrow">WELCOME TO THE NEXT LEVEL</span>
+        <h2>هويتك. أسلوبك. <span>عالمك.</span></h2>
+        <p>NERA — جزء من تجربة NEYRA.</p>
+      </div>
+      <a href="index.html" class="banner-link">ارجع للمجتمع ↗</a>
+    </section>
+
+    <footer class="store-footer">
+      <span>NERA STORE © 2026</span>
+      <span>BUILT FOR THE NEYRA COMMUNITY ✦</span>
+    </footer>
+  </main>
+
+  <div class="preview-modal" id="previewModal" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" type="button" data-close-modal aria-label="إغلاق">×</button>
+      <span class="eyebrow">ITEM PREVIEW</span>
+      <div class="modal-icon">✦</div>
+      <h2 id="modalTitle">معاينة العنصر</h2>
+      <p>دي معاينة للعنصر داخل متجر NERA. الشراء هيتفعل بعد ربط الرصيد والمخزون بشكل آمن.</p>
+      <button class="primary-button modal-ok" type="button" data-close-modal>تمام</button>
+    </section>
+  </div>
+</body>
+</html>
