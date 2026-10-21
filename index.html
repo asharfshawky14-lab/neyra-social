@@ -1786,6 +1786,9 @@
         <button class="nav-link" data-nav="profile">
           <span class="nav-icon">♙</span> ملفي الشخصي
         </button>
+                <button class="nav-link" data-nav="shop">
+          <span class="nav-icon">💎</span> متجر نيرا
+                </button>
       </nav>
 
       <section class="panel side-box">
@@ -1854,6 +1857,126 @@
         </button>
         <button class="primary-btn" id="createBtn">＋ انشر</button>
       </section>
+      
+      <!-- متجر نيرا -->
+      <section id="shop" class="panel" style="padding:20px;margin-bottom:24px;">
+        <div class="section-heading" style="margin-top:0;">
+          <div>
+            <h2>💎 متجر NERA</h2>
+            <p>اجمع نيرا من المهمات وافتح مقتنياتك الأسطورية.</p>
+          </div>
+          <strong style="color:#c4a4ff;">NERA</strong>
+        </div>
+
+        <div class="feed-tabs" style="margin-bottom:20px;">
+          <button class="tab active" data-shop-filter="all">الكل</button>
+          <button class="tab" data-shop-filter="frames">إطارات البروفايل</button>
+          <button class="tab" data-shop-filter="badges">شارات الإنجاز</button>
+          <button class="tab" data-shop-filter="names">تأثيرات الاسم</button>
+        </div>
+
+        <div id="shopProducts"
+          style="display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:14px;">
+
+          <article class="panel" data-product-category="frames" style="padding:12px;">
+            <div style="font-size:48px;text-align:center;padding:18px 0;">🔥</div>
+            <strong>إطار اللهب الأسطوري</strong>
+            <p style="color:var(--muted);font-size:13px;">إطار ناري مميز لصورة البروفايل.</p>
+            <strong style="color:#ffad66;">50,000 NERA</strong>
+            <button class="primary-btn" style="width:100%;margin-top:12px;" disabled>قريبًا</button>
+          </article>
+
+          <article class="panel" data-product-category="frames" style="padding:12px;">
+            <div style="font-size:48px;text-align:center;padding:18px 0;">💎</div>
+            <strong>إطار الكريستال</strong>
+            <p style="color:var(--muted);font-size:13px;">تصميم بنفسجي لامع.</p>
+            <strong style="color:#c4a4ff;">25,000 NERA</strong>
+            <button class="primary-btn" style="width:100%;margin-top:12px;" disabled>قريبًا</button>
+          </article>
+
+          <article class="panel" data-product-category="frames" style="padding:12px;">
+            <div style="font-size:48px;text-align:center;padding:18px 0;">👑</div>
+            <strong>الإطار الملكي</strong>
+            <p style="color:var(--muted);font-size:13px;">مظهر ذهبي فاخر.</p>
+            <strong style="color:#f5d580;">100,000 NERA</strong>
+            <button class="primary-btn" style="width:100%;margin-top:12px;" disabled>قريبًا</button>
+          </article>
+
+          <article class="panel" data-product-category="frames" style="padding:12px;">
+            <div style="font-size:48px;text-align:center;padding:18px 0;">⚡</div>
+            <strong>إطار الطاقة</strong>
+            <p style="color:var(--muted);font-size:13px;">ستايل مستقبلي كهربائي.</p>
+            <strong style="color:#72e7f4;">35,000 NERA</strong>
+            <button class="primary-btn" style="width:100%;margin-top:12px;" disabled>قريبًا</button>
+          </article>
+
+          <article class="panel" data-product-category="badges" style="padding:12px;">
+            <div style="font-size:48px;text-align:center;padding:18px 0;">🧭</div>
+            <strong>شارة المستكشف</strong>
+            <p style="color:var(--muted);font-size:13px;">شارة مميزة بجانب اسمك.</p>
+            <strong style="color:#c4a4ff;">15,000 NERA</strong>
+            <button class="primary-btn" style="width:100%;margin-top:12px;" disabled>قريبًا</button>
+          </article>
+
+          <article class="panel" data-product-category="badges" style="padding:12px;">
+            <div style="font-size:48px;text-align:center;padding:18px 0;">🏆</div>
+            <strong>شارة الأسطوري</strong>
+            <p style="color:var(--muted);font-size:13px;">للمقتنيات المميزة.</p>
+            <strong style="color:#f5d580;">150,000 NERA</strong>
+            <button class="primary-btn" style="width:100%;margin-top:12px;" disabled>قريبًا</button>
+          </article>
+
+          <article class="panel" data-product-category="badges" style="padding:12px;">
+            <div style="font-size:48px;text-align:center;padding:18px 0;">🐉</div>
+            <strong>شارة حارس العوالم</strong>
+            <p style="color:var(--muted);font-size:13px;">رمز نادر لهويتك.</p>
+            <strong style="color:#c4a4ff;">200,000 NERA</strong>
+            <button class="primary-btn" style="width:100%;margin-top:12px;" disabled>قريبًا</button>
+          </article>
+
+          <article class="panel" data-product-category="badges" style="padding:12px;">
+            <div style="font-size:48px;text-align:center;padding:18px 0;">🌌</div>
+            <strong>شارة سيد المجرة</strong>
+            <p style="color:var(--muted);font-size:13px;">شارة فائقة الندرة.</p>
+            <strong style="color:#72e7f4;">300,000 NERA</strong>
+            <button class="primary-btn" style="width:100%;margin-top:12px;" disabled>قريبًا</button>
+          </article>
+
+          <article class="panel" data-product-category="names" style="padding:12px;">
+            <div style="font-size:48px;text-align:center;padding:18px 0;">🔥</div>
+            <strong>الاسم الناري</strong>
+            <p style="color:var(--muted);font-size:13px;">تأثير لهب متحرك للاسم.</p>
+            <strong style="color:#ffad66;">200,000 NERA</strong>
+            <button class="primary-btn" style="width:100%;margin-top:12px;" disabled>قريبًا</button>
+          </article>
+
+          <article class="panel" data-product-category="names" style="padding:12px;">
+            <div style="font-size:48px;text-align:center;padding:18px 0;">⚡</div>
+            <strong>الاسم الكهربائي</strong>
+            <p style="color:var(--muted);font-size:13px;">شرارات وتأثير طاقة.</p>
+            <strong style="color:#72e7f4;">150,000 NERA</strong>
+            <button class="primary-btn" style="width:100%;margin-top:12px;" disabled>قريبًا</button>
+          </article>
+
+          <article class="panel" data-product-category="names" style="padding:12px;">
+            <div style="font-size:48px;text-align:center;padding:18px 0;">💜</div>
+            <strong>الاسم الكريستالي</strong>
+            <p style="color:var(--muted);font-size:13px;">وهج بنفسجي متحرك.</p>
+            <strong style="color:#c4a4ff;">100,000 NERA</strong>
+            <button class="primary-btn" style="width:100%;margin-top:12px;" disabled>قريبًا</button>
+          </article>
+
+          <article class="panel" data-product-category="names" style="padding:12px;">
+            <div style="font-size:48px;text-align:center;padding:18px 0;">🥇</div>
+            <strong>الاسم الذهبي</strong>
+            <p style="color:var(--muted);font-size:13px;">لمعان معدني فاخر.</p>
+            <strong style="color:#f5d580;">75,000 NERA</strong>
+            <button class="primary-btn" style="width:100%;margin-top:12px;" disabled>قريبًا</button>
+          </article>
+
+        </div>
+      </section>
+      
 
       <!-- الخلاصة -->
       <section id="feed">
