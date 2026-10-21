@@ -1713,16 +1713,6 @@ window.NEYRAAuth = {
           toastBox.classList.remove("show");
         }, 2400);
       }
-      loadSavedPosts();
-
-      function showToast(message) {
-        toastBox.textContent = message;
-        toastBox.classList.add("show");
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => {
-          toastBox.classList.remove("show");
-        }, 2400);
-      }
 
       function enterSite() {
         if (!intro) return;
