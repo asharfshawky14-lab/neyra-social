@@ -2773,7 +2773,7 @@ editPostForm.addEventListener("submit", async event => {
     showToast("تم تعديل المنشور بنجاح.");
   } catch (error) {
     console.error("NEYRA edit post error:", error);
-showToast("خطأ الحفظ: " + JSON.stringify(error));
+showToast("خطأ الحفظ: " + (error.message || error.details || error.hint || "راجع Console"));
   } finally {
     saveButton.disabled = false;
     saveButton.textContent = "حفظ التعديلات";
