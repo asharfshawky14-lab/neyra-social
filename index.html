@@ -2354,15 +2354,39 @@ async function loadSavedPosts() {
 
           article.append(head, body);
 
-          if (item.post_type === "image" && item.image_url) {
-            const image = document.createElement("img");
-            image.src = item.image_url;
-            image.alt = "صورة المنشور";
-            image.loading = "lazy";
-            image.style.cssText =
-              "display:block;width:100%;max-height:420px;" +
-              "object-fit:contain;border-radius:14px;margin:12px 0;";
-            article.append(image);
+          if (item.post_type === "image") {
+            const savedImageUrls = Array.isArray(item.image_urls)
+              ? item.image_urls
+              : [];
+
+            const imageUrls = savedImageUrls.length
+              ? savedImageUrls
+              : (item.image_url ? [item.image_url] : []);
+
+            if (imageUrls.length) {
+              const imagesBox = document.createElement("div");
+              imagesBox.style.cssText =
+                "display:grid;grid-template-columns:repeat(2,minmax(0,1fr));" +
+                "gap:8px;margin:12px 0;";
+
+              imageUrls.forEach((url, index) => {
+                const image = document.createElement("img");
+                image.src = url;
+                image.alt = "صورة المنشور " + (index + 1);
+                image.loading = "lazy";
+                image.style.cssText =
+                  "width:100%;height:220px;object-fit:cover;" +
+                  "border-radius:14px;background:#0c0c15;";
+
+                image.onerror = () => {
+                  image.style.display = "none";
+                };
+
+                imagesBox.appendChild(image);
+              });
+
+              article.append(imagesBox);
+            }
           }
 
           const postLikes = likes.filter(like => like.post_id === item.id);
