@@ -2992,9 +2992,16 @@ username.textContent = profile?.full_name ||
             }
 
 const heading = commentsBox?.querySelector(".comments-heading");
+const count = list?.querySelectorAll(".post-comment").length || 0;
+
 if (heading) {
-  const count = list?.querySelectorAll(".post-comment").length || 0;
   heading.textContent = "التعليقات (" + count + ")";
+}
+
+const commentCount = post.querySelector(".comment-count");
+
+if (commentCount) {
+  commentCount.textContent = count;
 }
 
             input.value = "";
