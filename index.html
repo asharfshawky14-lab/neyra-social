@@ -2030,25 +2030,6 @@ async function loadSavedPosts() {
 
           article.append(actions);
 
-          const postComments = commentsByPost.get(item.id) || [];
-          const commentsBox = document.createElement("div");
-          commentsBox.className = "post-comments";
-          commentsBox.style.cssText =
-            "margin-top:12px;display:flex;flex-direction:column;gap:10px;";
-
-          postComments.forEach(comment => {
-            const commentProfile = profileById.get(comment.user_id);
-            const commentRow = document.createElement("div");
-
-            commentRow.className = "post-comment";
-            commentRow.style.cssText =
-              "padding:10px;border-radius:10px;background:rgba(127,127,127,.08);";
-
-            const commentName = document.createElement("strong");
-            commentName.textContent =
-              commentProfile?.full_name ||
-              commentProfile?.username ||
-              "عضو NEYRA";
 
            const postComments = commentsByPost.get(item.id) || [];
           const commentsBox = document.createElement("div");
