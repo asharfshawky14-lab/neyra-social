@@ -314,8 +314,15 @@ function renderProfile(profile) {
   $("displayName").textContent = fullName;
   $("usernamePreview").textContent =
     "@" + (profile.username || "user");
+  
   $("bioPreview").textContent =
     profile.bio || "أهلاً بيك في مجتمع NEYRA";
+
+  const coinBalance = Number(profile.coin_balance ?? 0);
+
+  $("profileCoinBalance").textContent =
+    coinBalance.toLocaleString("en-US");
+
 
   const avatar = $("avatarPreview");
   avatar.replaceChildren();
