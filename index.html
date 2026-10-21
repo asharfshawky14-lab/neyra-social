@@ -1510,6 +1510,97 @@
         padding-left: 12px;
       }
     }
+    /* NEYRA Comments Modal Header */
+    .post-comments[hidden] {
+      display: none !important;
+    }
+
+    .comments-modal-header {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(165, 120, 255, .2);
+      background: #151022;
+      direction: rtl;
+    }
+
+    .comments-modal-title {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .comments-modal-title strong {
+      color: #fff;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .comments-modal-title span {
+      color: #aaa0c2;
+      font-size: 12px;
+    }
+
+    .comments-modal-close {
+      flex: 0 0 40px;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 13px;
+      background: #241b35;
+      color: #fff;
+      font-size: 27px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .comments-modal-close:hover {
+      background: #7041d8;
+    }
+
+    .comments-modal > .post-comments {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      min-height: 0;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      overflow: hidden;
+    }
+
+    .comments-modal > .post-comments > .comments-heading {
+      display: none;
+    }
+
+    .comments-modal .comments-list {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+    }
+
+    .comments-modal .comment-composer {
+      flex: 0 0 auto;
+    }
+
+    @media (max-width: 600px) {
+      .comments-modal-header {
+        padding: 15px 13px;
+      }
+
+      .comments-modal-title strong {
+        font-size: 17px;
+      }
+
+      .comments-modal-title span {
+        font-size: 11px;
+      }
+    }      
   </style>
 
 </head>
