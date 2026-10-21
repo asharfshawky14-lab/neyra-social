@@ -2849,9 +2849,6 @@ username.textContent = profile?.full_name ||
         imagePreview.replaceChildren();
         imageField.hidden = true;
         closeModal();
-
-        closeModal();
-
         activeFilter = "all";
         document.querySelectorAll(".tab").forEach(tab => {
           tab.classList.toggle("active", tab.dataset.filter === "all");
