@@ -1,0 +1,265 @@
+
+/* =========================================
+   NEYRA — ELITE ENERGY EFFECTS
+   Shared visual effects for all site pages
+   ========================================= */
+
+:root {
+  --nera-purple: #a100ff;
+  --nera-violet: #7000ff;
+  --nera-cyan: #00f5ff;
+  --nera-blue: #287bff;
+  --nera-white: #ffffff;
+}
+
+/* الشارة الأساسية */
+.nera-elite-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  margin-inline: 5px;
+  vertical-align: middle;
+  border: 1px solid rgba(0, 245, 255, 0.9);
+  border-radius: 8px;
+  background:
+    linear-gradient(
+      145deg,
+      #250044 0%,
+      #6500ff 48%,
+      #061d56 100%
+    );
+  color: var(--nera-white);
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1;
+  box-shadow:
+    0 0 5px #ffffff,
+    0 0 12px var(--nera-cyan),
+    0 0 22px var(--nera-purple),
+    inset 0 0 8px rgba(255, 255, 255, 0.5);
+  animation: nera-elite-core 1.8s ease-in-out infinite;
+}
+
+/* الهالة الخارجية */
+.nera-elite-badge::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -6px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 245, 255, 0.8);
+  box-shadow:
+    0 0 8px var(--nera-cyan),
+    0 0 17px var(--nera-purple),
+    inset 0 0 12px rgba(161, 0, 255, 0.65);
+  animation: nera-elite-aura 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* حلقات الطاقة */
+.nera-elite-badge::after {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  inset: -4px;
+  border: 2px solid rgba(0, 245, 255, 0.85);
+  border-radius: 50%;
+  opacity: 0;
+  animation: nera-elite-wave 2s ease-out infinite;
+  pointer-events: none;
+}
+
+/* الرمز الداخلي */
+.nera-elite-badge__icon {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  color: #ffffff;
+  text-shadow:
+    0 0 4px #ffffff,
+    0 0 9px var(--nera-cyan),
+    0 0 15px var(--nera-purple);
+  animation: nera-elite-spark 1.1s ease-in-out infinite;
+}
+
+/* ومضات كهربائية حول الشارة */
+.nera-elite-badge__bolt {
+  position: absolute;
+  z-index: 3;
+  width: 3px;
+  height: 9px;
+  border-radius: 3px;
+  background: #ffffff;
+  box-shadow:
+    0 0 5px #ffffff,
+    0 0 10px var(--nera-cyan),
+    0 0 15px var(--nera-purple);
+  pointer-events: none;
+  animation: nera-elite-bolt 1.4s steps(2, end) infinite;
+}
+
+.nera-elite-badge__bolt--one {
+  top: -5px;
+  right: 2px;
+  transform: rotate(35deg);
+}
+
+.nera-elite-badge__bolt--two {
+  bottom: -4px;
+  left: 1px;
+  transform: rotate(40deg);
+  animation-delay: 0.6s;
+}
+
+/* لمعة تمر فوق الشارة */
+.nera-elite-badge__shine {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.nera-elite-badge__shine::after {
+  content: "";
+  position: absolute;
+  top: -35%;
+  left: -80%;
+  width: 45%;
+  height: 170%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.95),
+    rgba(0, 245, 255, 0.85),
+    transparent
+  );
+  transform: rotate(25deg);
+  animation: nera-elite-shine 2.4s ease-in-out infinite;
+}
+
+/* النبض الرئيسي */
+@keyframes nera-elite-core {
+  0%, 100% {
+    filter: brightness(1);
+    box-shadow:
+      0 0 5px #ffffff,
+      0 0 12px var(--nera-cyan),
+      0 0 22px var(--nera-purple),
+      inset 0 0 8px rgba(255, 255, 255, 0.5);
+  }
+
+  50% {
+    filter: brightness(1.55);
+    box-shadow:
+      0 0 8px #ffffff,
+      0 0 18px var(--nera-cyan),
+      0 0 30px var(--nera-purple),
+      0 0 42px rgba(40, 123, 255, 0.65),
+      inset 0 0 12px #ffffff;
+  }
+}
+
+/* تمدد الهالة */
+@keyframes nera-elite-aura {
+  0%, 100% {
+    transform: scale(0.92) rotate(0deg);
+    opacity: 0.65;
+  }
+
+  50% {
+    transform: scale(1.16) rotate(8deg);
+    opacity: 1;
+  }
+}
+
+/* موجات الطاقة الدائرية */
+@keyframes nera-elite-wave {
+  0% {
+    transform: scale(0.75);
+    opacity: 0.95;
+  }
+
+  100% {
+    transform: scale(2.05);
+    opacity: 0;
+  }
+}
+
+/* بريق الرمز */
+@keyframes nera-elite-spark {
+  0%, 100% {
+    transform: scale(1) rotate(-5deg);
+    filter: brightness(1);
+  }
+
+  50% {
+    transform: scale(1.18) rotate(5deg);
+    filter: brightness(1.8);
+  }
+}
+
+/* ومضات البرق */
+@keyframes nera-elite-bolt {
+  0%, 75%, 100% {
+    opacity: 0.25;
+    filter: brightness(1);
+  }
+
+  78%, 84% {
+    opacity: 1;
+    filter: brightness(2);
+  }
+}
+
+/* حركة اللمعة */
+@keyframes nera-elite-shine {
+  0%, 15% {
+    left: -80%;
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  55%, 100% {
+    left: 140%;
+    opacity: 0;
+  }
+}
+
+/* حجم أصغر للأسماء والتعليقات */
+.nera-elite-badge--small {
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  border-radius: 6px;
+  margin-inline: 3px;
+}
+
+/* حجم أكبر للبروفايل */
+.nera-elite-badge--large {
+  width: 34px;
+  height: 34px;
+  font-size: 20px;
+  border-radius: 10px;
+}
+
+/* تقليل الحركة للأجهزة التي تطلب ذلك */
+@media (prefers-reduced-motion: reduce) {
+  .nera-elite-badge,
+  .nera-elite-badge::before,
+  .nera-elite-badge::after,
+  .nera-elite-badge__icon,
+  .nera-elite-badge__bolt,
+  .nera-elite-badge__shine::after {
+    animation: none !important;
+  }
+  }
