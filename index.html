@@ -1618,7 +1618,7 @@ window.NEYRAAuth = {
       };
 
       async function loadSavedPosts() {
-        const { data, error } = await supabase
+  const { data, error } = await supabase
           .from("posts")
           .select("id, user_id, content, world, visibility, post_type, image_url, created_at")
           .eq("visibility", "public")
@@ -1703,6 +1703,16 @@ window.NEYRAAuth = {
         applyFilters();
       }
 
+      loadSavedPosts();
+
+      function showToast(message) {
+        toastBox.textContent = message;
+        toastBox.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toastBox.classList.remove("show");
+        }, 2400);
+      }
       loadSavedPosts();
 
       function showToast(message) {
