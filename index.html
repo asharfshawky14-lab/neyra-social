@@ -2033,11 +2033,36 @@
         </p>
 
         <button class="primary-btn" type="submit" style="width:100%">
-          نشر تجريبي
+          نشر 
         </button>
       </form>
     </div>
   </div>
+  
+  <!-- نافذة تعديل المنشور -->
+  <div class="modal" id="editPostModal" role="dialog"
+       aria-modal="true" aria-labelledby="editPostTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2 id="editPostTitle">تعديل المنشور</h2>
+        <button class="close-btn" id="cancelEditPost" type="button"
+                aria-label="إلغاء التعديل">✕</button>
+      </div>
+
+      <form id="editPostForm">
+        <div class="field">
+          <label for="editPostText">محتوى المنشور</label>
+          <textarea id="editPostText" maxlength="1000"
+                    placeholder="عدّل منشورك هنا..." required></textarea>
+        </div>
+
+        <button class="primary-btn" type="submit" style="width:100%">
+          حفظ التعديلات
+        </button>
+      </form>
+    </div>
+  </div>
+
 
   <div class="toast" id="toast" role="status"></div>
 
