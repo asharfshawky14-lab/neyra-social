@@ -3666,6 +3666,12 @@ if (commentCount) {
           document.getElementById("feed").scrollIntoView({ behavior: "smooth" });
           return;
         }
+                if (section === "shop") {
+          document.getElementById("shop").scrollIntoView({
+            behavior: "smooth"
+          });
+          return;
+                }
 
         if (section === "saved") {
           showToast("المحفوظات هنا تجريبية، وليست مرتبطة بحساب.");
