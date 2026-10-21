@@ -1029,9 +1029,6 @@ async function loadInventory() {
     .select("product_id,purchased_at")
     .eq("user_id", session.user.id)
     .order("purchased_at", { ascending: false });
-    .select("product_id,purchased_at")
-    .eq("user_id", session.user.id)
-    .order("purchased_at", { ascending: false });
 
   if (inventoryError) throw inventoryError;
 
