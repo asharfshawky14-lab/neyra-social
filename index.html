@@ -2275,7 +2275,8 @@ async function loadSavedPosts() {
 
           const commentButton = document.createElement("button");
           commentButton.className = "post-action comment-btn";
-          commentButton.textContent = "◌ تعليق";
+commentButton.innerHTML =
+  '◌ تعليق <span class="comment-count">' + postComments.length + '</span>';
 
           const saveButton = document.createElement("button");
           saveButton.className = "post-action save-btn";
