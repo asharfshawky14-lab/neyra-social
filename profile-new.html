@@ -107,7 +107,7 @@ async function copyText(value,label){if(!value){notice("مفيش بيانات ل
 $("refreshBtn").addEventListener("click",loadProfile);$("copyUsernameBtn").addEventListener("click",()=>copyText(currentUsername?"@"+currentUsername:"","اسم المستخدم"));$("copyIdBtn").addEventListener("click",()=>copyText(currentUserId,"معرّف الحساب"));
 const modal=$("logoutModal");$("logoutBtn").addEventListener("click",()=>modal.classList.add("open"));$("cancelLogout").addEventListener("click",()=>modal.classList.remove("open"));modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("open")});document.addEventListener("keydown",e=>{if(e.key==="Escape")modal.classList.remove("open")});
 $("confirmLogout").addEventListener("click",async()=>{const button=$("confirmLogout");button.disabled=true;button.textContent="جارٍ تسجيل الخروج...";try{const {error}=await supabase.auth.signOut();if(error)throw error;location.replace(homeUrl)}catch(error){console.error(error);notice("تعذر تسجيل الخروج. اتأكد من الاتصال وحاول مرة تانية.","error");modal.classList.remove("open");button.disabled=false;button.textContent="أيوه، خروج"}});
-supabase.auth.onAuthStateChange((event)=>{if(event==="SIGNED_OUT"&&location.pathname.endsWith("/profile-new.html"))location.replace(loginUrl)});
+supabase.auth.onAuthStateChange((event)=>{if(event==="SIGNED_OUT"&&!isLoggingOut&&location.pathname.endsWith("/profile-new.html"))location.replace(loginUrl)});
 loadProfile();
 </script>
 </body>
