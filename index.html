@@ -2438,7 +2438,7 @@ username.textContent = profile?.full_name ||
       // معالج موحد لأزرار المنشورات في NEYRA
       postsContainer.addEventListener("click", async event => {
         const button = event.target.closest(
-          ".like-btn, .comment-btn, .save-btn, .share-btn"
+          ".like-btn, .comment-btn, .comment-send, .save-btn, .share-btn"
         );
 
         if (!button || !postsContainer.contains(button)) return;
