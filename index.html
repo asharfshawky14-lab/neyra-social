@@ -2360,7 +2360,62 @@ async function loadSavedPosts() {
               "border-radius:10px;background:#21182f;color:#fff;font-size:24px;" +
               "cursor:pointer;display:flex;align-items:center;justify-content:center;";
 
-            head.appendChild(postMenuButton);
+            const postMenuWrap = document.createElement("div");
+            postMenuWrap.style.cssText =
+              "position:relative;margin-right:auto;flex-shrink:0;";
+
+            const postMenu = document.createElement("div");
+            postMenu.className = "post-menu";
+            postMenu.hidden = true;
+            postMenu.style.cssText =
+              "position:absolute;top:42px;left:0;z-index:1000;width:170px;" +
+              "padding:6px;border:1px solid #594477;border-radius:12px;" +
+              "background:#171323;box-shadow:0 10px 30px #0008;";
+
+            const editPostButton = document.createElement("button");
+            editPostButton.type = "button";
+            editPostButton.textContent = "✏️ تعديل المنشور";
+
+            const deletePostButton = document.createElement("button");
+            deletePostButton.type = "button";
+            deletePostButton.textContent = "🗑️ حذف المنشور";
+
+            [editPostButton, deletePostButton].forEach(button => {
+              button.style.cssText =
+                "display:block;width:100%;padding:11px 9px;text-align:right;" +
+                "border:0;border-radius:8px;background:transparent;color:#fff;" +
+                "font-size:13px;cursor:pointer;";
+            });
+
+            postMenu.append(editPostButton, deletePostButton);
+            postMenuWrap.append(postMenuButton, postMenu);
+            head.appendChild(postMenuWrap);
+
+            postMenuButton.addEventListener("click", event => {
+              event.stopPropagation();
+              document.querySelectorAll(".post-menu").forEach(menu => {
+                if (menu !== postMenu) menu.hidden = true;
+              });
+              postMenu.hidden = !postMenu.hidden;
+            });
+
+            postMenu.addEventListener("click", event => {
+              event.stopPropagation();
+            });
+
+            document.addEventListener("click", () => {
+              postMenu.hidden = true;
+            });
+
+            editPostButton.addEventListener("click", () => {
+              showToast("هنفعّل تعديل المنشور في الخطوة التالية.");
+              postMenu.hidden = true;
+            });
+
+            deletePostButton.addEventListener("click", () => {
+              showToast("هنفعّل حذف المنشور في الخطوة التالية.");
+              postMenu.hidden = true;
+            });
           }
 
           const body = document.createElement("p");
