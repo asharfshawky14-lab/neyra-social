@@ -872,6 +872,48 @@ ${item.product_id === "elite-badge" ? `
       openDetails(button.dataset.details);
     });
   });
+    grid.querySelectorAll("[data-toggle-elite-badge]").forEach(button => {
+    button.addEventListener("click", async () => {
+      if (badgeBusy) return;
+
+      const nextBadge =
+        activeBadge === "elite-badge" ? null : "elite-badge";
+
+      badgeBusy = true;
+      render();
+
+      try {
+        const {
+          data: { session },
+          error: sessionError
+        } = await supabase.auth.getSession();
+
+        if (sessionError) throw sessionError;
+        if (!session) throw new Error("سجّل دخولك من جديد.");
+
+        const { error } = await supabase
+          .from("profiles")
+          .update({ active_badge: nextBadge })
+          .eq("id", session.user.id);
+
+        if (error) throw error;
+
+        activeBadge = nextBadge;
+
+        showToast(
+          activeBadge
+            ? "تم تفعيل شارة النخبة ✦"
+            : "تم إيقاف شارة النخبة"
+        );
+      } catch (error) {
+        console.error("NEYRA badge toggle failed:", error);
+        showToast(error.message || "تعذر تغيير حالة الشارة.");
+      } finally {
+        badgeBusy = false;
+        render();
+      }
+    });
+  });
 }
 
 function safeDate(value) {
