@@ -2064,12 +2064,70 @@
 const postText = document.getElementById("postText");
 const postCategory = document.getElementById("postCategory");
 const postType = document.getElementById("postType");
+
 const imageField = document.getElementById("imageField");
-const postImageUrl = document.getElementById("postImageUrl");
+const postImages = document.getElementById("postImages");
+const imagePreview = document.getElementById("imagePreview");
+let selectedImages = [];
 
 postType.addEventListener("change", () => {
   imageField.hidden = postType.value !== "image";
 });
+
+postImages.addEventListener("change", () => {
+  const files = Array.from(postImages.files || []);
+
+  if (files.length > 6) {
+    showToast("اختار 6 صور بحد أقصى.");
+    postImages.value = "";
+    return;
+  }
+
+  if (files.some(file => !file.type.startsWith("image/"))) {
+    showToast("اختار ملفات صور فقط.");
+    postImages.value = "";
+    return;
+  }
+
+  if (files.some(file => file.size > 5 * 1024 * 1024)) {
+    showToast("حجم كل صورة لازم يكون 5 ميجابايت أو أقل.");
+    postImages.value = "";
+    return;
+  }
+
+  selectedImages = files;
+  imagePreview.replaceChildren();
+
+  selectedImages.forEach((file, index) => {
+    const item = document.createElement("div");
+    item.style.cssText =
+      "display:inline-flex;flex-direction:column;gap:6px;margin:5px;";
+
+    const image = document.createElement("img");
+    image.src = URL.createObjectURL(file);
+    image.alt = "معاينة الصورة " + (index + 1);
+    image.style.cssText =
+      "width:90px;height:90px;object-fit:cover;border-radius:12px;";
+
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.textContent = "حذف الصورة";
+    removeButton.style.cssText =
+      "padding:6px;border:1px solid #594477;border-radius:8px;color:white;background:#21182f;";
+
+    removeButton.addEventListener("click", () => {
+      selectedImages.splice(index, 1);
+      const transfer = new DataTransfer();
+      selectedImages.forEach(file => transfer.items.add(file));
+      postImages.files = transfer.files;
+      postImages.dispatchEvent(new Event("change"));
+    });
+
+    item.append(image, removeButton);
+    imagePreview.append(item);
+  });
+});
+
       const postsContainer = document.getElementById("posts");
       const searchInput = document.getElementById("searchInput");
       const emptyState = document.getElementById("emptyState");
