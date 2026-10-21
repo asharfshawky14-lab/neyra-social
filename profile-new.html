@@ -84,7 +84,7 @@ const SUPABASE_URL="https://aboenvwqlzmbjyqisarb.supabase.co";
 const SUPABASE_KEY="sb_publishable_-U554BTwIf6tP-DA9uRgCg_5w5_XtU3";
 const supabase=createClient(SUPABASE_URL,SUPABASE_KEY),$=id=>document.getElementById(id);
 const loginUrl=new URL("login.html",location.href).href,homeUrl=new URL("index.html?skipIntro=1",location.href).href;
-let currentUsername="",currentUserId="";
+let currentUsername="",currentUserId="",isLoggingOut=false;
 function notice(message,type="info"){const box=$("notice");box.textContent=message;box.className="notice show "+type}
 function safeAvatarUrl(value){if(!value)return"";try{const u=new URL(value);return u.protocol==="https:"?u.href:""}catch{return""}}
 function dateLabel(value){if(!value)return"غير متاح";const d=new Date(value);if(Number.isNaN(d.getTime()))return"غير متاح";return new Intl.DateTimeFormat("ar-EG",{year:"numeric",month:"long",day:"numeric"}).format(d)}
