@@ -134,6 +134,55 @@ document.addEventListener("DOMContentLoaded", () => {
       closePreview();
     }
   });
+    // صور المنتجات الحقيقية من ملفات GitHub
+  const productImages = {
+    "إطار النيون الملكي": "avatar-frame-royal.png",
+    "إطار سايبر سماوي": "avatar-frame-royal.png",
+    "إطار المجرة": "crystal-energy.png",
+    "إطار الظل الأسود": "shield-cyber.png",
+
+    "شارة الأسطورة": "badge-legendary.png",
+    "شارة النخبة": "shield-cyber.png",
+    "شارة البرق": "crystal-energy.png",
+    "شارة النجم": "wings-cyber.png",
+
+    "تأثير الاسم السام": "name-neon-legendary.png",
+    "تأثير الاسم النيون": "name-neon-legendary.png",
+    "تأثير الاسم الناري": "crystal-energy.png",
+    "تأثير الاسم الشبح": "wings-cyber.png"
+  };
+
+  productCards.forEach((card) => {
+    const productName = card.dataset.name;
+    const imageName = productImages[productName];
+    const visual = card.querySelector(".product-visual");
+
+    if (!imageName || !visual) return;
+
+    const image = document.createElement("img");
+    image.src = imageName;
+    image.alt = productName;
+    image.loading = "lazy";
+
+    image.style.cssText = [
+      "display:block",
+      "width:100%",
+      "height:190px",
+      "object-fit:contain",
+      "padding:14px",
+      "box-sizing:border-box",
+      "position:relative",
+      "z-index:2"
+    ].join(";");
+
+    visual.querySelectorAll(".avatar-preview, .badge-emblem, .name-preview")
+      .forEach((oldShape) => oldShape.remove());
+
+    visual.insertBefore(
+      image,
+      visual.querySelector(".visual-caption")
+    );
+  });
 
   // تحديث عدد المنتجات الظاهرة عند فتح المتجر.
   updateProducts();
