@@ -696,7 +696,9 @@ const toast = document.getElementById("toast");
 let items = [];
 let activeFilter = "all";
 let toastTimer;
-
+let activeBadge = null;
+let badgeBusy = false;
+  
 document.getElementById("year").textContent =
   new Date().getFullYear();
 
@@ -843,13 +845,24 @@ function render() {
         <h3>${escapeHtml(item.name)}</h3>
         <p>${escapeHtml(item.description || "قطعة رقمية من مقتنياتك الخاصة.")}</p>
         <div class="card-actions">
-          <button class="action primary" data-details="${escapeHtml(item.product_id)}">
-            عرض التفاصيل ↗
-          </button>
-          <button class="action secondary" data-details="${escapeHtml(item.product_id)}" aria-label="تفاصيل المنتج">
-            ⌕
-          </button>
-        </div>
+  <button class="action primary" data-details="${escapeHtml(item.product_id)}">
+    عرض التفاصيل ↗
+  </button>
+  <button class="action secondary" data-details="${escapeHtml(item.product_id)}" aria-label="تفاصيل المنتج">
+    ⌕
+  </button>
+</div>
+${item.product_id === "elite-badge" ? `
+  <button
+    class="action ${activeBadge === "elite-badge" ? "secondary" : "primary"}"
+    data-toggle-elite-badge
+    type="button"
+    style="width:100%;margin-top:9px"
+    ${badgeBusy ? "disabled" : ""}
+  >
+    ${badgeBusy ? "جارٍ الحفظ..." : activeBadge === "elite-badge" ? "⚡ إيقاف شارة النخبة" : "✦ تفعيل شارة النخبة"}
+  </button>
+` : ""}
       </div>
     </article>
   `).join("");
