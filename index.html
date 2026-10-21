@@ -1050,13 +1050,30 @@
 
     .modal-head h2 { margin: 0; font-size: 18px; }
 
+
     .close-btn {
-      width: 35px;
-      height: 35px;
+      display: grid;
+      flex: 0 0 38px;
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      place-items: center;
       border: 1px solid var(--border);
-      border-radius: 10px;
-      color: white;
-      background: var(--panel2);
+      border-radius: 12px;
+      color: #fff;
+      background: rgba(255,255,255,.04);
+      font-size: 19px;
+      cursor: pointer;
+      transition: background .2s, border-color .2s, transform .2s;
+    }
+
+    .close-btn:hover {
+      background: rgba(255,90,120,.12);
+      border-color: rgba(255,90,120,.55);
+    }
+
+    .close-btn:active {
+      transform: scale(.94);
     }
 
     .field { margin-bottom: 15px; }
