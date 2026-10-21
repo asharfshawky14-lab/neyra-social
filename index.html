@@ -2050,17 +2050,141 @@ async function loadSavedPosts() {
               commentProfile?.username ||
               "عضو NEYRA";
 
-            const commentText = document.createElement("p");
-            commentText.textContent = comment.content || "";
-            commentText.style.cssText = "margin:5px 0 0;";
+           const postComments = commentsByPost.get(item.id) || [];
+          const commentsBox = document.createElement("div");
+          commentsBox.className = "post-comments";
+          commentsBox.hidden = true;
 
-            commentRow.append(commentName, commentText);
-            commentsBox.append(commentRow);
+          const commentsHeading = document.createElement("div");
+          commentsHeading.className = "comments-heading";
+          commentsHeading.textContent =
+            "التعليقات (" + postComments.length + ")";
+
+          const commentsList = document.createElement("div");
+          commentsList.className = "comments-list";
+
+          const repliesByComment = new Map();
+
+          postComments.forEach(comment => {
+            const parentId = comment.parent_comment_id || null;
+
+            if (!repliesByComment.has(parentId)) {
+              repliesByComment.set(parentId, []);
+            }
+
+            repliesByComment.get(parentId).push(comment);
           });
 
-          if (postComments.length) {
-            article.append(commentsBox);
+          function createCommentElement(comment) {
+            const profile = profileById.get(comment.user_id);
+            const row = document.createElement("div");
+            row.className = "post-comment";
+            row.dataset.commentId = comment.id;
+
+            const avatar = document.createElement("div");
+            avatar.className = "comment-avatar";
+
+            if (profile?.avatar_url) {
+              const avatarImage = document.createElement("img");
+              avatarImage.src = profile.avatar_url;
+              avatarImage.alt = "";
+              avatarImage.loading = "lazy";
+              avatar.append(avatarImage);
+            } else {
+              avatar.textContent = (
+                profile?.full_name ||
+                profile?.username ||
+                "ع"
+              ).trim().charAt(0) || "ع";
+            }
+
+            const main = document.createElement("div");
+            main.className = "comment-main";
+
+            const bubble = document.createElement("div");
+            bubble.className = "comment-bubble";
+
+            const name = document.createElement("div");
+            name.className = "comment-user";
+            name.textContent =
+              profile?.full_name ||
+              profile?.username ||
+              "عضو NEYRA";
+
+            const content = document.createElement("div");
+            content.className = "comment-content";
+            content.textContent = comment.content || "";
+
+            bubble.append(name, content);
+
+            const meta = document.createElement("div");
+            meta.className = "comment-meta";
+
+            const date = document.createElement("span");
+            date.textContent = comment.created_at
+              ? new Date(comment.created_at).toLocaleDateString("ar-EG", {
+                  day: "numeric",
+                  month: "short"
+                })
+              : "";
+
+            const replyButton = document.createElement("button");
+            replyButton.type = "button";
+            replyButton.className = "comment-action reply-comment-btn";
+            replyButton.textContent = "رد";
+            replyButton.dataset.commentId = comment.id;
+            replyButton.dataset.postId = comment.post_id;
+
+            meta.append(date, replyButton);
+            main.append(bubble, meta);
+            row.append(avatar, main);
+
+            const replies = repliesByComment.get(comment.id) || [];
+
+            if (replies.length) {
+              const repliesBox = document.createElement("div");
+              repliesBox.className = "comment-replies";
+
+              replies.forEach(reply => {
+                repliesBox.append(createCommentElement(reply));
+              });
+
+              row.append(repliesBox);
+            }
+
+            return row;
           }
+
+          const topLevelComments = repliesByComment.get(null) || [];
+
+          if (topLevelComments.length) {
+            topLevelComments.forEach(comment => {
+              commentsList.append(createCommentElement(comment));
+            });
+          } else {
+            const empty = document.createElement("div");
+            empty.className = "comment-empty";
+            empty.textContent = "لسه مفيش تعليقات. كن أول واحد يعلّق!";
+            commentsList.append(empty);
+          }
+
+          const composer = document.createElement("div");
+          composer.className = "comment-composer";
+
+          const commentInput = document.createElement("textarea");
+          commentInput.className = "comment-input";
+          commentInput.placeholder = "اكتب تعليقك...";
+          commentInput.rows = 2;
+          commentInput.maxLength = 2000;
+
+          const sendCommentButton = document.createElement("button");
+          sendCommentButton.type = "button";
+          sendCommentButton.className = "comment-send";
+          sendCommentButton.textContent = "إرسال";
+
+          composer.append(commentInput, sendCommentButton);
+          commentsBox.append(commentsHeading, commentsList, composer);
+          article.append(commentsBox);
 
           postsContainer.prepend(article);
         }
