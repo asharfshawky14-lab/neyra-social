@@ -99,7 +99,17 @@ async function loadProfile(){
   currentUserId=user.id;$("userEmail").textContent=user.email||"البريد الإلكتروني غير متاح";$("userId").textContent=user.id;$("createdAt").textContent=dateLabel(user.created_at);$("joinPill").textContent="انضممت في "+dateLabel(user.created_at);
     const {data:profile,error:profileError}=await supabase.from("profiles").select("id, username, full_name, bio, avatar_url, created_at, coin_balance, active_badge").eq("id",user.id).maybeSingle();if(profileError)throw profileError;
   const meta=user.user_metadata||{},username=profile?.username||meta.username||(user.email||"neyra_user").split("@")[0],fullName=profile?.full_name||meta.full_name||meta.name||username||"مستخدم NEYRA";
-  currentUsername=username;$("profileTitle").textContent=fullName;$("usernamePreview").textContent="@"+username;$("accountUsername").textContent="@"+username;$("bioPreview").textContent=profile?.bio||"أهلاً بيك في مجتمع NEYRA ✦";$("coinBalance").textContent=Number(profile?.coin_balance??0).toLocaleString("en-US");renderAvatar(profile||{},user);
+  currentUsername=username;
+$("profileTitle").textContent=fullName;
+
+const eliteBadge = window.NEYRAEffects.createEliteBadge(
+  profile?.active_badge,
+  "large"
+);
+
+if (eliteBadge) {
+  $("profileTitle").append(" ", eliteBadge);
+}$("usernamePreview").textContent="@"+username;$("accountUsername").textContent="@"+username;$("bioPreview").textContent=profile?.bio||"أهلاً بيك في مجتمع NEYRA ✦";$("coinBalance").textContent=Number(profile?.coin_balance??0).toLocaleString("en-US");renderAvatar(profile||{},user);
   const {count,error:inventoryError}=await supabase.from("nera_inventory").select("id",{count:"exact",head:true}).eq("user_id",user.id);$("itemCount").textContent=inventoryError?"—":Number(count||0).toLocaleString("en-US");
   if(inventoryError){console.warn("Inventory count unavailable:",inventoryError);notice("تم تحميل معلومات الحساب. عدد المقتنيات غير متاح حاليًا، لكن تقدر تفتح حقيبتك.","info")}else notice("أهلاً بيك في NEYRA — بيانات حسابك اتحدثت بنجاح.","success");
  }catch(error){console.error(error);notice("حصلت مشكلة أثناء تحميل بيانات الحساب. جرّب تحديث الصفحة، ولو استمرت راجع اتصال Supabase.","error")}
