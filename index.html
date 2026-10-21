@@ -2747,6 +2747,16 @@ editPostForm.addEventListener("submit", async event => {
   saveButton.textContent = "جاري الحفظ...";
 
   try {
+    const { data: userData, error: userError } = await supabase.auth.getUser();
+
+if (userError) throw userError;
+
+const loggedInUser = userData.user;
+
+if (!loggedInUser) {
+  showToast("سجّل الدخول الأول.");
+  return;
+}
     const { data, error } = await supabase
       .from("posts")
       .update({ content: newContent })
