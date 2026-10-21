@@ -2772,7 +2772,6 @@ editPostForm.addEventListener("submit", async event => {
     editPostForm.reset();
     showToast("تم تعديل المنشور بنجاح.");
   } catch (error) {
-  } catch (error) {
     console.error("NEYRA edit post error:", error);
     showToast("خطأ الحفظ: " + (error.message || "خطأ غير معروف"));
   } finally {
