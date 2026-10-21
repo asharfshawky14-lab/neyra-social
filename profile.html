@@ -355,9 +355,10 @@ function renderProfile(profile) {
       $("userEmail").textContent =
         user.email || "البريد الإلكتروني غير متاح";
 
+      
       const { data, error } = await supabase
         .from("profiles")
-        .select("id, username, full_name, bio, avatar_url, created_at")
+        .select("id, username, full_name, bio, avatar_url, created_at, coin_balance")
         .eq("id", user.id)
         .maybeSingle();
 
