@@ -254,6 +254,33 @@
       background: var(--panel);
       font-size: 18px;
     }
+    
+    .shop-top-btn {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      flex: 0 0 auto;
+      place-items: center;
+      border: 1px solid rgba(165, 120, 255, .7);
+      border-radius: 13px;
+      color: #fff;
+      background: linear-gradient(145deg, rgba(126, 72, 220, .4), rgba(37, 22, 64, .95));
+      box-shadow: 0 0 12px rgba(165, 120, 255, .25),
+                  inset 0 0 10px rgba(165, 120, 255, .12);
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .shop-top-btn span {
+      font-size: 20px;
+      filter: drop-shadow(0 0 5px rgba(190, 140, 255, .85));
+    }
+
+    .shop-top-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 18px rgba(165, 120, 255, .45);
+    }
+
 
     .avatar {
       display: grid;
