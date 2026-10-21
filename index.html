@@ -2444,10 +2444,60 @@ async function loadSavedPosts() {
               setTimeout(() => editText.focus(), 100);
             });
 
-            deletePostButton.addEventListener("click", () => {
-              showToast("هنفعّل حذف المنشور في الخطوة التالية.");
-              postMenu.hidden = true;
-            });
+
+deletePostButton.addEventListener("click", async () => {
+  postMenu.hidden = true;
+
+  const confirmed = confirm(
+    "هل أنت متأكد إنك عايز تحذف المنشور؟ لا يمكن التراجع عن الحذف."
+  );
+
+  if (!confirmed) return;
+
+  deletePostButton.disabled = true;
+  deletePostButton.textContent = "جاري الحذف...";
+
+  try {
+    const { data: userData, error: userError } =
+      await supabase.auth.getUser();
+
+    if (userError) throw userError;
+
+    const loggedInUser = userData.user;
+
+    if (!loggedInUser) {
+      showToast("سجّل الدخول الأول.");
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("posts")
+      .delete()
+      .eq("id", item.id)
+      .eq("user_id", loggedInUser.id)
+      .select("id");
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      showToast("لم يتم حذف المنشور. راجع صلاحيات الحساب.");
+      return;
+    }
+
+    article.remove();
+    showToast("تم حذف المنشور بنجاح.");
+  } catch (error) {
+    console.error("NEYRA delete post error:", error);
+    showToast(
+      "خطأ الحذف: " +
+      (error.message || error.details || "راجع Console")
+    );
+  } finally {
+    deletePostButton.disabled = false;
+    deletePostButton.textContent = "🗑️ حذف المنشور";
+  }
+});
+
           }
 
           const body = document.createElement("p");
