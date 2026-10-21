@@ -2015,10 +2015,16 @@
     placeholder="اكتب فكرتك أو سؤالك هنا..." required></textarea>
 </div>
 
+
 <div class="field" id="imageField" hidden>
-  <label for="postImageUrl">رابط الصورة</label>
-  <input id="postImageUrl" type="url"
-    placeholder="https://example.com/image.jpg">
+  <label for="postImages">اختار صور من معرض الموبايل</label>
+  <input
+    id="postImages"
+    type="file"
+    accept="image/*"
+    multiple
+  >
+  <div id="imagePreview" class="image-preview"></div>
 </div>
 
         <p class="modal-note">
