@@ -2761,7 +2761,7 @@ if (!loggedInUser) {
       .from("posts")
       .update({ content: newContent })
       .eq("id", postId)
-      .eq("user_id", currentUser.id)
+.eq("user_id", loggedInUser.id)
       .select("id");
 
     if (error) throw error;
