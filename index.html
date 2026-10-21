@@ -2535,6 +2535,39 @@ username.textContent = profile?.full_name ||
 
           return;
         }
+                if (button.classList.contains("reply-comment-btn")) {
+          const commentRow = button.closest(".post-comment");
+          if (!commentRow) return;
+
+          const existingComposer = post.querySelector(
+            ".comment-reply-composer"
+          );
+
+          if (existingComposer) {
+            existingComposer.remove();
+          }
+
+          const composer = document.createElement("div");
+          composer.className = "comment-composer comment-reply-composer";
+          composer.dataset.parentCommentId = button.dataset.commentId;
+
+          const input = document.createElement("textarea");
+          input.className = "comment-input";
+          input.placeholder = "اكتب ردك هنا...";
+          input.rows = 2;
+          input.maxLength = 2000;
+
+          const send = document.createElement("button");
+          send.type = "button";
+          send.className = "comment-send";
+          send.textContent = "إرسال الرد";
+
+          composer.append(input, send);
+          commentRow.append(composer);
+          input.focus();
+
+          return;
+        }
                 if (button.classList.contains("comment-send")) {
           const commentsBox = button.closest(".post-comments");
           const input = commentsBox?.querySelector(".comment-input");
