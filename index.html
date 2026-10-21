@@ -2597,50 +2597,33 @@ username.textContent = profile?.full_name ||
 
             if (error) throw error;
 
-            const empty = list?.querySelector(".comment-empty");
-            if (empty) empty.remove();
+            if (parentCommentId) {
+              const parentRow = post.querySelector(
+                '.post-comment[data-comment-id="' + parentCommentId + '"]'
+              );
 
-            const row = document.createElement("div");
-            row.className = "post-comment";
-            row.dataset.commentId = savedComment.id;
+              if (!parentRow) {
+                showToast("تم حفظ الرد. حدّث الصفحة لعرضه.");
+                input.value = "";
+                return;
+              }
 
-            const avatar = document.createElement("div");
-            avatar.className = "comment-avatar";
-            avatar.textContent = "أ";
+              let repliesBox = parentRow.querySelector(
+                ":scope > .comment-replies"
+              );
 
-            const main = document.createElement("div");
-            main.className = "comment-main";
+              if (!repliesBox) {
+                repliesBox = document.createElement("div");
+                repliesBox.className = "comment-replies";
+                parentRow.append(repliesBox);
+              }
 
-            const bubble = document.createElement("div");
-            bubble.className = "comment-bubble";
-
-            const name = document.createElement("div");
-            name.className = "comment-user";
-            name.textContent = user.user_metadata?.full_name ||
-              user.user_metadata?.name ||
-              user.email?.split("@")[0] ||
-              "عضو NEYRA";
-
-            const text = document.createElement("div");
-            text.className = "comment-content";
-            text.textContent = savedComment.content;
-
-            bubble.append(name, text);
-
-            const meta = document.createElement("div");
-            meta.className = "comment-meta";
-
-            const reply = document.createElement("button");
-            reply.type = "button";
-            reply.className = "comment-action reply-comment-btn";
-            reply.textContent = "رد";
-            reply.dataset.commentId = savedComment.id;
-            reply.dataset.postId = postId;
-
-            meta.append(reply);
-            main.append(bubble, meta);
-            row.append(avatar, main);
-            list?.append(row);
+              repliesBox.append(row);
+            } else {
+              const empty = list?.querySelector(".comment-empty");
+              if (empty) empty.remove();
+              list?.append(row);
+            }
 
             const heading = commentsBox?.querySelector(".comments-heading");
             if (heading) {
