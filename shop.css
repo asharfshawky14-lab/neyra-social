@@ -776,6 +776,13 @@ input:focus-visible {
   font-size: 9px;
   backdrop-filter: blur(8px);
 }
+.rarity-coin {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-left: 3px;
+}
 
 .visual-caption {
   position: absolute;
@@ -1388,9 +1395,10 @@ input:focus-visible {
     padding: 7px 9px;
   }
 
-  .coin-icon {
-    font-size: 19px;
-  }
+.coin-icon {
+  width: 20px;
+  height: 20px;
+}
 
   .coin-balance small {
     font-size: 9px;
