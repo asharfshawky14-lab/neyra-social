@@ -1395,10 +1395,10 @@ input:focus-visible {
     padding: 7px 9px;
   }
 
-.coin-icon {
-  width: 20px;
-  height: 20px;
-}
+  .coin-icon {
+    width: 20px;
+    height: 20px;
+  }
 
   .coin-balance small {
     font-size: 9px;
