@@ -1398,6 +1398,119 @@
     }
 
   </style>
+      /* NEYRA - Professional Comments Modal */
+    .comments-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(5, 4, 12, .78);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .comments-modal-overlay[hidden] {
+      display: none !important;
+    }
+
+    .comments-modal {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 600px;
+      height: min(760px, 88dvh);
+      min-height: 300px;
+      overflow: hidden;
+      border: 1px solid rgba(165, 120, 255, .24);
+      border-radius: 22px;
+      background: #100d1c;
+      box-shadow: 0 24px 90px rgba(0, 0, 0, .55);
+      animation: commentsModalIn .22s ease-out;
+    }
+
+    .comments-modal .comments-heading {
+      flex: 0 0 auto;
+      padding: 19px 20px;
+      border-bottom: 1px solid rgba(165, 120, 255, .16);
+      font-size: 16px;
+    }
+
+    .comments-modal .comments-list {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: 18px;
+      scrollbar-width: thin;
+      scrollbar-color: #554071 transparent;
+    }
+
+    .comments-modal .comment-composer {
+      flex: 0 0 auto;
+      padding: 14px 16px;
+      padding-bottom: max(14px, env(safe-area-inset-bottom));
+      border-top: 1px solid rgba(165, 120, 255, .16);
+      background: #171225;
+    }
+
+    .comments-modal .comment-input {
+      background: #211b30;
+      border-radius: 16px;
+    }
+
+    .comments-modal .comment-send {
+      min-height: 42px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #9867ff, #7041d8);
+    }
+
+    body.comments-modal-open {
+      overflow: hidden;
+    }
+
+    @keyframes commentsModalIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .comments-modal-overlay {
+        padding: 0;
+        align-items: stretch;
+      }
+
+      .comments-modal {
+        width: 100%;
+        max-width: none;
+        height: 100dvh;
+        height: 100%;
+        min-height: 0;
+        border-radius: 0;
+        border: 0;
+      }
+
+      .comments-modal .comments-heading {
+        padding: 17px 16px;
+      }
+
+      .comments-modal .comments-list {
+        padding: 15px 12px;
+      }
+
+      .comments-modal .comment-composer {
+        padding-right: 12px;
+        padding-left: 12px;
+      }
+    }
     
 </head>
 
