@@ -1003,16 +1003,32 @@ async function loadInventory() {
 
   if (sessionError) throw sessionError;
 
-  if (!session) {
+    if (!session) {
     location.href = "login.html?redirect=my-items.html";
     return;
   }
+
+  const {
+    data: badgeProfile,
+    error: badgeProfileError
+  } = await supabase
+    .from("profiles")
+    .select("active_badge")
+    .eq("id", session.user.id)
+    .maybeSingle();
+
+  if (badgeProfileError) throw badgeProfileError;
+
+  activeBadge = badgeProfile?.active_badge || null;
 
   const {
     data: inventory,
     error: inventoryError
   } = await supabase
     .from("nera_inventory")
+    .select("product_id,purchased_at")
+    .eq("user_id", session.user.id)
+    .order("purchased_at", { ascending: false });
     .select("product_id,purchased_at")
     .eq("user_id", session.user.id)
     .order("purchased_at", { ascending: false });
