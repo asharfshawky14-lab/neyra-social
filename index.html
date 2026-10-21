@@ -2198,7 +2198,7 @@ window.NEYRAAuth = {
 async function loadSavedPosts() {
         const { data: posts, error } = await supabase
           .from("posts")
-          .select("id, user_id, content, world, visibility, post_type, image_url, created_at")
+.select("id, user_id, content, world, visibility, post_type, image_url, image_urls, created_at")
           .eq("visibility", "public")
           .order("created_at", { ascending: false });
 
