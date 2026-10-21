@@ -2923,9 +2923,12 @@ commentButton.innerHTML =
         document.documentElement.style.overflow = "";
       }
 
-      document.documentElement.style.overflow = "hidden";
-      setTimeout(enterSite, 3000);
-
+if (new URLSearchParams(window.location.search).has("skipIntro")) {
+  enterSite();
+} else {
+  document.documentElement.style.overflow = "hidden";
+  setTimeout(enterSite, 3000);
+}
       function openModal() {
         modal.classList.add("open");
         setTimeout(() => postText.focus(), 50);
