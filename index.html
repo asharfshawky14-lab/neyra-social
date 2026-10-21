@@ -2535,7 +2535,95 @@ username.textContent = profile?.full_name ||
 
           return;
         }
-        
+                if (button.classList.contains("comment-send")) {
+          const commentsBox = button.closest(".post-comments");
+          const input = commentsBox?.querySelector(".comment-input");
+          const list = commentsBox?.querySelector(".comments-list");
+          const content = input?.value.trim();
+
+          if (!content) {
+            showToast("اكتب التعليق الأول.");
+            input?.focus();
+            return;
+          }
+
+          button.disabled = true;
+
+          try {
+            const { data: savedComment, error } = await supabase
+              .from("comments")
+              .insert({
+                post_id: postId,
+                user_id: user.id,
+                content: content
+              })
+              .select("id, post_id, user_id, content, created_at, parent_comment_id")
+              .single();
+
+            if (error) throw error;
+
+            const empty = list?.querySelector(".comment-empty");
+            if (empty) empty.remove();
+
+            const row = document.createElement("div");
+            row.className = "post-comment";
+            row.dataset.commentId = savedComment.id;
+
+            const avatar = document.createElement("div");
+            avatar.className = "comment-avatar";
+            avatar.textContent = "أ";
+
+            const main = document.createElement("div");
+            main.className = "comment-main";
+
+            const bubble = document.createElement("div");
+            bubble.className = "comment-bubble";
+
+            const name = document.createElement("div");
+            name.className = "comment-user";
+            name.textContent = user.user_metadata?.full_name ||
+              user.user_metadata?.name ||
+              user.email?.split("@")[0] ||
+              "عضو NEYRA";
+
+            const text = document.createElement("div");
+            text.className = "comment-content";
+            text.textContent = savedComment.content;
+
+            bubble.append(name, text);
+
+            const meta = document.createElement("div");
+            meta.className = "comment-meta";
+
+            const reply = document.createElement("button");
+            reply.type = "button";
+            reply.className = "comment-action reply-comment-btn";
+            reply.textContent = "رد";
+            reply.dataset.commentId = savedComment.id;
+            reply.dataset.postId = postId;
+
+            meta.append(reply);
+            main.append(bubble, meta);
+            row.append(avatar, main);
+            list?.append(row);
+
+            const heading = commentsBox?.querySelector(".comments-heading");
+            if (heading) {
+              const count = list?.querySelectorAll(".post-comment").length || 0;
+              heading.textContent = "التعليقات (" + count + ")";
+            }
+
+            input.value = "";
+            showToast("تم نشر تعليقك بنجاح.");
+          } catch (error) {
+            console.error("NEYRA comment error:", error);
+            showToast("تعذر نشر التعليق. راجع صلاحيات جدول comments.");
+          } finally {
+            button.disabled = false;
+          }
+
+          return;
+                }
 
         button.disabled = true;
 
