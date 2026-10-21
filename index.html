@@ -2348,6 +2348,21 @@ async function loadSavedPosts() {
 
           head.append(avatar, user, badge);
 
+          if (currentUser && item.user_id === currentUser.id) {
+            const postMenuButton = document.createElement("button");
+            postMenuButton.type = "button";
+            postMenuButton.className = "post-menu-button";
+            postMenuButton.textContent = "⋮";
+            postMenuButton.title = "إعدادات المنشور";
+            postMenuButton.setAttribute("aria-label", "إعدادات المنشور");
+            postMenuButton.style.cssText =
+              "width:36px;height:36px;flex-shrink:0;border:1px solid #594477;" +
+              "border-radius:10px;background:#21182f;color:#fff;font-size:24px;" +
+              "cursor:pointer;display:flex;align-items:center;justify-content:center;";
+
+            head.appendChild(postMenuButton);
+          }
+
           const body = document.createElement("p");
           body.className = "post-body";
           body.textContent = item.content || "";
