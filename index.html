@@ -3721,6 +3721,26 @@ if (commentCount) {
         });
       });
       
+      const shopSection = document.getElementById("shop");
+      const shopTopBtn = document.getElementById("shopTopBtn");
+      const shopBackBtn = document.getElementById("shopBackBtn");
+
+      function openShop() {
+        document.body.classList.add("shop-view");
+        shopSection.hidden = false;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function closeShop() {
+        document.body.classList.remove("shop-view");
+        shopSection.hidden = true;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      shopTopBtn.addEventListener("click", openShop);
+      shopBackBtn.addEventListener("click", closeShop);
+
+      
       document.querySelectorAll("#shop [data-shop-filter]").forEach(button => {
         button.addEventListener("click", () => {
           const filter = button.dataset.shopFilter;
