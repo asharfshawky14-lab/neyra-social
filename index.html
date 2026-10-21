@@ -276,6 +276,24 @@
       margin: 25px auto 60px;
       align-items: start;
     }
+    
+    .shop-view .layout {
+      grid-template-columns: minmax(0, 1fr);
+      width: min(1000px, 94%);
+    }
+
+    .shop-view .layout > .side {
+      display: none !important;
+    }
+
+    .shop-view .main > :not(#shop) {
+      display: none !important;
+    }
+
+    .shop-view .main {
+      min-width: 0;
+    }
+
 
     .side {
       position: sticky;
