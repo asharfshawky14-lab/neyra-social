@@ -2468,9 +2468,15 @@ commentButton.innerHTML =
         setTimeout(() => postText.focus(), 50);
       }
 
-      function closeModal() {
-        modal.classList.remove("open");
-      }
+function closeModal() {
+  modal.classList.remove("open");
+}
+
+const closeModalBtn = document.getElementById("closeModal");
+
+if (closeModalBtn) {
+  closeModalBtn.addEventListener("click", closeModal);
+}
 
 const createBtn = document.getElementById("createBtn");
 const composerTrigger = document.getElementById("composerTrigger");
