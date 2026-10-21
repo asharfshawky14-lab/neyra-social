@@ -2437,6 +2437,7 @@ async function loadSavedPosts() {
               const editText = document.getElementById("editPostText");
 
               editText.value = item.content || "";
+              editModal.dataset.postId = item.id;
               editModal.classList.add("open");
               postMenu.hidden = true;
 
