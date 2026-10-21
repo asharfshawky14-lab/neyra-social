@@ -1068,21 +1068,35 @@
       font-size: 12px;
     }
 
+
     .field select, .field textarea, .field input {
+      display: block;
       width: 100%;
-      padding: 12px;
+      box-sizing: border-box;
+      padding: 13px 14px;
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       outline: none;
       color: white;
       background: #0c0c15;
+      font: inherit;
+      font-size: 14px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .field select:focus,
+    .field textarea:focus,
+    .field input:focus {
+      border-color: #a578ff;
+      box-shadow: 0 0 0 3px rgba(165,120,255,.12);
     }
 
     .field textarea {
-      min-height: 125px;
+      min-height: 150px;
       resize: vertical;
-      line-height: 1.8;
+      line-height: 1.9;
     }
+
 
     .field select option { background: #11111d; }
 
