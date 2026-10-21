@@ -2841,10 +2841,15 @@ username.textContent = profile?.full_name ||
         article.append(actions);
         postsContainer.prepend(article);
 
+
         postText.value = "";
         postType.value = "text";
-        postImageUrl.value = "";
+        postImages.value = "";
+        selectedImages = [];
+        imagePreview.replaceChildren();
         imageField.hidden = true;
+        closeModal();
+
         closeModal();
 
         activeFilter = "all";
