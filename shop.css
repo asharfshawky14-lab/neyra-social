@@ -184,8 +184,10 @@ input:focus-visible {
 }
 
 .coin-icon {
-  color: #67e8f9;
-  font-size: 25px;
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  flex-shrink: 0;
   filter: drop-shadow(0 0 8px rgba(34, 211, 238, .65));
 }
 
@@ -1034,9 +1036,12 @@ input:focus-visible {
   white-space: nowrap;
 }
 
-.price b {
-  color: var(--cyan);
-  font-size: 14px;
+.price-coin {
+  width: 17px;
+  height: 17px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 5px rgba(34, 211, 238, .4));
 }
 
 .price strong {
