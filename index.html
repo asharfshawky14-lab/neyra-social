@@ -2644,28 +2644,20 @@ postForm.addEventListener("submit", async event => {
         const text = postText.value.trim();
         const category = postCategory.value;
         const type = postType.value;
-const imageUrl = "";
+const imageUrl = null;
 
         if (!text) {
           showToast("اكتب محتوى المنشور الأول.");
           return;
         }
 
-        if (type === "image" && imageUrl) {
-          try {
-            const url = new URL(imageUrl);
-            if (url.protocol !== "https:" && url.protocol !== "http:") {
-              showToast("رابط الصورة غير صالح.");
-              return;
-            }
-          } catch {
-            showToast("اكتب رابط صورة صحيح يبدأ بـ https://");
-            return;
-          }
+        if (type === "image" && selectedImages.length === 0) {
+          showToast("اختار صورة واحدة على الأقل من المعرض.");
+          return;
         }
 
-        if (type === "image" && !imageUrl) {
-          showToast("أضف رابط الصورة الأول.");
+        if (type === "image" && selectedImages.length > 6) {
+          showToast("اختار 6 صور بحد أقصى.");
           return;
         }
 
