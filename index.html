@@ -2488,15 +2488,53 @@ username.textContent = profile?.full_name ||
         }
 
         if (button.classList.contains("comment-btn")) {
-          const commentText = window.prompt("اكتب تعليقك:");
+          let commentsBox = post.querySelector(".post-comments");
 
-          if (commentText === null) return;
+          if (!commentsBox) {
+            commentsBox = document.createElement("div");
+            commentsBox.className = "post-comments";
 
-          const content = commentText.trim();
-          if (!content) {
-            showToast("اكتب تعليق قبل الإرسال.");
-            return;
+            const heading = document.createElement("div");
+            heading.className = "comments-heading";
+            heading.textContent = "التعليقات";
+
+            const list = document.createElement("div");
+            list.className = "comments-list";
+
+            const empty = document.createElement("div");
+            empty.className = "comment-empty";
+            empty.textContent = "اكتب أول تعليق على المنشور.";
+
+            list.append(empty);
+
+            const composer = document.createElement("div");
+            composer.className = "comment-composer";
+
+            const input = document.createElement("textarea");
+            input.className = "comment-input";
+            input.placeholder = "اكتب تعليقك...";
+            input.rows = 2;
+            input.maxLength = 2000;
+
+            const send = document.createElement("button");
+            send.type = "button";
+            send.className = "comment-send";
+            send.textContent = "إرسال";
+
+            composer.append(input, send);
+            commentsBox.append(heading, list, composer);
+            post.append(commentsBox);
           }
+
+          commentsBox.hidden = !commentsBox.hidden;
+
+          if (!commentsBox.hidden) {
+            const input = commentsBox.querySelector(".comment-input");
+            if (input) input.focus();
+          }
+
+          return;
+        }
 
           button.disabled = true;
 
