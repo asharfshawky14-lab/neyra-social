@@ -134,22 +134,14 @@ document.addEventListener("DOMContentLoaded", () => {
       closePreview();
     }
   });
-    // صور المنتجات الحقيقية من ملفات GitHub
+  // المنتجات المتاحة حاليًا: 6 صور مختلفة بدون تكرار
   const productImages = {
     "إطار النيون الملكي": "avatar-frame-royal.png",
-    "إطار سايبر سماوي": "avatar-frame-royal.png",
-    "إطار المجرة": "crystal-energy.png",
-    "إطار الظل الأسود": "shield-cyber.png",
-
+    "إطار سايبر سماوي": "wings-cyber.png",
     "شارة الأسطورة": "badge-legendary.png",
     "شارة النخبة": "shield-cyber.png",
-    "شارة البرق": "crystal-energy.png",
-    "شارة النجم": "wings-cyber.png",
-
-    "تأثير الاسم السام": "name-neon-legendary.png",
     "تأثير الاسم النيون": "name-neon-legendary.png",
-    "تأثير الاسم الناري": "crystal-energy.png",
-    "تأثير الاسم الشبح": "wings-cyber.png"
+    "تأثير الاسم الناري": "crystal-energy.png"
   };
 
   productCards.forEach((card) => {
@@ -157,7 +149,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const imageName = productImages[productName];
     const visual = card.querySelector(".product-visual");
 
-    if (!imageName || !visual) return;
+    // إخفاء المنتجات التي لم تتوفر لها صورة بعد
+    if (!imageName || !visual) {
+      card.hidden = true;
+      return;
+    }
+
+    card.hidden = false;
 
     const image = document.createElement("img");
     image.src = imageName;
@@ -175,8 +173,9 @@ document.addEventListener("DOMContentLoaded", () => {
       "z-index:2"
     ].join(";");
 
-    visual.querySelectorAll(".avatar-preview, .badge-emblem, .name-preview")
-      .forEach((oldShape) => oldShape.remove());
+    visual.querySelectorAll(
+      ".avatar-preview, .badge-emblem, .name-preview"
+    ).forEach((oldShape) => oldShape.remove());
 
     visual.insertBefore(
       image,
@@ -185,6 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // تحديث عدد المنتجات الظاهرة عند فتح المتجر.
+  updateProducts();
   updateProducts();
 
   console.info("NERA Store initialized successfully.");
