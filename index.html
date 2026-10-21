@@ -2433,8 +2433,14 @@ async function loadSavedPosts() {
             });
 
             editPostButton.addEventListener("click", () => {
-              showToast("هنفعّل تعديل المنشور في الخطوة التالية.");
+              const editModal = document.getElementById("editPostModal");
+              const editText = document.getElementById("editPostText");
+
+              editText.value = item.content || "";
+              editModal.classList.add("open");
               postMenu.hidden = true;
+
+              setTimeout(() => editText.focus(), 100);
             });
 
             deletePostButton.addEventListener("click", () => {
