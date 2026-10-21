@@ -2714,6 +2714,72 @@ if (closeModalBtn) {
   closeModalBtn.addEventListener("click", closeModal);
 }
 
+
+const editPostModal = document.getElementById("editPostModal");
+const editPostForm = document.getElementById("editPostForm");
+const editPostText = document.getElementById("editPostText");
+const cancelEditPost = document.getElementById("cancelEditPost");
+
+cancelEditPost.addEventListener("click", () => {
+  editPostModal.classList.remove("open");
+  editPostForm.reset();
+});
+
+editPostModal.addEventListener("click", event => {
+  if (event.target === editPostModal) {
+    editPostModal.classList.remove("open");
+  }
+});
+
+editPostForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const postId = editPostModal.dataset.postId;
+  const newContent = editPostText.value.trim();
+
+  if (!postId || !newContent) {
+    showToast("اكتب محتوى المنشور الأول.");
+    return;
+  }
+
+  const saveButton = editPostForm.querySelector('button[type="submit"]');
+  saveButton.disabled = true;
+  saveButton.textContent = "جاري الحفظ...";
+
+  try {
+    const { data, error } = await supabase
+      .from("posts")
+      .update({ content: newContent })
+      .eq("id", postId)
+      .eq("user_id", currentUser.id)
+      .select("id");
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      showToast("لم يتم حفظ التعديل. راجع صلاحيات الحساب.");
+      return;
+    }
+
+    const article = postsContainer.querySelector(
+      '[data-post-id="' + postId + '"]'
+    );
+    const body = article?.querySelector(".post-body");
+
+    if (body) body.textContent = newContent;
+
+    editPostModal.classList.remove("open");
+    editPostForm.reset();
+    showToast("تم تعديل المنشور بنجاح.");
+  } catch (error) {
+    console.error("NEYRA edit post error:", error);
+    showToast("تعذر حفظ التعديل. حاول مرة أخرى.");
+  } finally {
+    saveButton.disabled = false;
+    saveButton.textContent = "حفظ التعديلات";
+  }
+});
+
 const createBtn = document.getElementById("createBtn");
 const composerTrigger = document.getElementById("composerTrigger");
 
