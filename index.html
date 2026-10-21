@@ -2661,7 +2661,8 @@ const imageUrl = null;
           return;
         }
 
-        // حفظ المنشور في قاعدة البيانات قبل عرضه
+
+        // التأكد من تسجيل الدخول
         const { data: sessionResult, error: sessionError } =
           await supabase.auth.getSession();
 
@@ -2671,7 +2672,39 @@ const imageUrl = null;
         }
 
         const currentUserId = sessionResult.session.user.id;
+        const uploadedImageUrls = [];
 
+        // رفع الصور المختارة إلى Supabase Storage
+        if (type === "image") {
+          for (const file of selectedImages) {
+            const extension =
+              file.name.split(".").pop()?.toLowerCase() || "jpg";
+            const filePath =
+              currentUserId + "/" + crypto.randomUUID() + "." + extension;
+
+            const { data: uploadData, error: uploadError } =
+              await supabase.storage
+                .from("neyra-post-images")
+                .upload(filePath, file, {
+                  contentType: file.type,
+                  upsert: false
+                });
+
+            if (uploadError || !uploadData) {
+              console.error("NEYRA image upload error:", uploadError);
+              showToast("رفع الصور فشل. حاول تاني.");
+              return;
+            }
+
+            const { data: publicUrlData } = supabase.storage
+              .from("neyra-post-images")
+              .getPublicUrl(uploadData.path);
+
+            uploadedImageUrls.push(publicUrlData.publicUrl);
+          }
+        }
+
+        // حفظ المنشور وروابط الصور في قاعدة البيانات
         const { data: savedPost, error: saveError } = await supabase
           .from("posts")
           .insert({
@@ -2680,10 +2713,12 @@ const imageUrl = null;
             world: category,
             visibility: "public",
             post_type: type,
-            image_url: type === "image" ? imageUrl : null
+            image_url: uploadedImageUrls[0] || null,
+            image_urls: uploadedImageUrls
           })
           .select("id")
           .single();
+
 
         if (saveError || !savedPost) {
           console.error("NEYRA post save error:", saveError);
