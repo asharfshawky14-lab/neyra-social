@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080B16">
+<title>حقيبتي | NEYRA</title>
+
+<style>
+:root {
+  --bg: #080b16;
+  --panel: #11172a;
+  --cyan: #67e8f9;
+  --purple: #b9a3ff;
+  --text: #f3f5ff;
+  --muted: #9ca8c5;
+  --border: rgba(137, 167, 255, .18);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  background:
+    radial-gradient(ellipse at 10% 0%, #24255266, transparent 38%),
+    radial-gradient(ellipse at 95% 35%, #07536a22, transparent 35%),
+    var(--bg);
+  font-family: system-ui, Tahoma, Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(#9cefff70 1px, transparent 1px);
+  background-size: 43px 43px;
+  opacity: .22;
+  animation: stars 25s linear infinite;
+}
+
+@keyframes stars {
+  to { background-position: 86px 129px; }
+}
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 12px #67e8f922; }
+  50% { box-shadow: 0 0 27px #67e8f944; }
+}
+
+@keyframes shine {
+  0% { transform: translateX(-160%) rotate(20deg); }
+  100% { transform: translateX(260%) rotate(20deg); }
+}
+
+a { color: inherit; text-decoration: none; }
+button, input, select { font: inherit; }
+
+.container {
+  width: min(1100px, calc(100% - 28px));
+  margin: auto;
+}
+
+/* Header */
+.header {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.brand-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  color: var(--cyan);
+  background: linear-gradient(135deg, #24294b, #123444);
+  border: 1px solid #4b8199;
+  box-shadow: 0 0 22px #54e5ff20;
+  font-size: 23px;
+}
+
+.brand small {
+  display: block;
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  margin-top: 3px;
+}
+
+.nav {
+  display: flex;
+  gap: 8px;
+}
+
+.nav a {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+  transition: .25s;
+  font-size: 19px;
+}
+
+.nav a:hover {
+  color: var(--cyan);
+  border-color: var(--cyan);
+  transform: translateY(-3px);
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  overflow: hidden;
+  margin: 26px 0 30px;
+  padding: clamp(22px, 5vw, 42px);
+  border-radius: 25px;
+  border: 1px solid #4a537b66;
+  background: linear-gradient(120deg, #171b32, #101a2b 65%, #102633);
+  animation: appear .65s ease both;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  top: -60%;
+  bottom: -60%;
+  left: -100px;
+  width: 75px;
+  background: linear-gradient(90deg, transparent, #a6f7ff12, transparent);
+  transform: rotate(20deg);
+  animation: shine 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.eyebrow {
+  color: var(--cyan);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.hero h1 {
+  font-size: clamp(30px, 6vw, 49px);
+  line-height: 1.3;
+  margin: 13px 0 10px;
+}
+
+.hero h1 span {
+  color: var(--cyan);
+  text-shadow: 0 0 25px #67e8f955;
+}
+
+.hero p {
+  max-width: 580px;
+  color: #b8c0da;
+  font-size: 14px;
+  line-height: 1.9;
+  margin: 0;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.stat {
+  flex: 1;
+  min-width: 120px;
+  padding: 14px;
+  background: #0c1225b8;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+}
+
+.stat strong {
+  display: block;
+  font-size: 25px;
+}
+
+.stat span {
+  display: block;
+  margin-top: 5px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Collection tools */
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 12px;
+  margin: 32px 0 16px;
+}
+
+.section-head h2 {
+  font-size: 21px;
+  margin: 0;
+}
+
+.section-head p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.tools {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.search-wrap {
+  flex: 1;
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 20px;
+}
+
+.search, .sort {
+  height: 48px;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  outline: none;
+}
+
+.search {
+  width: 100%;
+  padding: 0 43px 0 14px;
+}
+
+.sort { padding: 0 12px; }
+
+.search:focus, .sort:focus {
+  border-color: #67e8f988;
+  box-shadow: 0 0 0 3px #67e8f914;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 1px 13px;
+  scrollbar-width: thin;
+}
+
+.filter {
+  flex-shrink: 0;
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  color: #b9c1dc;
+  background: var(--panel);
+  cursor: pointer;
+  font-size: 12px;
+  transition: .22s;
+}
+
+.filter:hover, .filter.active {
+  color: #07121b;
+  background: var(--cyan);
+  border-color: var(--cyan);
+  box-shadow: 0 0 18px #67e8f929;
+}
+
+/* Product cards */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.item-card {
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: linear-gradient(155deg, #171d32, #101526 75%);
+  animation: appear .45s ease both;
+  transition: transform .28s, border-color .28s, box-shadow .28s;
+}
+
+.item-card:hover {
+  transform: translateY(-5px);
+  border-color: #67e8f97a;
+  box-shadow: 0 13px 38px #0005, 0 0 25px #67e8f910;
+}
+
+.art {
+  height: 180px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid #9cb9ff17;
+  background: radial-gradient(ellipse, #253a55, #131b30 60%, #0c1120);
+}
+
+.art img {
+  width: 88%;
+  height: 88%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 13px #67e8f92b);
+  transition: transform .4s, filter .4s;
+}
+
+.item-card:hover .art img {
+  transform: scale(1.07);
+  filter: drop-shadow(0 0 20px #67e8f966);
+}
+
+.owned {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  padding: 5px 9px;
+  border: 1px solid #67e8f944;
+  border-radius: 30px;
+  color: #8cf5d7;
+  background: #0b1825e8;
+  font-size: 10px;
+}
+
+.item-meta { padding: 13px 3px 3px; }
+
+.item-category {
+  color: var(--cyan);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.item-meta h3 {
+  font-size: 15px;
+  margin: 7px 0 5px;
+  overflow-wrap: anywhere;
+}
+
+.item-meta p {
+  min-height: 38px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 13px;
+}
+
+.action {
+  min-height: 41px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: .2s;
+}
+
+.action:hover { transform: translateY(-2px); }
+
+.action.primary {
+  flex: 1;
+  color: #07141c;
+  background: linear-gradient(100deg, #67e8f9, #9defff);
+  border-color: transparent;
+  font-weight: 800;
+}
+
+.action.secondary {
+  width: 42px;
+  color: #dce5ff;
+  background: #1a2036;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  padding: 35px 18px;
+  text-align: center;
+  line-height: 1.9;
+  border: 1px dashed #414c70;
+  border-radius: 18px;
+  color: var(--muted);
+  background: var(--panel);
+}
+
+.empty strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--text);
+  font-size: 17px;
+}
+
+.empty a {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--cyan);
+  text-decoration: underline;
+}
+
+/* Product details popup */
+.modal {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: none;
+  place-items: center;
+  padding: 18px;
+  background: #03050bdc;
+  backdrop-filter: blur(12px);
+}
+
+.modal.open { display: grid; }
+
+.modal-box {
+  position: relative;
+  width: min(480px, 100%);
+  padding: 20px;
+  border: 1px solid #67e8f955;
+  border-radius: 23px;
+  background: linear-gradient(145deg, #182039, #0d1222);
+  animation: appear .25s ease;
+}
+
+.modal-close {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  background: #252c45;
+  color: white;
+  border: 1px solid var(--border);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-art {
+  height: 230px;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(ellipse, #253e5c, #0c1221 70%);
+  border-radius: 16px;
+  margin-bottom: 18px;
+}
+
+.modal-art img {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px #67e8f955);
+}
+
+.modal-box h2 { margin: 9px 0; }
+
+.modal-box p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.toast {
+  position: fixed;
+  z-index: 30;
+  bottom: 20px;
+  left: 50%;
+  transform: translate(-50%, 20px);
+  opacity: 0;
+  pointer-events: none;
+  max-width: calc(100% - 30px);
+  padding: 12px 18px;
+  border: 1px solid #67e8f955;
+  border-radius: 12px;
+  background: #172b36;
+  color: #dffbff;
+  text-align: center;
+  transition: .25s;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 35px;
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+  color: #7f89aa;
+  font-size: 11px;
+}
+
+@media (max-width: 760px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .art { height: 145px; }
+  .item-card { padding: 9px; border-radius: 17px; }
+  .hero { margin-top: 18px; }
+  .tools { flex-direction: column; }
+  .sort { height: 45px; }
+  .footer { flex-direction: column; }
+  .item-meta h3 { font-size: 13px; }
+}
+
+@media (max-width: 360px) {
+  .grid { grid-template-columns: 1fr; }
+  .art { height: 200px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header class="header">
+  <a class="brand" href="index.html">
+    <span class="brand-icon">N</span>
+    <span>NEYRA<small>DIGITAL UNIVERSE</small></span>
+  </a>
+  <nav class="nav" aria-label="روابط سريعة">
+    <a href="profile.html" title="البروفايل" aria-label="البروفايل">♙</a>
+    <a href="shop.html" title="المتجر" aria-label="المتجر">⌘</a>
+    <a href="index.html" title="الرئيسية" aria-label="الرئيسية">⌂</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="eyebrow">PLAYER VAULT / YOUR COLLECTION</div>
+    <h1>حقيبتك، <span>عالمك.</span></h1>
+    <p>
+      كل مقتنياتك الرقمية في مكان واحد.
+      استعرض القطع التي امتلكتها وابحث بينها واكتشف تفاصيل كل قطعة.
+    </p>
+
+    <div class="stats">
+      <div class="stat">
+        <strong id="totalCount">—</strong>
+        <span>إجمالي المقتنيات</span>
+      </div>
+      <div class="stat">
+        <strong id="categoryCount">—</strong>
+        <span>أنواع مختلفة</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div>
+        <h2>مجموعتك الخاصة</h2>
+        <p id="resultLabel">جارٍ تحميل مقتنيات حسابك...</p>
+      </div>
+    </div>
+
+    <div class="tools">
+      <label class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input id="searchInput" class="search"
+          type="search" placeholder="ابحث عن منتج..."
+          aria-label="ابحث عن منتج">
+      </label>
+
+      <select class="sort" id="sortSelect" aria-label="ترتيب المقتنيات">
+        <option value="newest">الأحدث أولًا</option>
+        <option value="name">الاسم: أ إلى ي</option>
+        <option value="oldest">الأقدم أولًا</option>
+      </select>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="filter active" data-filter="all">كل المقتنيات</button>
+      <button class="filter" data-filter="wings">الأجنحة</button>
+      <button class="filter" data-filter="frames">الإطارات</button>
+      <button class="filter" data-filter="badges">الشارات</button>
+      <button class="filter" data-filter="effects">تأثيرات الاسم</button>
+      <button class="filter" data-filter="other">أخرى</button>
+    </div>
+
+    <div class="grid" id="itemsGrid" aria-live="polite">
+      <div class="empty">جارٍ تحميل حقيبتك...</div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <span>NEYRA © <span id="year"></span> · PLAYER INVENTORY</span>
+  <span>مقتنياتك محفوظة ضمن حسابك</span>
+</footer>
+
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="modal" id="itemModal" role="dialog"
+  aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <button class="modal-close" id="closeModal" aria-label="إغلاق">×</button>
+    <div class="modal-art" id="modalArt"></div>
+    <div class="item-category" id="modalCategory">COLLECTION ITEM</div>
+    <h2 id="modalTitle">تفاصيل القطعة</h2>
+    <p id="modalDescription"></p>
+    <p id="modalDate"></p>
+  </div>
+</div>
+
+<script type="module">
+import { createClient } from
+  "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL =
+  "https://aboenvwqlzmbjyqisarb.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_-U554BTwIf6tP-DA9uRgCg_5w5_XtU3";
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const productImages = {
+  "إطار النيون الملكي": "avatar-frame-royal.png",
+  "إطار سايبر سماوي": "wings-cyber.png",
+  "الأجنحة السيبرانية": "wings-cyber.png",
+  "شارة الأسطورة": "badge-legendary.png",
+  "شارة النخبة": "shield-cyber.png",
+  "تأثير الاسم النيون": "name-neon-legendary.png",
+  "تأثير الاسم الناري": "crystal-energy.png"
+};
+
+const knownIds = {
+  "royal-neon-frame": "إطار النيون الملكي",
+  "cyber-cyan-frame": "الأجنحة السيبرانية",
+  "legendary-badge": "شارة الأسطورة",
+  "elite-badge": "شارة النخبة",
+  "neon-name-effect": "تأثير الاسم النيون",
+  "fire-name-effect": "تأثير الاسم الناري"
+};
+
+const grid = document.getElementById("itemsGrid");
+const toast = document.getElementById("toast");
+
+let items = [];
+let activeFilter = "all";
+let toastTimer;
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(
+    () => toast.classList.remove("show"), 2800
+  );
+}
+
+function categoryFor(name, id = "") {
+  const s = (name + " " + id).toLowerCase();
+
+  if (s.includes("wing") || s.includes("جناح"))
+    return "wings";
+
+  if (s.includes("frame") || s.includes("إطار") ||
+      s.includes("اطار"))
+    return "frames";
+
+  if (s.includes("badge") || s.includes("shield") ||
+      s.includes("شارة"))
+    return "badges";
+
+  if (s.includes("effect") || s.includes("تأثير") ||
+      s.includes("name"))
+    return "effects";
+
+  return "other";
+}
+
+function categoryLabel(category) {
+  return {
+    wings: "WINGS COLLECTION",
+    frames: "AVATAR FRAMES",
+    badges: "BADGE COLLECTION",
+    effects: "NAME EFFECTS",
+    other: "DIGITAL ITEM"
+  }[category] || "DIGITAL ITEM";
+}
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[c]);
+}
+
+function imageMarkup(item) {
+  const src = productImages[item.name] ||
+              productImages[item.displayName] || "";
+
+  if (!src) {
+    return '<span style="font-size:55px;color:#67e8f9">✧</span>';
+  }
+
+  return '<img src="' + src + '" alt="' +
+    escapeHtml(item.name) + '" loading="lazy" ' +
+    'onerror="this.style.display=\'none\'">';
+}
+
+function filteredItems() {
+  const query = document.getElementById("searchInput")
+    .value.trim().toLocaleLowerCase("ar");
+
+  const result = items.filter(item => {
+    const matchesCategory =
+      activeFilter === "all" ||
+      item.category === activeFilter;
+
+    const matchesSearch =
+      item.name.toLocaleLowerCase("ar").includes(query);
+
+    return matchesCategory && matchesSearch;
+  });
+
+  const sort = document.getElementById("sortSelect").value;
+
+  if (sort === "name") {
+    result.sort((a, b) => a.name.localeCompare(b.name, "ar"));
+  }
+
+  if (sort === "newest") {
+    result.sort((a, b) =>
+      new Date(b.purchased_at || 0) -
+      new Date(a.purchased_at || 0)
+    );
+  }
+
+  if (sort === "oldest") {
+    result.sort((a, b) =>
+      new Date(a.purchased_at || 0) -
+      new Date(b.purchased_at || 0)
+    );
+  }
+
+  return result;
+}
+
+function render() {
+  const shown = filteredItems();
+
+  document.getElementById("totalCount").textContent =
+    items.length.toLocaleString("ar-EG");
+
+  document.getElementById("categoryCount").textContent =
+    new Set(items.map(item => item.category))
+      .size.toLocaleString("ar-EG");
+
+  document.getElementById("resultLabel").textContent =
+    "عرض " + shown.length.toLocaleString("ar-EG") +
+    " من " + items.length.toLocaleString("ar-EG") +
+    " قطعة";
+
+  if (!shown.length) {
+    const title = items.length
+      ? "ملقيناش نتيجة للبحث ده"
+      : "حقيبتك لسه فاضية";
+
+    const message = items.length
+      ? "جرّب كلمة تانية أو اختار تصنيف مختلف."
+      : 'لما تشتري منتجات من متجر NEYRA هتظهر هنا تلقائيًا.' +
+        '<br><a href="shop.html">استكشف المتجر ←</a>';
+
+    grid.innerHTML = '<div class="empty"><strong>' +
+      title + '</strong>' + message + '</div>';
+
+    return;
+  }
+
+  grid.innerHTML = shown.map((item, index) => `
+    <article class="item-card" style="animation-delay:${Math.min(index * 55, 330)}ms">
+      <div class="art">
+        <span class="owned">✓ مملوك</span>
+        ${imageMarkup(item)}
+      </div>
+      <div class="item-meta">
+        <div class="item-category">${categoryLabel(item.category)}</div>
+        <h3>${escapeHtml(item.name)}</h3>
+        <p>${escapeHtml(item.description || "قطعة رقمية من مقتنياتك الخاصة.")}</p>
+        <div class="card-actions">
+          <button class="action primary" data-details="${escapeHtml(item.product_id)}">
+            عرض التفاصيل ↗
+          </button>
+          <button class="action secondary" data-details="${escapeHtml(item.product_id)}" aria-label="تفاصيل المنتج">
+            ⌕
+          </button>
+        </div>
+      </div>
+    </article>
+  `).join("");
+
+  grid.querySelectorAll("[data-details]").forEach(button => {
+    button.addEventListener("click", () => {
+      openDetails(button.dataset.details);
+    });
+  });
+}
+
+function safeDate(value) {
+  if (!value) return "تاريخ الشراء غير متاح";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "تاريخ الشراء غير متاح";
+  }
+
+  return "تاريخ الاقتناء: " +
+    date.toLocaleDateString("ar-EG", {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+}
+
+function openDetails(id) {
+  const item = items.find(
+    product => product.product_id === id
+  );
+
+  if (!item) return;
+
+  document.getElementById("modalArt").innerHTML =
+    imageMarkup(item);
+
+  document.getElementById("modalCategory").textContent =
+    categoryLabel(item.category);
+
+  document.getElementById("modalTitle").textContent =
+    item.name;
+
+  document.getElementById("modalDescription").textContent =
+    item.description ||
+    "قطعة رقمية مملوكة لحسابك في NEYRA.";
+
+  document.getElementById("modalDate").textContent =
+    safeDate(item.purchased_at);
+
+  document.getElementById("itemModal").classList.add("open");
+}
+
+function closeModal() {
+  document.getElementById("itemModal").classList.remove("open");
+}
+
+document.getElementById("closeModal")
+  .addEventListener("click", closeModal);
+
+document.getElementById("itemModal")
+  .addEventListener("click", event => {
+    if (event.target.id === "itemModal") closeModal();
+  });
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeModal();
+});
+
+document.getElementById("searchInput")
+  .addEventListener("input", render);
+
+document.getElementById("sortSelect")
+  .addEventListener("change", render);
+
+document.getElementById("filters")
+  .addEventListener("click", event => {
+    const button = event.target.closest("[data-filter]");
+    if (!button) return;
+
+    activeFilter = button.dataset.filter;
+
+    document.querySelectorAll(".filter").forEach(filter => {
+      filter.classList.toggle("active", filter === button);
+    });
+
+    render();
+  });
+
+async function loadInventory() {
+  const {
+    data: { session },
+    error: sessionError
+  } = await supabase.auth.getSession();
+
+  if (sessionError) throw sessionError;
+
+  if (!session) {
+    location.href = "login.html?redirect=my-items.html";
+    return;
+  }
+
+  const {
+    data: inventory,
+    error: inventoryError
+  } = await supabase
+    .from("nera_inventory")
+    .select("product_id,purchased_at")
+    .eq("user_id", session.user.id)
+    .order("purchased_at", { ascending: false });
+
+  if (inventoryError) throw inventoryError;
+
+  if (!inventory || inventory.length === 0) {
+    items = [];
+    render();
+    return;
+  }
+
+  const ids = [...new Set(
+    inventory.map(row => row.product_id).filter(Boolean)
+  )];
+
+  const {
+    data: products,
+    error: productsError
+  } = await supabase
+    .from("nera_products")
+    .select("*")
+    .in("id", ids);
+
+  if (productsError) throw productsError;
+
+  const productMap = new Map(
+    (products || []).map(product => [
+      String(product.id), product
+    ])
+  );
+
+  items = inventory.map(row => {
+    const product = productMap.get(String(row.product_id)) || {};
+
+    const databaseName =
+      product.product_name ||
+      product.name ||
+      product.title ||
+      "";
+
+    const name =
+      databaseName ||
+      knownIds[row.product_id] ||
+      "منتج من مقتنياتك";
+
+    return {
+      product_id: String(row.product_id),
+      purchased_at: row.purchased_at,
+      name,
+      displayName: databaseName,
+      description: product.description || "",
+      category: categoryFor(name, row.product_id)
+    };
+  });
+
+  render();
+}
+
+loadInventory().catch(error => {
+  console.error("NEYRA inventory load failed:", error);
+
+  grid.innerHTML = `
+    <div class="empty">
+      <strong>مقدرناش نحمّل المقتنيات</strong>
+      حصلت مشكلة في الاتصال بقاعدة البيانات أو صلاحيات القراءة.
+      هنراجع إعدادات الجداول وسياسات الوصول لو استمرت المشكلة.
+    </div>
+  `;
+
+  document.getElementById("resultLabel").textContent =
+    "تعذّر تحميل المقتنيات";
+});
+</script>
+</body>
+</html>
