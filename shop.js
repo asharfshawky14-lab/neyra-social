@@ -143,6 +143,35 @@ document.addEventListener("DOMContentLoaded", () => {
     "تأثير الاسم النيون": "name-neon-legendary.png",
     "تأثير الاسم الناري": "crystal-energy.png"
   };
+  
+  // عرض أسعار المنتجات من ملف coins.js
+  productCards.forEach((card) => {
+    const productName = card.dataset.name;
+    const price = getNeraProductPrice(productName);
+    const footer = card.querySelector(".product-footer");
+
+    if (price === null || !footer) return;
+
+    let priceLabel = footer.querySelector(".product-price");
+
+    if (!priceLabel) {
+      priceLabel = document.createElement("span");
+      priceLabel.className = "product-price";
+      priceLabel.style.cssText =
+        "display:inline-flex;align-items:center;gap:6px;font-weight:800;direction:ltr;";
+
+      const coinImage = footer.querySelector(".price-coin");
+
+      if (coinImage) {
+        coinImage.insertAdjacentElement("afterend", priceLabel);
+      } else {
+        footer.prepend(priceLabel);
+      }
+    }
+
+    priceLabel.textContent = formatNeraCoins(price);
+  });
+
 
   productCards.forEach((card) => {
     const productName = card.dataset.name;
