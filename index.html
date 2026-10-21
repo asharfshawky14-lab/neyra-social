@@ -2535,29 +2535,7 @@ username.textContent = profile?.full_name ||
 
           return;
         }
-
-          button.disabled = true;
-
-          try {
-            const { error } = await supabase
-              .from("comments")
-              .insert({
-                post_id: postId,
-                user_id: user.id,
-                content: content
-              });
-
-            if (error) throw error;
-
-            showToast("تم نشر تعليقك بنجاح.");
-          } catch (error) {
-            console.error("NEYRA comment error:", error);
-            showToast("تعذر نشر التعليق. تأكد من جدول comments وصلاحياته.");
-          } finally {
-            button.disabled = false;
-          }
-          return;
-        }
+        
 
         button.disabled = true;
 
