@@ -57,7 +57,7 @@ function getNeraProductPrice(productName) {
 
 /* تنسيق السعر للعرض */
 function formatNeraCoins(amount) {
-  return Number(amount).toLocaleString("en-US") + " NERA";
+  return Number(amount).toLocaleString("en-US");
 }
 
 /* إتاحة الإعدادات لباقي ملفات الموقع */
