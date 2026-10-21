@@ -3711,6 +3711,24 @@ if (commentCount) {
           }
         });
       });
+      
+      document.querySelectorAll("#shop [data-shop-filter]").forEach(button => {
+        button.addEventListener("click", () => {
+          const filter = button.dataset.shopFilter;
+
+          document.querySelectorAll("#shop [data-shop-filter]").forEach(tab => {
+            tab.classList.toggle("active", tab === button);
+          });
+
+          document.querySelectorAll("#shopProducts [data-product-category]").forEach(product => {
+            product.hidden =
+              filter !== "all" &&
+              product.dataset.productCategory !== filter;
+          });
+        });
+      });
+
+
 
       document.getElementById("noticeBtn").addEventListener("click", () => {
         showToast("الإشعارات هتكون متاحة بعد ربط الحسابات.");
