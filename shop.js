@@ -118,6 +118,98 @@ document.addEventListener("DOMContentLoaded", () => {
       openPreview(name, button);
     });
   });
+  
+  // شراء منتجات NERA من خلال Supabase
+  let neraSupabaseClient = null;
+
+  async function getNeraSupabase() {
+    if (neraSupabaseClient) return neraSupabaseClient;
+
+    const { createClient } = await import(
+      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm"
+    );
+
+    neraSupabaseClient = createClient(
+      "https://aboenvwqlzmbjyqisarb.supabase.co",
+      "sb_publishable_-U554BTwIf6tP-DA9uRgCg_5w5_XtU3"
+    );
+
+    return neraSupabaseClient;
+  }
+
+  document.querySelectorAll("[data-buy]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const productName = button.dataset.buy;
+      const product = NERA_COINS.products[productName];
+
+      if (!product) {
+        alert("المنتج ده لسه مش متجهز للشراء في نظام العملات.");
+        return;
+      }
+
+      if (!confirm(
+        `تأكيد شراء ${productName} مقابل ${formatNeraCoins(product.price)} عملة NERA؟`
+      )) {
+        return;
+      }
+
+      const originalText = button.textContent;
+      button.disabled = true;
+      button.textContent = "جاري الشراء...";
+
+      try {
+        const supabase = await getNeraSupabase();
+
+        const { data: sessionData, error: sessionError } =
+          await supabase.auth.getSession();
+
+        if (sessionError) throw sessionError;
+
+        if (!sessionData.session) {
+          alert("سجّل دخولك الأول علشان تشتري المنتج.");
+          window.location.href = "login.html";
+          return;
+        }
+
+        const { data, error } = await supabase.rpc(
+          "buy_nera_product",
+          { p_product_id: product.id }
+        );
+
+        if (error) throw error;
+
+        const result = Array.isArray(data) ? data[0] : data;
+
+        if (!result || result.success !== true) {
+          alert(
+            result?.message ||
+            result?.error ||
+            "الشراء لم يكتمل. راجع رصيدك أو ملكيتك للمنتج."
+          );
+          return;
+        }
+
+        button.textContent = "تم الشراء ✓";
+        button.disabled = true;
+
+        alert(
+          `تم شراء ${result.product_name || productName} بنجاح!\n` +
+          `رصيدك المتبقي: ${result.remaining_balance ?? "تم تحديثه"} NERA`
+        );
+      } catch (error) {
+        console.error("NERA purchase error:", error);
+        alert(
+          "حصل خطأ أثناء الشراء. اتأكد من اتصال الإنترنت وإعدادات Supabase."
+        );
+      } finally {
+        if (!button.textContent.includes("تم الشراء")) {
+          button.disabled = false;
+          button.textContent = originalText;
+        }
+      }
+    });
+  });
+
 
   modalCloseButtons.forEach((button) => {
     button.addEventListener("click", closePreview);
