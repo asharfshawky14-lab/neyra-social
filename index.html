@@ -3754,12 +3754,17 @@ if (commentCount) {
         });
       });
 
+      
       document.querySelectorAll("[data-world]").forEach(button => {
         button.addEventListener("click", () => {
           const world = button.dataset.world;
 
-          if (world === "secrets" || world === "discover" ||
-              world === "challenges") {
+          if (world === "secrets") {
+            window.location.href = "world-secrets.html";
+            return;
+          }
+
+          if (world === "discover" || world === "challenges") {
             activeFilter = world;
             document.querySelectorAll(".tab").forEach(tab => {
               tab.classList.toggle("active", tab.dataset.filter === world);
@@ -3770,6 +3775,7 @@ if (commentCount) {
           }
         });
       });
+
       
       const shopSection = document.getElementById("shop");
       const shopTopBtn = document.getElementById("shopTopBtn");
